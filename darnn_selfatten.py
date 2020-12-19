@@ -454,6 +454,8 @@ for epoch in range(epochs):
     train_accuracy, precision, recall, f1 = metrics(t_pred,t_ori)
     train_random = rand_acc(t_ori)
     acc_train_max_diff = max(acc_train_max_diff, train_accuracy-train_random)
+    print('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_Loss 为: \033[1;32m %.4f \033[0m' %
+          (epoch+1,train_accuracy,np.mean(iter_losses)))
     print('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (train_accuracy, precision, recall, f1))
     print('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' % (train_random, acc_train_max_diff))
             
