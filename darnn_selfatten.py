@@ -389,16 +389,16 @@ for filename in filelist[:N]:
                                     test_begin=test_begin,train_begin=train_begin),batch_size=512,shuffle=True)
     for _,sample in enumerate(trainloader):
 
-        x=Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
+        '''x=Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
         x.requires_grad=True
         y=Variable(torch.from_numpy(np.array(sample[1])).type(torch.FloatTensor).to(model.device))
         y.requires_grad=True
         t = Variable(torch.from_numpy(
-            np.array(sample[2])).type(torch.FloatTensor).to(model.device))
+            np.array(sample[2])).type(torch.FloatTensor).to(model.device))'''
             
-        x_all.extend(x)
-        y_all.extend(y)
-        t_all.extend(t)
+        x_all.extend(sample[0])
+        y_all.extend(sample[1])
+        t_all.extend(sample[2])
 print("===Train and Val data are ready!===>")
 #储存测试集数据 
 print("===Test data is on the way!===>")
@@ -409,20 +409,20 @@ for filename in filelist[:N]:
     testloader=DataLoader(trainset(df,T,test=True,test_end=test_end,
                                     test_begin=test_begin,train_begin=train_begin),batch_size=512,shuffle=False)
     for _,sample in enumerate(testloader):
-        x = Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
+        '''x = Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
         y = Variable(torch.from_numpy(np.array(sample[1])).type(torch.FloatTensor).to(model.device))
         t = Variable(torch.from_numpy(
-            np.array(sample[2])).type(torch.int64).to(model.device))
-        x_test.extend(x)
-        y_test.extend(y)
-        t_test.extend(t)
+            np.array(sample[2])).type(torch.int64).to(model.device))'''
+        x_test.extend(sample[0])
+        y_test.extend(sample[1])
+        t_test.extend(sample[2])
 
 
 print("===Test data is ready!===>")
 
 #定义好数据生成器
-traindata = DataLoader(randomdata(x_all, y_all, t_all), batch_size=512, shuffle=True)
-testdata =  DataLoader(randomdata(x_test, y_test, t_test), batch_size=512, shuffle=True)
+traindata = DataLoader(randomdata(x_all, y_all, t_all), batch_size=256, shuffle=True)
+testdata =  DataLoader(randomdata(x_test, y_test, t_test), batch_size=256, shuffle=False)
 
 print("==> Start training ...")
 for epoch in range(epochs):
@@ -440,10 +440,13 @@ for epoch in range(epochs):
     t_valid = []
     
     print('\033[1;34m Train: \033[0m')
-    for _,sample in enumerate(traindata):
-            x = sample[0]
-            y = sample[1]
-            t = sample[2]
+    for _,sample in enumerate(traindata):            
+            x=Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
+            x.requires_grad=True
+            y=Variable(torch.from_numpy(np.array(sample[1])).type(torch.FloatTensor).to(model.device))
+            y.requires_grad=True
+            t = Variable(torch.from_numpy(
+                np.array(sample[2])).type(torch.FloatTensor).to(model.device))
             
             if np.random.uniform() < valid_ratio:
                 x_valid.append(x)
@@ -518,9 +521,10 @@ for epoch in range(epochs):
             t_pred = []
             t_ori = []
             for _,sample in enumerate(testdata):
-                x = sample[0]
-                y = sample[1]
-                t = sample[2]
+                x = Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
+                y = Variable(torch.from_numpy(np.array(sample[1])).type(torch.FloatTensor).to(model.device))
+                t = Variable(torch.from_numpy(
+                    np.array(sample[2])).type(torch.int64).to(model.device))
                 t_out = model(x,y)
                 t_out = (t_out >= 0.5) + 0
                 t_pred.extend(t_out.data.cpu().numpy())
