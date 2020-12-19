@@ -404,6 +404,8 @@ print("===Train and Val data are ready!===>")
 print("===Test data is on the way!===>")
 for filename in filelist[:N]:
     df=pd.read_csv(os.path.join(datapath,filename))
+    if len(df[df['trade_date']>test_begin][df['trade_date']<test_end]) <T:
+        continue
     testloader=DataLoader(trainset(df,T,test=True,test_end=test_end,
                                     test_begin=test_begin,train_begin=train_begin),batch_size=512,shuffle=False)
     for _,sample in enumerate(testloader):
