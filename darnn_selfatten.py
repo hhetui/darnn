@@ -46,19 +46,19 @@ class trainset(Dataset):
         return len(self.df)-self.T+1
 
 class randomdata(Dataset):
-    def __init__(self,x_train,y_train,t_train):
+    def __init__(self,x, y, t):
         
-        self.x_train=x_train
-        self.y_train=y_train
-        self.t_train=t_train
+        self.x = x
+        self.y = y
+        self.t = t
         
-    def __getitem__(self,index):
-        
-        
-        return x_train[index], y_train[index], t_train[index]#返回的目标是0 ,1
+    def __getitem__(self, index):
+        return self.x[index], self.y[index], self.t[index]#返回的目标是0 ,1
     
     def __len__(self):
-        return len(self.t_train)
+        return len(self.t)
+    
+
     
 
 
@@ -166,7 +166,6 @@ class Encoder(nn.Module):
         # https://pytorch.org/docs/master/nn.html?#lstm
         return Variable(X.data.new(1, X.size(0), self.encoder_num_hidden).zero_())
 
-
 class Decoder(nn.Module):
     """decoder in DA_RNN."""
 
@@ -242,7 +241,6 @@ class Decoder(nn.Module):
         # hidden state and cell state [num_layers*num_directions, batch_size, hidden_size]
         # https://pytorch.org/docs/master/nn.html?#lstm
         return Variable(X.data.new(1, X.size(0), self.decoder_num_hidden).zero_())
-
 
 class SelfAttention(nn.Module):
     def __init__(self, last_hidden_size, hidden_size):
@@ -332,6 +330,7 @@ def metrics(results, ori_y):
     recall = recall_score(ori_y, results, labels=[1], average=None)[0]
     f1 = f1_score(ori_y, results, labels=[1], average=None)[0]
     return accuracy, precision, recall, f1
+
 def rand_acc(t_ori):
     return max([np.sum(np.array(t_ori) == r) for r in [0, 1]]) * 1. / len(t_ori)
 
@@ -351,20 +350,20 @@ model = Darnn_selfattention(
     nhidden_decoder,
     lr)
 
-#打乱数据集
+#打乱数据集提高GPU利用率
 
 datapath='HScode/'
 filelist=os.listdir(datapath)
 test_end=20200101
 test_begin = 20190101
 train_begin =20100101
-N=100
+N=300
 valid_ratio = 0.3
 epochs =3000
 
 
 # Read dataset
-print("==> Start training ...")
+
 result = {}
 n_iter = 0
 
@@ -372,57 +371,84 @@ acc_train_max_diff = 0
 acc_val_max_diff = 0
 acc_test_max_diff = 0
 
+x_all = []
+y_all = []
+t_all = []
+
+x_test = []
+y_test = []
+t_test = []
+
+#储存训练数据 
+print("===Train and Val data is on the way!===>")
+for filename in filelist[:N]:
+    df=pd.read_csv(os.path.join(datapath,filename))
+    if len(df[df['trade_date']<test_begin]) <T:
+        continue
+    trainloader=DataLoader(trainset(df,T,False,test_end=test_end,
+                                    test_begin=test_begin,train_begin=train_begin),batch_size=512,shuffle=True)
+    for _,sample in enumerate(trainloader):
+
+        x=Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
+        x.requires_grad=True
+        y=Variable(torch.from_numpy(np.array(sample[1])).type(torch.FloatTensor).to(model.device))
+        y.requires_grad=True
+        t = Variable(torch.from_numpy(
+            np.array(sample[2])).type(torch.FloatTensor).to(model.device))
+            
+        x_all.extend(x)
+        y_all.extend(y)
+        t_all.extend(t)
+print("===Train and Val data are ready!===>")
+#储存测试集数据 
+print("===Test data is on the way!===>")
+for filename in filelist[:N]:
+    df=pd.read_csv(os.path.join(datapath,filename))
+    testloader=DataLoader(trainset(df,T,test=True,test_end=test_end,
+                                    test_begin=test_begin,train_begin=train_begin),batch_size=512,shuffle=False)
+    for _,sample in enumerate(testloader):
+        x = Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
+        y = Variable(torch.from_numpy(np.array(sample[1])).type(torch.FloatTensor).to(model.device))
+        t = Variable(torch.from_numpy(
+            np.array(sample[2])).type(torch.int64).to(model.device))
+        x_test.extend(x)
+        y_test.extend(y)
+        t_test.extend(t)
+
+
+print("===Test data is ready!===>")
+
+#定义好数据生成器
+traindata = DataLoader(randomdata(x_all, y_all, t_all), batch_size=512, shuffle=True)
+testdata =  DataLoader(randomdata(x_test, y_test, t_test), batch_size=512, shuffle=True)
+
+print("==> Start training ...")
 for epoch in range(epochs):
-    model.train()
     print('====epoch:'+str(epoch+1)+' ====>正在训练')
+    
+    model.train()
     torch.save(model, 'v1.pth')
+    
+    iter_losses=[]
+    t_pred = []
+    t_ori = []
+    
     x_valid = []
     y_valid = []
     t_valid = []
     
-    x_train = []
-    y_train = []
-    t_train = []
-    
-    iter_losses=[]
-    
-    for filename in filelist[:N]:
-        df=pd.read_csv(os.path.join(datapath,filename))
-        if len(df[df['trade_date']<test_begin]) <T:
-            continue
-        trainloader=DataLoader(trainset(df,T,False,test_end,test_begin,train_begin),batch_size=256,shuffle=True)
-        for i_batch,sample in enumerate(trainloader):
-
-            x=Variable(torch.from_numpy(np.array(sample[0])).type(torch.FloatTensor).to(model.device))
-            x.requires_grad=True
-            y=Variable(torch.from_numpy(np.array(sample[1])).type(torch.FloatTensor).to(model.device))
-            y.requires_grad=True
-            t = Variable(torch.from_numpy(
-                np.array(sample[2])).type(torch.FloatTensor).to(model.device))
+    print('\033[1;34m Train: \033[0m')
+    for _,sample in enumerate(traindata):
+            x = sample[0]
+            y = sample[1]
+            t = sample[2]
             
             if np.random.uniform() < valid_ratio:
-                
                 x_valid.append(x)
                 y_valid.append(y)
                 t_valid.append(t)
-                #存好作为验证集
-            else:
+                continue
                 
-                x_train.extend(x)
-                y_train.extend(y)
-                t_train.extend(t)
-                #存好作为训练集
-
-    print('\033[1;34m Train: \033[0m')
-    t_pred = []
-    t_ori = []
-    traindata=DataLoader(randomdata(x_train,y_train,t_train),batch_size=256,shuffle=True)
-    for _,train_sample in enumerate(traindata):
-            x=train_sample[0]
-            y=train_sample[1]
-            t =train_sample[2]
-            
-            
             model.Encoder_optim.zero_grad()
             model.Decoder_optim.zero_grad()
             model.attention_optim.zero_grad()
@@ -443,13 +469,13 @@ for epoch in range(epochs):
             iter_losses.append(loss)
             n_iter += 1 #记录总共的批次数 比如epoch=0 1 后 就会成128*2+1（初始化在epoch的循环外）
 
-            if n_iter % 2000 == 0 and n_iter != 0:#每一千次 更新一下学习率为0.9倍
+            '''if n_iter % 2000 == 0 and n_iter != 0:#每一千次 更新一下学习率为0.9倍
                 for param_group in model.Encoder_optim.param_groups:
                     param_group['lr'] = param_group['lr'] * 0.9
                 for param_group in model.Decoder_optim.param_groups:
                     param_group['lr'] = param_group['lr'] * 0.9
                 for param_group in model.attention_optim.param_groups:
-                    param_group['lr'] = param_group['lr'] * 0.9
+                    param_group['lr'] = param_group['lr'] * 0.9'''
             
     train_accuracy, precision, recall, f1 = metrics(t_pred,t_ori)
     train_random = rand_acc(t_ori)
@@ -466,16 +492,13 @@ for epoch in range(epochs):
     with torch.no_grad():
         t_pred = []
         t_ori = []
-        for i in range(len(x_valid)):   
-            x = x_valid[i]
-            y = y_valid[i]
-            t = t_valid[i]
-
-            t_out = model(x,y)
+        for i in range(len(t_valid)):   
+ 
+            t_out = model(x_valid[i],y_valid[i])
 
             t_out = (t_out >= 0.5) + 0
             t_pred.extend(t_out.data.cpu().numpy())
-            t_ori.extend(t.data.cpu().numpy())
+            t_ori.extend(t_valid[i].data.cpu().numpy())
             
         validation_accuracy, precision, recall, f1 = metrics(t_pred,t_ori)
         validation_random = rand_acc(t_ori)
@@ -492,21 +515,16 @@ for epoch in range(epochs):
         with torch.no_grad():
             t_pred = []
             t_ori = []
-            for filename in filelist[:N]:
-                df=pd.read_csv(os.path.join(datapath,filename))
-                prevloader=DataLoader(trainset(df,T,test=True,test_end=test_end,
-                    test_begin=test_begin,train_begin=train_begin),batch_size=256,shuffle=False)
-                for _,pre_sample in enumerate(prevloader):
-                    x=Variable(torch.from_numpy(np.array(pre_sample[0])).type(torch.FloatTensor).to(model.device))
-                    y=Variable(torch.from_numpy(np.array(pre_sample[1])).type(torch.FloatTensor).to(model.device))
-                    t = Variable(torch.from_numpy(
-                        np.array(pre_sample[2])).type(torch.int64).to(model.device))
-                    y_pred_now=model(x,y)
-                    y_pred_now = (y_pred_now >= 0.5) + 0
-                    t_pred.extend(y_pred_now.data.cpu().numpy())
-                    t_ori.extend(t.data.cpu().numpy())
+            for _,sample in enumerate(testdata):
+                x = sample[0]
+                y = sample[1]
+                t = sample[2]
+                t_out = model(x,y)
+                t_out = (t_out >= 0.5) + 0
+                t_pred.extend(t_out.data.cpu().numpy())
+                t_ori.extend(t.data.cpu().numpy())
             test_accuracy, precision, recall, f1 = metrics(t_pred,t_ori)
-            test_random =rand_acc(t_ori)
+            test_random = rand_acc(t_ori)
             acc_test_max_diff = max(acc_test_max_diff, test_accuracy-test_random)
             print('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (test_accuracy, precision, recall, f1))
             print('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' % (test_random, acc_test_max_diff))
@@ -514,7 +532,7 @@ for epoch in range(epochs):
             
             
             
-        result[epoch+1] = {
+    ''' result[epoch+1] = {
             'loss': np.mean(iter_losses),
             'train_accuracy': train_accuracy,
             'validation_accuracy': validation_accuracy,
@@ -530,5 +548,6 @@ for epoch in range(epochs):
             'validation_accuracy': validation_accuracy,
             'validation_maxdiff': acc_val_max_diff,
             'epoch':epoch+1
-        }
+        }'''
+
     print('\n')
