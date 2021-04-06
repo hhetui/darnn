@@ -30,6 +30,7 @@ class SFM(nn.Module):
         self.hidden_size = hidden_size
         
     def forward(self):
+        print('test')
         pass
 
 class Encoder(nn.Module):
