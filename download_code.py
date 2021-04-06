@@ -8,7 +8,7 @@ args = parser.parse_args()
 
 def updateHS300(start_date='20100101',datapath='HScode'):
     if not os.path.exists(datapath):
-        os.mkdirs(datapath)
+        os.mkdir(datapath)
     ts.set_token('41ed2d8cb1b884009c361e9bc4bb3885a27ebe2679d04de271cf87bc')
     pro=ts.pro_api()
     HS300=ts.get_hs300s()
