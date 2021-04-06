@@ -29,7 +29,8 @@ class SFM(nn.Module):
         self.input_size = input_size
         self.hidden_size = hidden_size
         
-
+    def forward(self):
+        pass
 
 class Encoder(nn.Module):
     """encoder in DA_RNN."""
