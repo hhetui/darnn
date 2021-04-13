@@ -11,9 +11,7 @@ from multiprocessing import Pool
 
 
 PWD = os.path.dirname(os.path.realpath(__file__))
-DatasetPath = './v2'
-if not os.path.exists(DatasetPath):
-    os.mkdir(DatasetPath)
+
 
 
 def load_stock(s):
@@ -96,7 +94,9 @@ if __name__ == '__main__':
     T =20
     target =1
     files = os.listdir('HScode')
-    #files = set(files) - set(['600000.SH.csv'])
+    DatasetPath = './v2'
+    if not os.path.exists(DatasetPath):
+        os.mkdir(DatasetPath)
     generate_data_season(T)
     for y in range(2018, 2009, -1):
         generate_data_year(y)

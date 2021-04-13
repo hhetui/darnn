@@ -1,0 +1,329 @@
+time_step: 20 hidden_size: 32 lr: 0.001 batch: 256 drop_ratio: 0 split: 30
+6
+====epoch:0 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 0 [0m 轮的训练集正确率为:[1;32m 0.5120 [0m epoch_Loss 为: [1;32m 1005.2532 [0m
+[1;31m Accuracy:0.5120 Precision:0.5024 Recall:0.3164 F1:0.3882 [0m
+[1;31m Random:0.5105	MaxAccDiff:0.001471 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5113 Precision:0.0000 Recall:0.0000 F1:0.0000 [0m
+[1;31m Random:0.5113	MaxAccDiff:0.000000 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.4950 Precision:0.0000 Recall:0.0000 F1:0.0000 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.000000 [0m
+====epoch:1 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 1 [0m 轮的训练集正确率为:[1;32m 0.5479 [0m epoch_Loss 为: [1;32m 993.7728 [0m
+[1;31m Accuracy:0.5479 Precision:0.5518 Recall:0.4009 F1:0.4644 [0m
+[1;31m Random:0.5112	MaxAccDiff:0.036778 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5513 Precision:0.5729 Recall:0.3328 F1:0.4210 [0m
+[1;31m Random:0.5098	MaxAccDiff:0.041503 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5349 Precision:0.5624 Recall:0.3559 F1:0.4359 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.029888 [0m
+====epoch:2 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 2 [0m 轮的训练集正确率为:[1;32m 0.5733 [0m epoch_Loss 为: [1;32m 981.0896 [0m
+[1;31m Accuracy:0.5733 Precision:0.5716 Recall:0.5119 F1:0.5401 [0m
+[1;31m Random:0.5106	MaxAccDiff:0.062784 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5563 Precision:0.5872 Recall:0.3104 F1:0.4061 [0m
+[1;31m Random:0.5112	MaxAccDiff:0.045067 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5407 Precision:0.5761 Recall:0.3427 F1:0.4297 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.035738 [0m
+====epoch:3 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 3 [0m 轮的训练集正确率为:[1;32m 0.5756 [0m epoch_Loss 为: [1;32m 981.2125 [0m
+[1;31m Accuracy:0.5756 Precision:0.5737 Recall:0.5155 F1:0.5430 [0m
+[1;31m Random:0.5108	MaxAccDiff:0.064756 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5618 Precision:0.5848 Recall:0.3611 F1:0.4465 [0m
+[1;31m Random:0.5106	MaxAccDiff:0.051277 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5402 Precision:0.5695 Recall:0.3666 F1:0.4461 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.035738 [0m
+====epoch:4 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 4 [0m 轮的训练集正确率为:[1;32m 0.5760 [0m epoch_Loss 为: [1;32m 979.7102 [0m
+[1;31m Accuracy:0.5760 Precision:0.5756 Recall:0.5086 F1:0.5400 [0m
+[1;31m Random:0.5106	MaxAccDiff:0.065348 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5573 Precision:0.5718 Recall:0.3763 F1:0.4539 [0m
+[1;31m Random:0.5111	MaxAccDiff:0.051277 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5408 Precision:0.5698 Recall:0.3702 F1:0.4488 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.035807 [0m
+====epoch:5 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 5 [0m 轮的训练集正确率为:[1;32m 0.5823 [0m epoch_Loss 为: [1;32m 974.2714 [0m
+[1;31m Accuracy:0.5823 Precision:0.5828 Recall:0.5216 F1:0.5505 [0m
+[1;31m Random:0.5096	MaxAccDiff:0.072648 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5640 Precision:0.5770 Recall:0.3899 F1:0.4653 [0m
+[1;31m Random:0.5134	MaxAccDiff:0.051277 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5440 Precision:0.5687 Recall:0.4014 F1:0.4706 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.038993 [0m
+====epoch:6 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 6 [0m 轮的训练集正确率为:[1;32m 0.5858 [0m epoch_Loss 为: [1;32m 972.8623 [0m
+[1;31m Accuracy:0.5858 Precision:0.5848 Recall:0.5269 F1:0.5543 [0m
+[1;31m Random:0.5111	MaxAccDiff:0.074698 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5723 Precision:0.5833 Recall:0.4458 F1:0.5053 [0m
+[1;31m Random:0.5100	MaxAccDiff:0.062365 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5466 Precision:0.5676 Recall:0.4291 F1:0.4888 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.041645 [0m
+====epoch:7 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 7 [0m 轮的训练集正确率为:[1;32m 0.5895 [0m epoch_Loss 为: [1;32m 968.2033 [0m
+[1;31m Accuracy:0.5895 Precision:0.5891 Recall:0.5316 F1:0.5588 [0m
+[1;31m Random:0.5108	MaxAccDiff:0.078628 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5735 Precision:0.5870 Recall:0.4334 F1:0.4987 [0m
+[1;31m Random:0.5106	MaxAccDiff:0.062893 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5455 Precision:0.5678 Recall:0.4184 F1:0.4818 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.041645 [0m
+====epoch:8 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 8 [0m 轮的训练集正确率为:[1;32m 0.5899 [0m epoch_Loss 为: [1;32m 966.7593 [0m
+[1;31m Accuracy:0.5899 Precision:0.5904 Recall:0.5287 F1:0.5579 [0m
+[1;31m Random:0.5107	MaxAccDiff:0.079240 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5804 Precision:0.5940 Recall:0.4488 F1:0.5113 [0m
+[1;31m Random:0.5110	MaxAccDiff:0.069461 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5494 Precision:0.5711 Recall:0.4326 F1:0.4923 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.044366 [0m
+====epoch:9 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 9 [0m 轮的训练集正确率为:[1;32m 0.5926 [0m epoch_Loss 为: [1;32m 963.8750 [0m
+[1;31m Accuracy:0.5926 Precision:0.5928 Recall:0.5313 F1:0.5604 [0m
+[1;31m Random:0.5113	MaxAccDiff:0.081322 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5817 Precision:0.5886 Recall:0.4891 F1:0.5343 [0m
+[1;31m Random:0.5094	MaxAccDiff:0.072233 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5466 Precision:0.5656 Recall:0.4407 F1:0.4954 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.044366 [0m
+====epoch:10 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 10 [0m 轮的训练集正确率为:[1;32m 0.5959 [0m epoch_Loss 为: [1;32m 963.1184 [0m
+[1;31m Accuracy:0.5959 Precision:0.5980 Recall:0.5326 F1:0.5634 [0m
+[1;31m Random:0.5104	MaxAccDiff:0.085489 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5920 Precision:0.6020 Recall:0.4856 F1:0.5375 [0m
+[1;31m Random:0.5117	MaxAccDiff:0.080348 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5508 Precision:0.5719 Recall:0.4393 F1:0.4969 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.045777 [0m
+====epoch:11 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 11 [0m 轮的训练集正确率为:[1;32m 0.5989 [0m epoch_Loss 为: [1;32m 958.5867 [0m
+[1;31m Accuracy:0.5989 Precision:0.6009 Recall:0.5365 F1:0.5669 [0m
+[1;31m Random:0.5108	MaxAccDiff:0.088154 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5932 Precision:0.6118 Recall:0.4613 F1:0.5260 [0m
+[1;31m Random:0.5107	MaxAccDiff:0.082466 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5462 Precision:0.5719 Recall:0.4027 F1:0.4727 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.045777 [0m
+====epoch:12 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 12 [0m 轮的训练集正确率为:[1;32m 0.6015 [0m epoch_Loss 为: [1;32m 955.9738 [0m
+[1;31m Accuracy:0.6015 Precision:0.6048 Recall:0.5373 F1:0.5691 [0m
+[1;31m Random:0.5102	MaxAccDiff:0.091238 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5888 Precision:0.6086 Recall:0.4413 F1:0.5116 [0m
+[1;31m Random:0.5120	MaxAccDiff:0.082466 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5462 Precision:0.5759 Recall:0.3845 F1:0.4611 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.045777 [0m
+====epoch:13 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 13 [0m 轮的训练集正确率为:[1;32m 0.6050 [0m epoch_Loss 为: [1;32m 954.5578 [0m
+[1;31m Accuracy:0.6050 Precision:0.6072 Recall:0.5421 F1:0.5728 [0m
+[1;31m Random:0.5115	MaxAccDiff:0.093514 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5890 Precision:0.6120 Recall:0.4450 F1:0.5153 [0m
+[1;31m Random:0.5090	MaxAccDiff:0.082466 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5502 Precision:0.5785 Recall:0.4030 F1:0.4751 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.045777 [0m
+====epoch:14 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 14 [0m 轮的训练集正确率为:[1;32m 0.6020 [0m epoch_Loss 为: [1;32m 956.0820 [0m
+[1;31m Accuracy:0.6020 Precision:0.6041 Recall:0.5410 F1:0.5708 [0m
+[1;31m Random:0.5108	MaxAccDiff:0.093514 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5997 Precision:0.6153 Recall:0.4852 F1:0.5426 [0m
+[1;31m Random:0.5107	MaxAccDiff:0.088990 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5510 Precision:0.5757 Recall:0.4219 F1:0.4869 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.046027 [0m
+====epoch:15 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 15 [0m 轮的训练集正确率为:[1;32m 0.6069 [0m epoch_Loss 为: [1;32m 952.4120 [0m
+[1;31m Accuracy:0.6069 Precision:0.6101 Recall:0.5456 F1:0.5760 [0m
+[1;31m Random:0.5105	MaxAccDiff:0.096353 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5912 Precision:0.6066 Recall:0.4653 F1:0.5266 [0m
+[1;31m Random:0.5112	MaxAccDiff:0.088990 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5485 Precision:0.5755 Recall:0.4037 F1:0.4745 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.046027 [0m
+====epoch:16 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 16 [0m 轮的训练集正确率为:[1;32m 0.6063 [0m epoch_Loss 为: [1;32m 950.8990 [0m
+[1;31m Accuracy:0.6063 Precision:0.6101 Recall:0.5409 F1:0.5734 [0m
+[1;31m Random:0.5108	MaxAccDiff:0.096353 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.5986 Precision:0.6205 Recall:0.4628 F1:0.5302 [0m
+[1;31m Random:0.5106	MaxAccDiff:0.088990 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5477 Precision:0.5777 Recall:0.3880 F1:0.4642 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.046027 [0m
+====epoch:17 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 17 [0m 轮的训练集正确率为:[1;32m 0.6107 [0m epoch_Loss 为: [1;32m 946.0665 [0m
+[1;31m Accuracy:0.6107 Precision:0.6129 Recall:0.5568 F1:0.5835 [0m
+[1;31m Random:0.5102	MaxAccDiff:0.100459 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6000 Precision:0.6166 Recall:0.4764 F1:0.5375 [0m
+[1;31m Random:0.5121	MaxAccDiff:0.088990 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5503 Precision:0.5763 Recall:0.4136 F1:0.4816 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.046027 [0m
+====epoch:18 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 18 [0m 轮的训练集正确率为:[1;32m 0.6117 [0m epoch_Loss 为: [1;32m 944.2334 [0m
+[1;31m Accuracy:0.6117 Precision:0.6130 Recall:0.5590 F1:0.5848 [0m
+[1;31m Random:0.5109	MaxAccDiff:0.100798 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6131 Precision:0.6404 Recall:0.4782 F1:0.5476 [0m
+[1;31m Random:0.5105	MaxAccDiff:0.102661 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5517 Precision:0.5811 Recall:0.4018 F1:0.4751 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.046665 [0m
+====epoch:19 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 19 [0m 轮的训练集正确率为:[1;32m 0.6164 [0m epoch_Loss 为: [1;32m 941.0743 [0m
+[1;31m Accuracy:0.6164 Precision:0.6192 Recall:0.5616 F1:0.5890 [0m
+[1;31m Random:0.5105	MaxAccDiff:0.105833 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6050 Precision:0.6194 Recall:0.4972 F1:0.5516 [0m
+[1;31m Random:0.5113	MaxAccDiff:0.102661 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5490 Precision:0.5710 Recall:0.4297 F1:0.4904 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.046665 [0m
+====epoch:20 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 20 [0m 轮的训练集正确率为:[1;32m 0.6166 [0m epoch_Loss 为: [1;32m 939.9355 [0m
+[1;31m Accuracy:0.6166 Precision:0.6180 Recall:0.5693 F1:0.5927 [0m
+[1;31m Random:0.5101	MaxAccDiff:0.106552 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6136 Precision:0.6279 Recall:0.5098 F1:0.5627 [0m
+[1;31m Random:0.5124	MaxAccDiff:0.102661 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5518 Precision:0.5712 Recall:0.4515 F1:0.5043 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.046824 [0m
+====epoch:21 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 21 [0m 轮的训练集正确率为:[1;32m 0.6136 [0m epoch_Loss 为: [1;32m 942.4217 [0m
+[1;31m Accuracy:0.6136 Precision:0.6157 Recall:0.5609 F1:0.5871 [0m
+[1;31m Random:0.5104	MaxAccDiff:0.106552 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6121 Precision:0.6350 Recall:0.4840 F1:0.5493 [0m
+[1;31m Random:0.5116	MaxAccDiff:0.102661 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5528 Precision:0.5812 Recall:0.4096 F1:0.4805 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.047803 [0m
+====epoch:22 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 22 [0m 轮的训练集正确率为:[1;32m 0.6200 [0m epoch_Loss 为: [1;32m 938.5702 [0m
+[1;31m Accuracy:0.6200 Precision:0.6230 Recall:0.5649 F1:0.5925 [0m
+[1;31m Random:0.5108	MaxAccDiff:0.109114 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6100 Precision:0.6262 Recall:0.5044 F1:0.5587 [0m
+[1;31m Random:0.5105	MaxAccDiff:0.102661 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5531 Precision:0.5770 Recall:0.4308 F1:0.4933 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.048076 [0m
+====epoch:23 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 23 [0m 轮的训练集正确率为:[1;32m 0.6231 [0m epoch_Loss 为: [1;32m 933.2288 [0m
+[1;31m Accuracy:0.6231 Precision:0.6268 Recall:0.5701 F1:0.5971 [0m
+[1;31m Random:0.5101	MaxAccDiff:0.112998 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6101 Precision:0.6277 Recall:0.4927 F1:0.5521 [0m
+[1;31m Random:0.5123	MaxAccDiff:0.102661 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5516 Precision:0.5758 Recall:0.4258 F1:0.4896 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.048076 [0m
+====epoch:24 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 24 [0m 轮的训练集正确率为:[1;32m 0.6181 [0m epoch_Loss 为: [1;32m 940.8500 [0m
+[1;31m Accuracy:0.6181 Precision:0.6209 Recall:0.5625 F1:0.5903 [0m
+[1;31m Random:0.5110	MaxAccDiff:0.112998 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6183 Precision:0.6422 Recall:0.4984 F1:0.5612 [0m
+[1;31m Random:0.5102	MaxAccDiff:0.108105 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5486 Precision:0.5731 Recall:0.4165 F1:0.4824 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.048076 [0m
+====epoch:25 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 25 [0m 轮的训练集正确率为:[1;32m 0.6211 [0m epoch_Loss 为: [1;32m 935.6189 [0m
+[1;31m Accuracy:0.6211 Precision:0.6244 Recall:0.5659 F1:0.5938 [0m
+[1;31m Random:0.5107	MaxAccDiff:0.112998 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6174 Precision:0.6511 Recall:0.4691 F1:0.5453 [0m
+[1;31m Random:0.5109	MaxAccDiff:0.108105 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5540 Precision:0.5837 Recall:0.4074 F1:0.4799 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.048998 [0m
+====epoch:26 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
+第 [1;34m 26 [0m 轮的训练集正确率为:[1;32m 0.6233 [0m epoch_Loss 为: [1;32m 934.2224 [0m
+[1;31m Accuracy:0.6233 Precision:0.6267 Recall:0.5668 F1:0.5953 [0m
+[1;31m Random:0.5113	MaxAccDiff:0.112998 [0m
+[1;34m Valid: [0m
+[1;31m Accuracy:0.6172 Precision:0.6343 Recall:0.5193 F1:0.5710 [0m
+[1;31m Random:0.5094	MaxAccDiff:0.108105 [0m
+[1;34m Test: [0m
+[1;31m Accuracy:0.5535 Precision:0.5738 Recall:0.4503 F1:0.5046 [0m
+[1;31m Random:0.5050	testMaxAccDiff:0.048998 [0m
+====epoch:27 ====>正在训练
+--------------------------------------------------------------
+[1;34m Train: [0m
