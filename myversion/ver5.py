@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-精简一下格式
+换成自己程序生成的程序，看准确率是否改变，如果不变，重点开始改模型跑实验
 '''
 import os
 import math
