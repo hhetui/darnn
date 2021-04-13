@@ -11,13 +11,16 @@ from multiprocessing import Pool
 
 
 PWD = os.path.dirname(os.path.realpath(__file__))
-DatasetPath = '/mnt/data1/ryan/dataset'
+DatasetPath = './v2'
+if not os.path.exists(DatasetPath):
+    os.mkdir(DatasetPath)
 
 
 def load_stock(s):
-    df = pd.read_csv(os.path.join(PWD, 'day_data_csv', s), index_col=0)
-    df.set_index(df.index.astype('str'), inplace=True)
-    df.drop(['_id', 'code', 'updatetime'], axis=1, inplace=True)
+    df = pd.read_csv(os.path.join(PWD, 'HScode', s), index_col=1)#第一列作为index
+    df.set_index(df.index.astype('str'), inplace=True)#index转为str类型
+    #df.drop(['_id', 'code', 'updatetime'], axis=1, inplace=True)
+    df.drop(['ts_code', 'pre_close', 'change','pct_chg'], axis=1, inplace=True)
     return df
 
 
@@ -26,6 +29,7 @@ def z_score(df):
 
 
 def stock_sample(input_):
+    #d是X的最后一天，预测d后的第target天
     s, T, d = input_
     df = global_df[s]
     if d not in df.index:
@@ -41,42 +45,32 @@ def stock_sample(input_):
     yz = np.array(z_score(y))
     if np.isnan(yz).any():
         return
-    t = 1 if df.iloc[iloc+target_day-1,:]['close'] > df.loc[d, 'close'] else 0
-    # ci
-    with open(os.path.join(PWD, '../price_network/ci', 'close_%s' % T, '%s.json' % s[:-4])) as fp:
-        j = json.load(fp)
-    if d not in j:
-        return
-    dci = j[d]
-    ci = pd.Series([dci['%.4f' % p] for p in y])
-    ciz = np.array(z_score(ci))
-    if np.isnan(ciz).any():
-        ciz = np.array(ci)
-    return xz, yz, t, ciz, s, d
+    t = 1 if df.iloc[iloc+target-1,:]['close'] > df.loc[d, 'close'] else 0
+    return xz, yz, t, s, d
 
 
 def sample_by_dates(T, dates):
+    #T是时间窗 dates为 各个X结尾的时间点列表
     pool = Pool(22)
     datas = pool.map(stock_sample, [(f, T, d) for d in dates for f in files])
     pool.close()
     pool.join()
-
     datas = filter(lambda data: data is not None, datas)
-    xs, ys, ts, cis, stocks, days  = zip(*datas)
+    xs, ys, ts, stocks, days  = zip(*datas)
     return {'x': np.array(xs), 'y': np.array(ys), 't': np.array(ts),
-            'ci': np.array(cis), 'stock': np.array(stocks), 'day': np.array(days)}
+        'stock': np.array(stocks), 'day': np.array(days)}
 
 
 def generate_data_year(year):
-    df = global_df['999999.XSHG.csv']
+    df = global_df['600000.SH.csv']
     ti = df['%s0101' % year:'%s1231' % year].index   # test
     data = sample_by_dates(T, ti)
-    with open(os.path.join(DatasetPath, 'v1_T%s_yb%s_%s.pickle' % (T, target_day, year)), 'wb') as fp:
+    with open(os.path.join(DatasetPath, 'v1_T%s_yb%s_%s.pickle' % (T, target, year)), 'wb') as fp:
         pickle.dump(data, fp)
 
 
 def generate_data_season(T):
-    df = load_stock('999999.XSHG.csv')
+    df = load_stock('600000.SH.csv')
     ti = df['20190101':'20190331'].index
     dataset = sample_by_dates(T, ti)
     with open(os.path.join(DatasetPath, 'v1_T%s_yb%s_123.pickle' % (T, target)), 'wb') as fp:
@@ -96,15 +90,13 @@ def generate_data_season(T):
 
 
 if __name__ == '__main__':
-    global_df = {f: load_stock(f) for f in os.listdir('day_data_csv')}
+    global_df = {f: load_stock(f) for f in os.listdir('HScode')}
     x_column = ['open', 'high', 'low', 'amount', 'vol', 'close']
     y_column = 'close'
-    target_day = 1
     T =20
     target =1
-    files = os.listdir(os.path.join(PWD, 'day_data_csv'))
-    files = set(files) - set(['999999.XSHG.csv'])
-    generate_data_season(20)
+    files = os.listdir('HScode')
+    #files = set(files) - set(['600000.SH.csv'])
+    generate_data_season(T)
     for y in range(2018, 2009, -1):
-        generate_data_year(20, y)
-    # stock_sample('601800.XSHG.csv', 20, '20120625')
+        generate_data_year(y)

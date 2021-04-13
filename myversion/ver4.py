@@ -194,7 +194,7 @@ random.seed(0)
 def load_pickle(years):
     data_dic = None
     for y in years:
-        with open(os.path.join('/home/xinkun/darnn/v1', 'v1_T20_yb1_%s.pickle' % (y)), 'rb') as fp:
+        with open(os.path.join(Datapath, 'v1_T20_yb1_%s.pickle' % (y)), 'rb') as fp:
             dataset = pickle.load(fp)
 
         if data_dic is None:
@@ -446,5 +446,6 @@ if __name__ == '__main__':
 
     print('time_step:',args.timestep, 'hidden_size:',args.hiddensize, 'lr:',args.lrate,
             'batch:',args.batch, 'drop_ratio:',args.dropratio, 'split:',args.split)
+    Datapath = '/home/xinkun/darnn/v1'
     trainer = Trainer(args.timestep, args.hiddensize, args.lrate, args.batch, args.dropratio, args.split)
     trainer.train_minibatch(args.epoch)

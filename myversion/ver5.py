@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-尝试用SFM结构代替LSTM
+精简一下格式
 '''
 import os
 import math
@@ -23,15 +23,6 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
-
-class SFM(nn.Module):
-    def __init__(self,input_size,hidden_size):
-        self.input_size = input_size
-        self.hidden_size = hidden_size
-        
-    def forward(self):
-        print('test')
-        pass
 
 class Encoder(nn.Module):
     """encoder in DA_RNN."""
@@ -203,7 +194,7 @@ random.seed(0)
 def load_pickle(years):
     data_dic = None
     for y in years:
-        with open(os.path.join('/home/xinkun/darnn/v1', 'v1_T20_yb1_%s.pickle' % (y)), 'rb') as fp:
+        with open(os.path.join(Datapath, 'v1_T20_yb1_%s.pickle' % (y)), 'rb') as fp:
             dataset = pickle.load(fp)
 
         if data_dic is None:
@@ -455,5 +446,6 @@ if __name__ == '__main__':
 
     print('time_step:',args.timestep, 'hidden_size:',args.hiddensize, 'lr:',args.lrate,
             'batch:',args.batch, 'drop_ratio:',args.dropratio, 'split:',args.split)
+    Datapath = '/home/xinkun/darnn/v2'
     trainer = Trainer(args.timestep, args.hiddensize, args.lrate, args.batch, args.dropratio, args.split)
     trainer.train_minibatch(args.epoch)
