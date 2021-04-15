@@ -237,13 +237,25 @@ class Trainer:
         self.batch_size = batch_size
         self.drop_ratio = 0
         self.validation_ratio = split
-
+        self.result_path = os.path.join('../result/',__file__[:-3])
         self.Data = load_dataset([2010,2011,2012,2013,2014,2015,2016,2017,2018],
                         [123,456,789,1012])
         self.feature_size = self.Data['train']['x'][0].shape[1]
+        self.csv_name = os.path.join(self.result_path, 'xyt%s_tz_rtv2_b%s_hs%s_ts%s_dr%s_tv%s.csv' \
+                              % (self.feature_size,
+                                 self.batch_size,
+                                 self.hidden_size,
+                                 self.time_step,
+                                 self.drop_ratio,
+                                 self.validation_ratio)
+                              )
         print(self.feature_size)
+
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.model = Darnn_selfattention(
+        if os.path.exists(os.path.join(self.result_path,__file__[:-3]+'.pth')):
+            self.model = torch.load(os.path.join(self.result_path,__file__[:-3]+'.pth'))
+        else:
+            self.model = Darnn_selfattention(
                             input_size = self.feature_size, 
                             T = time_step,
                             encoder_num_hidden = hidden_size,
@@ -254,7 +266,12 @@ class Trainer:
         self.acc_train_max_diff = 0
         self.acc_val_max_diff = 0
         self.acc_test_max_diff = 0
-        self.result = defaultdict(list)
+        if os.path.exists(self.csv_name):
+            self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
+            self.already_epoch = len(self.result[list(self.result.keys())[0]])
+        else:
+            self.result = defaultdict(list)
+            self.already_epoch = 0
 
     def train_minibatch(self, num_epochs):
         xs = self.Data['train']['x']
@@ -269,7 +286,7 @@ class Trainer:
 
         train_size = len(ts)
 
-        for epoch in range(num_epochs):
+        for epoch in range(self.already_epoch,num_epochs):
             print('====epoch:'+str(epoch)+' ====>正在训练')
             print('--------------------------------------------------------------')
             
@@ -384,22 +401,12 @@ class Trainer:
             self.result['test_accuarcy'].append(test_accuracy)
             self.save_result((epoch+1)%100==0)
 
-    def save_result(self,save_pth):
-        result_path = os.path.join('../result/',__file__[:-3])
-        if not os.path.exists(result_path):
-            os.mkdir(result_path)
-
-        r_name = os.path.join(result_path, 'xyt%s_tz_rtv2_b%s_hs%s_ts%s_dr%s_tv%s.csv' \
-                              % (self.feature_size,
-                                 self.batch_size,
-                                 self.hidden_size,
-                                 self.time_step,
-                                 self.drop_ratio,
-                                 self.validation_ratio)
-                              )
-        pd.DataFrame(self.result).to_csv(r_name)
-        if save_pth:
-            torch.save(self.model, os.path.join(result_path,__file__[:-3]+'.pth'))
+    def save_result(self,save_or_not):     
+        if not os.path.exists(self.result_path):
+            os.mkdir(self.result_path)
+        pd.DataFrame(self.result).to_csv(self.csv_name)
+        if save_or_not:
+            torch.save(self.model, os.path.join(self.result_path,__file__[:-3]+'.pth'))
 
     def to_variable(self, x):
         return Variable(x.type(torch.FloatTensor)).to(self.device)
@@ -417,7 +424,6 @@ class Trainer:
     def update_lr(self):
         for param_group in self.optim.param_groups:
             param_group['lr'] = param_group['lr'] * 0.9
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='精简一下模型')
