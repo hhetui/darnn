@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-都替换成self-attention跑实验
+换成自己程序生成的程序，看准确率是否改变，如果不变，重点开始改模型跑实验
 '''
 import os
 import math
@@ -23,6 +23,8 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
+
+from utils import parse
 
 class Encoder(nn.Module):
     """encoder in DA_RNN."""
@@ -161,13 +163,12 @@ class Darnn_selfattention(nn.Module):
     def __init__(self,input_size, T,
                  encoder_num_hidden,
                  decoder_num_hidden,
-                 learning_rate):
+                 drop_ratio):
         super(Darnn_selfattention,self).__init__()
         self.input_size = input_size
         self.T = T
         self.encoder_num_hidden = encoder_num_hidden
         self.decoder_num_hidden = decoder_num_hidden
-        self.learning_rate = learning_rate
         
         self.Encoder = Encoder(input_size=input_size,hidden_size=encoder_num_hidden,
                                     time_step=T,drop_ratio=0)
@@ -176,10 +177,7 @@ class Darnn_selfattention(nn.Module):
                                     time_step=T)
         self.attention = SelfAttention(last_hidden_size=encoder_num_hidden,hidden_size=decoder_num_hidden)
         
-        if torch.cuda.is_available():
-            self.Encoder = self.Encoder.cuda()
-            self.Decoder = self.Decoder.cuda()
-            self.attention = self.attention.cuda()
+        
         
         self.loss_func = nn.BCELoss()
 
@@ -191,25 +189,26 @@ class Darnn_selfattention(nn.Module):
 
 random.seed(0)
 
-def load_pickle(years):
-    data_dic = None
-    for y in years:
-        with open(os.path.join(Datapath, 'v1_T20_yb1_%s.pickle' % (y)), 'rb') as fp:
-            dataset = pickle.load(fp)
 
-        if data_dic is None:
-            data_dic = {}
-            data_dic['x'] = dataset['x']
-            data_dic['y'] = dataset['y']
-            data_dic['t'] = dataset['t']
-
-        data_dic['x'] = np.append(data_dic['x'], dataset['x'], axis=0)
-        data_dic['y'] = np.append(data_dic['y'], dataset['y'], axis=0)
-        data_dic['t'] = np.append(data_dic['t'], dataset['t'], axis=0)
-
-    return data_dic
 
 def load_dataset(train_years,test_years):
+    def load_pickle(years):
+        data_dic = None
+        for y in years:
+            with open(os.path.join(Datapath, 'v1_T20_yb1_%s.pickle' % (y)), 'rb') as fp:
+                dataset = pickle.load(fp)
+
+            if data_dic is None:
+                data_dic = {}
+                data_dic['x'] = dataset['x']
+                data_dic['y'] = dataset['y']
+                data_dic['t'] = dataset['t']
+
+            data_dic['x'] = np.append(data_dic['x'], dataset['x'], axis=0)
+            data_dic['y'] = np.append(data_dic['y'], dataset['y'], axis=0)
+            data_dic['t'] = np.append(data_dic['t'], dataset['t'], axis=0)
+
+        return data_dic
     dataset = {}
     dataset['train'] = load_pickle(train_years)
     dataset['test'] = load_pickle(test_years)
@@ -230,48 +229,36 @@ class dataset(Dataset):
 
 
 class Trainer:
-    def __init__(self, time_step, hidden_size, lr, batch_size=256, drop_ratio=0, split=20):
-        self.time_step = time_step
-        self.hidden_size = hidden_size
-        self.learning_rate = lr
-        self.batch_size = batch_size
-        self.drop_ratio = 0
-        self.validation_ratio = split
-        self.result_path = os.path.join('../result/',__file__[:-3])
-        self.Data = load_dataset([2010,2011,2012,2013,2014,2015,2016,2017,2018],
-                        [123,456,789,1012])
-        self.feature_size = self.Data['train']['x'][0].shape[1]
-        self.csv_name = os.path.join(self.result_path, 'xyt%s_tz_rtv2_b%s_hs%s_ts%s_dr%s_tv%s.csv' \
-                              % (self.feature_size,
-                                 self.batch_size,
-                                 self.hidden_size,
-                                 self.time_step,
-                                 self.drop_ratio,
-                                 self.validation_ratio)
-                              )
-        print(self.feature_size)
+    def __init__(self, model_conf, data_conf,train_conf):
+        self.model_conf = model_conf
+        self.data_conf = data_conf
+        self.train_conf = train_conf
 
+        self.result_path = os.path.join('../result/',__file__[:-3])
+        self.Data = load_dataset(self.data_conf['train_list'],self.data_conf['test_list'])
+        self.csv_name = os.path.join(self.result_path, __file__[:-3]+'.csv')
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-        if os.path.exists(os.path.join(self.result_path,__file__[:-3]+'.pth')):
-            self.model = torch.load(os.path.join(self.result_path,__file__[:-3]+'.pth'))
-        else:
-            self.model = Darnn_selfattention(
-                            input_size = self.feature_size, 
-                            T = time_step,
-                            encoder_num_hidden = hidden_size,
-                            decoder_num_hidden = hidden_size,
-                            learning_rate = lr)
-        self.optim = optim.Adam(params=filter(lambda p: p.requires_grad,self.model.parameters()),
-                                        lr=self.learning_rate)            
-        self.acc_train_max_diff = 0
-        self.acc_val_max_diff = 0
-        self.acc_test_max_diff = 0
-        if os.path.exists(self.csv_name):
+
+        if self.train_conf['resume'] and os.path.exists(self.result_path):
+            self.model = torch.load(self.result_path,__file__[:-3]+'_last.pth')
             self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
-            self.already_epoch = len(self.result[list(self.result.keys())[0]])
+            self.begin_epoch = len(self.result['epoch'])
+            self.acc_train_max_diff = self.result['acc_train_max_diff'][-1]
+            self.acc_val_max_diff = self.result['acc_val_max_diff'][-1]
+            self.acc_test_max_diff = self.result['acc_test_max_diff'][-1]
         else:
+            self.model = Darnn_selfattention(**self.model_conf)
             self.result = defaultdict(list)
-            self.already_epoch = 0
+            self.begin_epoch = 0
+            self.acc_train_max_diff = 0
+            self.acc_val_max_diff = 0
+            self.acc_test_max_diff = 0
+        
+        self.model = self.model.to(self.device)
+        self.optim = optim.Adam(params=filter(lambda p: p.requires_grad,self.model.parameters()),
+                                        lr=self.train_conf['learning_rate'])            
+        
+        
 
     def train_minibatch(self, num_epochs):
         xs = self.Data['train']['x']
@@ -282,16 +269,16 @@ class Trainer:
         test_data['x'] = self.Data['test']['x']
         test_data['y'] = self.Data['test']['y']
         test_data['t'] = self.Data['test']['t']
-        TestDataloader = DataLoader(dataset(test_data), batch_size=self.batch_size, shuffle=False)
+        TestDataloader = DataLoader(dataset(test_data), batch_size=self.train_conf['batch'], shuffle=False)
 
         train_size = len(ts)
 
-        for epoch in range(self.already_epoch,num_epochs):
+        for epoch in range(self.begin_epoch,num_epochs):
             print('====epoch:'+str(epoch)+' ====>正在训练')
             print('--------------------------------------------------------------')
             
             # 随机选n%做validation数据
-            validation_index = random.sample(range(train_size), int(train_size*self.validation_ratio/100.))
+            validation_index = random.sample(range(train_size), int(train_size*self.train_conf['split']/100.))
             validation_mask = np.array([False] * train_size)
             validation_mask[validation_index] = True
             
@@ -300,13 +287,13 @@ class Trainer:
             val_data['x'] = xs[validation_mask]
             val_data['y'] = ys[validation_mask]
             val_data['t'] = ts[validation_mask]
-            ValDataloader = DataLoader(dataset(val_data), batch_size=self.batch_size, shuffle=False)
+            ValDataloader = DataLoader(dataset(val_data), batch_size=self.train_conf['batch'], shuffle=False)
             #训练集
             train_data = {}
             train_data['x'] = xs[~validation_mask]
             train_data['y'] = ys[~validation_mask]
             train_data['t'] = ts[~validation_mask]
-            TrainDataloader = DataLoader(dataset(train_data), batch_size=self.batch_size, shuffle=False)
+            TrainDataloader = DataLoader(dataset(train_data), batch_size=self.train_conf['batch'], shuffle=False)
             
             #-------------------------------------------------------------------------------
             print('\033[1;34m Train: \033[0m')
@@ -322,7 +309,6 @@ class Trainer:
                 var_y = self.to_variable(sample[1]) 
                 var_t = self.to_variable(sample[2])
 
-                
                 out = self.model(var_x,var_y)
                 pre_t = (out >= 0.5) + 0
 
@@ -334,12 +320,12 @@ class Trainer:
 
                 self.optim.step()
                 loss_sum += loss.data.item()
-
+            epoch_Loss = loss_sum/train_size
             train_accuracy, precision, recall, f1 = self.metrics(t_pred,t_ori)
             train_random = self.rand_acc(t_ori)
             self.acc_train_max_diff = max(self.acc_train_max_diff, train_accuracy-train_random)
-            print('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_Loss 为: \033[1;32m %.4f \033[0m' %
-                (epoch,train_accuracy,loss_sum))
+            print('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.4f \033[0m' %
+                (epoch,train_accuracy,epoch_Loss))
             print('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (train_accuracy, precision, recall, f1))
             print('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' % (train_random, self.acc_train_max_diff))
 
@@ -362,6 +348,8 @@ class Trainer:
 
             validation_accuracy, precision, recall, f1 = self.metrics(t_pred,t_ori)
             validation_random = self.rand_acc(t_ori)
+
+            model_best = validation_accuracy-validation_random > self.acc_val_max_diff
             self.acc_val_max_diff = max(self.acc_val_max_diff, validation_accuracy-validation_random)
             print('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (validation_accuracy, precision, recall, f1))
             print('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' % (validation_random, self.acc_val_max_diff))
@@ -394,20 +382,27 @@ class Trainer:
             #-------------------------------------------------------------------------------
             # 存结果
             self.result['epoch'].append(epoch)
-            self.result['loss'].append(loss_sum)
+            self.result['loss'].append(epoch_Loss)
             self.result['train_accuracy'].append(train_accuracy)
+            self.result['acc_train_max_diff'].append(self.acc_train_max_diff)
             self.result['validation_accuracy'].append(validation_accuracy)
+            self.result['acc_val_max_diff'].append(self.acc_val_max_diff)
             self.result['test_random'].append(test_random)
             self.result['test_accuarcy'].append(test_accuracy)
-            self.save_result((epoch+1)%100==0)
+            self.result['acc_test_max_dif'].append(self.acc_test_max_dif)
 
-    def save_result(self,save_or_not):     
+            self.save_result(model_best)
+
+    def save_result(self,best = True):     
         if not os.path.exists(self.result_path):
+            print('第一次保存，新建目录:',self.result_path)
             os.mkdir(self.result_path)
-        pd.DataFrame(self.result).to_csv(self.csv_name)
-        if save_or_not:
-            torch.save(self.model, os.path.join(self.result_path,__file__[:-3]+'.pth'))
-
+        pd.DataFrame(self.result).to_csv(self.csv_name,index=False)
+        torch.save(
+            self.model,
+            os.path.join(self.result_path,__file__[:-3]+
+                '_{0}.pth'.format("best" if best else "last"))
+        )
     def to_variable(self, x):
         return Variable(x.type(torch.FloatTensor)).to(self.device)
         
@@ -426,32 +421,12 @@ class Trainer:
             param_group['lr'] = param_group['lr'] * 0.9
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='精简一下模型')
-    parser.add_argument(
-        '-e', '--epoch', type=int, default=1500,
-        help='the number of epochs')
-    parser.add_argument(
-        '-b', '--batch', type=int, default=256,
-        help='the mini-batch size')
-    parser.add_argument(
-        '-ts', '--timestep', type=int, default=20,
-        help='the length of time_step')
-    parser.add_argument(
-        '-hs', '--hiddensize', type=int, default=32,
-        help='the length of hidden size')
-    parser.add_argument(
-        '-dr', '--dropratio', type=int, default=0,
-        help='the ratio of drop')
-    parser.add_argument(
-        '-s', '--split', type=int, default=30,
-        help='the split ratio of validation set')
-    parser.add_argument(
-        '-l', '--lrate', type=float, default=0.001,
-        help='learning rate')
+    parser = argparse.ArgumentParser(description='输入参数yml文件')
+    parser.add_argument('-opt', type=str, help='Path to option YAML file.')
     args = parser.parse_args()
 
-    print('time_step:',args.timestep, 'hidden_size:',args.hiddensize, 'lr:',args.lrate,
-            'batch:',args.batch, 'drop_ratio:',args.dropratio, 'split:',args.split)
-    Datapath = '/home/xinkun/darnn/v2'
-    trainer = Trainer(args.timestep, args.hiddensize, args.lrate, args.batch, args.dropratio, args.split)
-    trainer.train_minibatch(args.epoch)
+    opt = parse(args.opt)
+    Datapath = opt['data_conf']['datapath']
+    trainer = Trainer(opt['model_conf'],opt['data_conf'],opt['train_conf'])
+    trainer.train_minibatch(opt['train_conf']['epoch'])
+    

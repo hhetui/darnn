@@ -404,7 +404,7 @@ class Trainer:
     def save_result(self,save_or_not):     
         if not os.path.exists(self.result_path):
             os.mkdir(self.result_path)
-        pd.DataFrame(self.result).to_csv(self.csv_name)
+        pd.DataFrame(self.result).to_csv(self.csv_name,index=False)
         if save_or_not:
             torch.save(self.model, os.path.join(self.result_path,__file__[:-3]+'.pth'))
 
@@ -452,6 +452,6 @@ if __name__ == '__main__':
 
     print('time_step:',args.timestep, 'hidden_size:',args.hiddensize, 'lr:',args.lrate,
             'batch:',args.batch, 'drop_ratio:',args.dropratio, 'split:',args.split)
-    Datapath = '/home/xinkun/darnn/v2'
+    Datapath = '/home/xinkun/darnn/v1'
     trainer = Trainer(args.timestep, args.hiddensize, args.lrate, args.batch, args.dropratio, args.split)
     trainer.train_minibatch(args.epoch)
