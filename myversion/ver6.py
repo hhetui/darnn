@@ -279,7 +279,7 @@ class Trainer:
             self.acc_val_max_diff = checkpoint['acc_val_max_diff']
             self.acc_test_max_diff = checkpoint['acc_test_max_diff']
             self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
-            self.logger.info('存档点读取完毕，目前已训练',self.cur_epoch,'轮--->')
+            self.logger.info('存档点读取完毕，目前已训练{}轮--->'.format(self.cur_epoch))
         else:
             self.logger.info('没有存档点，各种参数初始化')
             self.cur_epoch = 0
