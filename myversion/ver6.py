@@ -24,7 +24,7 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 
-from utils import parse
+from utils import parse, get_logger
 
 
 class Encoder(nn.Module):
@@ -253,12 +253,16 @@ class Trainer:
         self.device = torch.device(
             'cuda:0' if torch.cuda.is_available() else 'cpu')
         self.load_checkpoint()
+        self.logger = get_logger(
+            os.path.join(self.result_path, "trainer.log"))
 
     def load_checkpoint(self):
+        self.logger.info('Load Checkpoint......')
         self.model = Darnn_selfattention(**self.model_conf)
         self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
                                     lr=self.train_conf['learning_rate'])
         if self.train_conf['resume'] and os.path.exists(self.result_path):
+            self.logger.info('已有存档点，读取中......')
             checkpoint = torch.load(os.path.join(self.result_path,
                                                  "last.pt"), map_location="cpu")
             self.model.load_state_dict(checkpoint['model_state_dict'])
@@ -269,7 +273,9 @@ class Trainer:
             self.acc_val_max_diff = checkpoint['acc_val_max_diff']
             self.acc_test_max_diff = checkpoint['acc_test_max_diff']
             self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
+            self.logger.info('存档点读取完毕!')
         else:
+            self.logger.info('没有存档点，各种参数初始化')
             self.cur_epoch = 0
             self.acc_train_max_diff = 0
             self.acc_val_max_diff = 0
@@ -292,8 +298,7 @@ class Trainer:
         train_size = len(ts)
         while(self.cur_epoch < self.train_conf['epoch']):
             self.cur_epoch += 1
-            print('====epoch:'+str(self.cur_epoch)+' ====>正在训练')
-            print('--------------------------------------------------------------')
+            self.logger.info('======epoch:'+str(self.cur_epoch)+' 正在训练 ========================>')
 
             # 随机选n%做validation数据
             validation_index = random.sample(range(train_size), int(
@@ -317,7 +322,7 @@ class Trainer:
                 dataset(train_data), batch_size=self.train_conf['batch'], shuffle=False)
 
             # -------------------------------------------------------------------------------
-            print('\033[1;34m Train: \033[0m')
+            self.logger.info('\033[1;34m Train: \033[0m')
             loss_sum = 0
             t_pred = []
             t_ori = []
