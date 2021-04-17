@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-将darnn中两个attention换成self-attention
+Darnn 中attention中替换为selfattention
 '''
 import os
 import math
@@ -51,12 +51,30 @@ class Encoder(nn.Module):
             nn.Tanh(),
             nn.Linear(self.T, 1)
         )
-
+        self.wq = nn.Linear(in_features=self.T,
+                            out_features=self.T, bias=False)
+        self.wk = nn.Linear(in_features=self.T,
+                            out_features=self.T, bias=False)
+        self.wv = nn.Linear(in_features=self.T,
+                            out_features=self.T, bias=False)
+        
     def forward(self, X):
         X_encoded = Variable(X.data.new(
             X.size(0), self.T, self.encoder_num_hidden).zero_())
         h_n = self._init_states(X)
         s_n = self._init_states(X)
+        #B * f * (T+2*H)
+        Q = self.wq(X.permute(0, 2, 1))
+        K = self.wk(X.permute(0, 2, 1))
+        K = K.permute(0,2,1)
+        V = self.wv(X.permute(0, 2, 1))
+        #B * f * f
+        QK = torch.bmm(Q,K)/math.sqrt(Q.size(1))
+        #B * f * f
+        #alpha = F.softmax(QK,2)
+        #B * f * (T+2*H)
+        X = torch.bmm(F.softmax(QK,2),V).permute(0,2,1)
+
         for t in range(self.T):
             x = torch.cat((h_n.repeat(self.input_size, 1, 1).permute(1, 0, 2),
                            s_n.repeat(self.input_size, 1, 1).permute(1, 0, 2),
@@ -103,23 +121,37 @@ class Decoder(nn.Module):
             hidden_size=self.decoder_num_hidden
         )
         self.fc = nn.Linear(self.encoder_num_hidden + 1, 1)
-        self.fc_final = nn.Linear(
-            self.decoder_num_hidden + self.encoder_num_hidden, 3)
+        
         self.softmax = nn.Softmax()
         self.fc.weight.data.normal_()
-
+        self.wq = nn.Linear(in_features= self.encoder_num_hidden,
+                            out_features= self.decoder_num_hidden, bias=False)
+        self.wk = nn.Linear(in_features=self.encoder_num_hidden,
+                            out_features=self.encoder_num_hidden, bias=False)
+        self.wv = nn.Linear(in_features=self.encoder_num_hidden,
+                            out_features=self.encoder_num_hidden, bias=False)
+        
     def forward(self, X_encoded, y_prev):
         d_n = self._init_states(X_encoded)
         c_n = self._init_states(X_encoded)
-
+        Q = self.wq(X_encoded)
+        K = self.wk(X_encoded)
+        K = K.permute(0,2,1)
+        V = self.wv(X_encoded)
+        QK = torch.bmm(Q,K)/math.sqrt(Q.size(1))
+            
+        X_encoded = torch.bmm(F.softmax(QK,2),V)
         for t in range(self.T):
+            
             x = torch.cat((d_n.repeat(self.T, 1, 1).permute(1, 0, 2),
                            c_n.repeat(self.T, 1, 1).permute(1, 0, 2),
                            X_encoded), dim=2)
             beta = F.softmax(self.attn_layer(
                 x.view(-1, 2 * self.decoder_num_hidden + self.encoder_num_hidden)).view(-1, self.T), 1)
+            #B*He
 
             context = torch.bmm(beta.unsqueeze(1), X_encoded)[:, 0, :]
+            
             if t < self.T:
                 y_tilde = self.fc(
                     torch.cat((context, y_prev[:, t].unsqueeze(1)), dim=1))
@@ -254,7 +286,10 @@ class Trainer:
             os.path.join(self.result_path, self.train_conf['log_file']))
         self.device = torch.device(
             'cuda:0' if torch.cuda.is_available() else 'cpu')
-        
+        self.logger.info('实验参数如下:')
+        self.logger.info(self.model_conf)
+        self.logger.info(self.train_conf)
+        self.logger.info(self.data_conf)
         self.model = Darnn_selfattention(**self.model_conf)
         self.load_checkpoint()
         

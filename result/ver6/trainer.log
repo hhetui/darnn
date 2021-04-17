@@ -1,10 +1,421 @@
-2021-04-18 00:02:01 [ver6.py:257 - INFO ] {'input_size': 6, 'T': 20, 'encoder_num_hidden': 32, 'decoder_num_hidden': 32, 'drop_ratio': 0}
-2021-04-18 00:02:01 [ver6.py:267 - INFO ] Load Checkpoint......
-2021-04-18 00:02:01 [ver6.py:288 - INFO ] 没有存档点，各种参数初始化
-2021-04-18 00:02:04 [ver6.py:261 - INFO ] 导入数据集......
-2021-04-18 00:03:14 [ver6.py:257 - INFO ] 实验参数如下:
-2021-04-18 00:03:14 [ver6.py:258 - INFO ] {'input_size': 6, 'T': 20, 'encoder_num_hidden': 32, 'decoder_num_hidden': 32, 'drop_ratio': 0}
-2021-04-18 00:03:14 [ver6.py:259 - INFO ] {'epoch': 1500, 'batch': 256, 'split': 30, 'learning_rate': 0.001, 'resume': True, 'checkpoint_path': '../result/', 'log_file': 'trainer.log'}
-2021-04-18 00:03:14 [ver6.py:260 - INFO ] {'train_list': [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018], 'test_list': [123, 456, 789, 1012], 'datapath': '../v2'}
-2021-04-18 00:03:14 [ver6.py:270 - INFO ] Load Checkpoint......
-2021-04-18 00:03:14 [ver6.py:291 - INFO ] 没有存档点，各种参数初始化
+2021-04-18 00:05:50 [ver6.py:257 - INFO ] 实验参数如下:
+2021-04-18 00:05:50 [ver6.py:258 - INFO ] {'input_size': 6, 'T': 20, 'encoder_num_hidden': 32, 'decoder_num_hidden': 32, 'drop_ratio': 0}
+2021-04-18 00:05:50 [ver6.py:259 - INFO ] {'epoch': 1500, 'batch': 256, 'split': 30, 'learning_rate': 0.001, 'resume': True, 'checkpoint_path': '../result/', 'log_file': 'trainer.log'}
+2021-04-18 00:05:50 [ver6.py:260 - INFO ] {'train_list': [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018], 'test_list': [123, 456, 789, 1012], 'datapath': '../v1'}
+2021-04-18 00:05:50 [ver6.py:270 - INFO ] Load Checkpoint......
+2021-04-18 00:05:50 [ver6.py:291 - INFO ] 没有存档点，各种参数初始化
+2021-04-18 00:05:52 [ver6.py:264 - INFO ] 导入数据集......
+2021-04-18 00:05:53 [ver6.py:267 - INFO ] 数据集导入成功！
+2021-04-18 00:05:53 [ver6.py:318 - INFO ] ======epoch:1 正在训练 ========================>
+2021-04-18 00:05:54 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:08:50 [ver6.py:372 - INFO ] 第 [1;34m 1 [0m 轮的训练集正确率为:[1;32m 0.5242 [0m epoch_mean_Loss 为: [1;32m 0.0019 [0m
+2021-04-18 00:08:50 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5242 Precision:0.5115 Recall:0.1671 F1:0.2519 [0m
+2021-04-18 00:08:50 [ver6.py:376 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.003612 [0m
+2021-04-18 00:08:50 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:09:10 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5347 Precision:0.6390 Recall:0.0696 F1:0.1256 [0m
+2021-04-18 00:09:10 [ver6.py:405 - INFO ] [1;31m Random:0.5202	MaxAccDiff:0.014533 [0m
+2021-04-18 00:09:10 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:09:20 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5121 Precision:0.5808 Recall:0.0964 F1:0.1654 [0m
+2021-04-18 00:09:20 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.010733 [0m
+2021-04-18 00:09:20 [ver6.py:318 - INFO ] ======epoch:2 正在训练 ========================>
+2021-04-18 00:09:21 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:12:17 [ver6.py:372 - INFO ] 第 [1;34m 2 [0m 轮的训练集正确率为:[1;32m 0.5627 [0m epoch_mean_Loss 为: [1;32m 0.0019 [0m
+2021-04-18 00:12:17 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5627 Precision:0.5579 Recall:0.4218 F1:0.4804 [0m
+2021-04-18 00:12:17 [ver6.py:376 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.041970 [0m
+2021-04-18 00:12:17 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:12:37 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5618 Precision:0.5948 Recall:0.2737 F1:0.3749 [0m
+2021-04-18 00:12:37 [ver6.py:405 - INFO ] [1;31m Random:0.5199	MaxAccDiff:0.041875 [0m
+2021-04-18 00:12:37 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:12:48 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5453 Precision:0.5802 Recall:0.3366 F1:0.4260 [0m
+2021-04-18 00:12:48 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.043926 [0m
+2021-04-18 00:12:48 [ver6.py:318 - INFO ] ======epoch:3 正在训练 ========================>
+2021-04-18 00:12:48 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:15:40 [ver6.py:372 - INFO ] 第 [1;34m 3 [0m 轮的训练集正确率为:[1;32m 0.5792 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:15:40 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5792 Precision:0.5742 Recall:0.4715 F1:0.5178 [0m
+2021-04-18 00:15:40 [ver6.py:376 - INFO ] [1;31m Random:0.5208	MaxAccDiff:0.058372 [0m
+2021-04-18 00:15:40 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:16:00 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5630 Precision:0.5840 Recall:0.3128 F1:0.4074 [0m
+2021-04-18 00:16:00 [ver6.py:405 - INFO ] [1;31m Random:0.5197	MaxAccDiff:0.043224 [0m
+2021-04-18 00:16:00 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:16:11 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5438 Precision:0.5720 Recall:0.3581 F1:0.4404 [0m
+2021-04-18 00:16:11 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.043926 [0m
+2021-04-18 00:16:11 [ver6.py:318 - INFO ] ======epoch:4 正在训练 ========================>
+2021-04-18 00:16:11 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:19:09 [ver6.py:372 - INFO ] 第 [1;34m 4 [0m 轮的训练集正确率为:[1;32m 0.5791 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:19:09 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5791 Precision:0.5730 Recall:0.4773 F1:0.5208 [0m
+2021-04-18 00:19:09 [ver6.py:376 - INFO ] [1;31m Random:0.5208	MaxAccDiff:0.058372 [0m
+2021-04-18 00:19:09 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:19:30 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5648 Precision:0.5794 Recall:0.3426 F1:0.4306 [0m
+2021-04-18 00:19:30 [ver6.py:405 - INFO ] [1;31m Random:0.5197	MaxAccDiff:0.045080 [0m
+2021-04-18 00:19:30 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:19:40 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5411 Precision:0.5643 Recall:0.3713 F1:0.4479 [0m
+2021-04-18 00:19:40 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.043926 [0m
+2021-04-18 00:19:40 [ver6.py:318 - INFO ] ======epoch:5 正在训练 ========================>
+2021-04-18 00:19:41 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:22:37 [ver6.py:372 - INFO ] 第 [1;34m 5 [0m 轮的训练集正确率为:[1;32m 0.5813 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:22:37 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5813 Precision:0.5757 Recall:0.4830 F1:0.5253 [0m
+2021-04-18 00:22:37 [ver6.py:376 - INFO ] [1;31m Random:0.5204	MaxAccDiff:0.060882 [0m
+2021-04-18 00:22:37 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:22:57 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5676 Precision:0.5954 Recall:0.3059 F1:0.4042 [0m
+2021-04-18 00:22:57 [ver6.py:405 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.047011 [0m
+2021-04-18 00:22:57 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:23:08 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5430 Precision:0.5739 Recall:0.3439 F1:0.4301 [0m
+2021-04-18 00:23:08 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.043926 [0m
+2021-04-18 00:23:08 [ver6.py:318 - INFO ] ======epoch:6 正在训练 ========================>
+2021-04-18 00:23:08 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:26:05 [ver6.py:372 - INFO ] 第 [1;34m 6 [0m 轮的训练集正确率为:[1;32m 0.5868 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:26:05 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5868 Precision:0.5811 Recall:0.4957 F1:0.5350 [0m
+2021-04-18 00:26:05 [ver6.py:376 - INFO ] [1;31m Random:0.5205	MaxAccDiff:0.066354 [0m
+2021-04-18 00:26:05 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:26:25 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5651 Precision:0.5755 Recall:0.3540 F1:0.4383 [0m
+2021-04-18 00:26:25 [ver6.py:405 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.047011 [0m
+2021-04-18 00:26:25 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:26:35 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5439 Precision:0.5704 Recall:0.3661 F1:0.4459 [0m
+2021-04-18 00:26:35 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.043926 [0m
+2021-04-18 00:26:35 [ver6.py:318 - INFO ] ======epoch:7 正在训练 ========================>
+2021-04-18 00:26:36 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:29:33 [ver6.py:372 - INFO ] 第 [1;34m 7 [0m 轮的训练集正确率为:[1;32m 0.5814 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:29:33 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5814 Precision:0.5766 Recall:0.4815 F1:0.5248 [0m
+2021-04-18 00:29:33 [ver6.py:376 - INFO ] [1;31m Random:0.5199	MaxAccDiff:0.066354 [0m
+2021-04-18 00:29:33 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:29:53 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5662 Precision:0.5664 Recall:0.3951 F1:0.4655 [0m
+2021-04-18 00:29:53 [ver6.py:405 - INFO ] [1;31m Random:0.5219	MaxAccDiff:0.047011 [0m
+2021-04-18 00:29:53 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:30:04 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5467 Precision:0.5669 Recall:0.4066 F1:0.4736 [0m
+2021-04-18 00:30:04 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.045378 [0m
+2021-04-18 00:30:04 [ver6.py:318 - INFO ] ======epoch:8 正在训练 ========================>
+2021-04-18 00:30:04 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:32:59 [ver6.py:372 - INFO ] 第 [1;34m 8 [0m 轮的训练集正确率为:[1;32m 0.5841 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:32:59 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5841 Precision:0.5782 Recall:0.4888 F1:0.5297 [0m
+2021-04-18 00:32:59 [ver6.py:376 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.066354 [0m
+2021-04-18 00:32:59 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:33:19 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5645 Precision:0.5692 Recall:0.3823 F1:0.4574 [0m
+2021-04-18 00:33:19 [ver6.py:405 - INFO ] [1;31m Random:0.5199	MaxAccDiff:0.047011 [0m
+2021-04-18 00:33:19 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:33:29 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5452 Precision:0.5712 Recall:0.3730 F1:0.4513 [0m
+2021-04-18 00:33:29 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.045378 [0m
+2021-04-18 00:33:29 [ver6.py:318 - INFO ] ======epoch:9 正在训练 ========================>
+2021-04-18 00:33:30 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:36:24 [ver6.py:372 - INFO ] 第 [1;34m 9 [0m 轮的训练集正确率为:[1;32m 0.5845 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:36:24 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5845 Precision:0.5792 Recall:0.4889 F1:0.5302 [0m
+2021-04-18 00:36:24 [ver6.py:376 - INFO ] [1;31m Random:0.5204	MaxAccDiff:0.066354 [0m
+2021-04-18 00:36:24 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:36:44 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5656 Precision:0.5663 Recall:0.4004 F1:0.4691 [0m
+2021-04-18 00:36:44 [ver6.py:405 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.047011 [0m
+2021-04-18 00:36:44 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:36:55 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5445 Precision:0.5692 Recall:0.3759 F1:0.4527 [0m
+2021-04-18 00:36:55 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.045378 [0m
+2021-04-18 00:36:55 [ver6.py:318 - INFO ] ======epoch:10 正在训练 ========================>
+2021-04-18 00:36:55 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:39:53 [ver6.py:372 - INFO ] 第 [1;34m 10 [0m 轮的训练集正确率为:[1;32m 0.5894 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:39:53 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5894 Precision:0.5846 Recall:0.4934 F1:0.5352 [0m
+2021-04-18 00:39:53 [ver6.py:376 - INFO ] [1;31m Random:0.5210	MaxAccDiff:0.068400 [0m
+2021-04-18 00:39:53 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:40:13 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5717 Precision:0.5732 Recall:0.4270 F1:0.4894 [0m
+2021-04-18 00:40:13 [ver6.py:405 - INFO ] [1;31m Random:0.5193	MaxAccDiff:0.052407 [0m
+2021-04-18 00:40:13 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:40:24 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5427 Precision:0.5631 Recall:0.3924 F1:0.4625 [0m
+2021-04-18 00:40:24 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.045378 [0m
+2021-04-18 00:40:24 [ver6.py:318 - INFO ] ======epoch:11 正在训练 ========================>
+2021-04-18 00:40:24 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:42:58 [ver6.py:372 - INFO ] 第 [1;34m 11 [0m 轮的训练集正确率为:[1;32m 0.5945 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:42:58 [ver6.py:374 - INFO ] [1;31m Accuracy:0.5945 Precision:0.5906 Recall:0.5025 F1:0.5430 [0m
+2021-04-18 00:42:58 [ver6.py:376 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.073882 [0m
+2021-04-18 00:42:58 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:43:18 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5780 Precision:0.5858 Recall:0.4104 F1:0.4827 [0m
+2021-04-18 00:43:18 [ver6.py:405 - INFO ] [1;31m Random:0.5203	MaxAccDiff:0.057676 [0m
+2021-04-18 00:43:18 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:43:29 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5442 Precision:0.5696 Recall:0.3715 F1:0.4497 [0m
+2021-04-18 00:43:29 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.045378 [0m
+2021-04-18 00:43:29 [ver6.py:318 - INFO ] ======epoch:12 正在训练 ========================>
+2021-04-18 00:43:29 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:46:24 [ver6.py:372 - INFO ] 第 [1;34m 12 [0m 轮的训练集正确率为:[1;32m 0.6020 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:46:24 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6020 Precision:0.6002 Recall:0.5097 F1:0.5513 [0m
+2021-04-18 00:46:24 [ver6.py:376 - INFO ] [1;31m Random:0.5203	MaxAccDiff:0.081630 [0m
+2021-04-18 00:46:24 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:46:44 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5919 Precision:0.6028 Recall:0.4343 F1:0.5049 [0m
+2021-04-18 00:46:44 [ver6.py:405 - INFO ] [1;31m Random:0.5209	MaxAccDiff:0.070998 [0m
+2021-04-18 00:46:44 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:46:55 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5502 Precision:0.5767 Recall:0.3865 F1:0.4628 [0m
+2021-04-18 00:46:55 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.048840 [0m
+2021-04-18 00:46:55 [ver6.py:318 - INFO ] ======epoch:13 正在训练 ========================>
+2021-04-18 00:46:55 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:49:48 [ver6.py:372 - INFO ] 第 [1;34m 13 [0m 轮的训练集正确率为:[1;32m 0.6029 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:49:48 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6029 Precision:0.6008 Recall:0.5113 F1:0.5525 [0m
+2021-04-18 00:49:48 [ver6.py:376 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.082252 [0m
+2021-04-18 00:49:48 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:50:08 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5966 Precision:0.6125 Recall:0.4335 F1:0.5077 [0m
+2021-04-18 00:50:08 [ver6.py:405 - INFO ] [1;31m Random:0.5202	MaxAccDiff:0.076394 [0m
+2021-04-18 00:50:08 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:50:18 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5559 Precision:0.5851 Recall:0.3925 F1:0.4698 [0m
+2021-04-18 00:50:18 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.054547 [0m
+2021-04-18 00:50:18 [ver6.py:318 - INFO ] ======epoch:14 正在训练 ========================>
+2021-04-18 00:50:18 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:53:16 [ver6.py:372 - INFO ] 第 [1;34m 14 [0m 轮的训练集正确率为:[1;32m 0.6080 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:53:16 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6080 Precision:0.6050 Recall:0.5251 F1:0.5622 [0m
+2021-04-18 00:53:16 [ver6.py:376 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.087329 [0m
+2021-04-18 00:53:16 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:53:36 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5944 Precision:0.6018 Recall:0.4581 F1:0.5202 [0m
+2021-04-18 00:53:36 [ver6.py:405 - INFO ] [1;31m Random:0.5200	MaxAccDiff:0.076394 [0m
+2021-04-18 00:53:36 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:53:46 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5559 Precision:0.5831 Recall:0.4004 F1:0.4748 [0m
+2021-04-18 00:53:46 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.054547 [0m
+2021-04-18 00:53:46 [ver6.py:318 - INFO ] ======epoch:15 正在训练 ========================>
+2021-04-18 00:53:47 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 00:56:46 [ver6.py:372 - INFO ] 第 [1;34m 15 [0m 轮的训练集正确率为:[1;32m 0.6089 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 00:56:46 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6089 Precision:0.6070 Recall:0.5229 F1:0.5618 [0m
+2021-04-18 00:56:46 [ver6.py:376 - INFO ] [1;31m Random:0.5204	MaxAccDiff:0.088439 [0m
+2021-04-18 00:56:46 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 00:57:06 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5995 Precision:0.6067 Recall:0.4674 F1:0.5280 [0m
+2021-04-18 00:57:06 [ver6.py:405 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.078821 [0m
+2021-04-18 00:57:06 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 00:57:16 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5555 Precision:0.5822 Recall:0.4013 F1:0.4751 [0m
+2021-04-18 00:57:16 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.054547 [0m
+2021-04-18 00:57:16 [ver6.py:318 - INFO ] ======epoch:16 正在训练 ========================>
+2021-04-18 00:57:17 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:00:14 [ver6.py:372 - INFO ] 第 [1;34m 16 [0m 轮的训练集正确率为:[1;32m 0.6079 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:00:14 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6079 Precision:0.6059 Recall:0.5219 F1:0.5608 [0m
+2021-04-18 01:00:14 [ver6.py:376 - INFO ] [1;31m Random:0.5204	MaxAccDiff:0.088439 [0m
+2021-04-18 01:00:14 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:00:34 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5993 Precision:0.6111 Recall:0.4514 F1:0.5192 [0m
+2021-04-18 01:00:34 [ver6.py:405 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.078821 [0m
+2021-04-18 01:00:34 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:00:44 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5549 Precision:0.5845 Recall:0.3883 F1:0.4666 [0m
+2021-04-18 01:00:44 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.054547 [0m
+2021-04-18 01:00:44 [ver6.py:318 - INFO ] ======epoch:17 正在训练 ========================>
+2021-04-18 01:00:45 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:03:41 [ver6.py:372 - INFO ] 第 [1;34m 17 [0m 轮的训练集正确率为:[1;32m 0.6085 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:03:41 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6085 Precision:0.6066 Recall:0.5231 F1:0.5618 [0m
+2021-04-18 01:03:41 [ver6.py:376 - INFO ] [1;31m Random:0.5203	MaxAccDiff:0.088439 [0m
+2021-04-18 01:03:41 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:04:01 [ver6.py:403 - INFO ] [1;31m Accuracy:0.5971 Precision:0.6015 Recall:0.4710 F1:0.5283 [0m
+2021-04-18 01:04:01 [ver6.py:405 - INFO ] [1;31m Random:0.5209	MaxAccDiff:0.078821 [0m
+2021-04-18 01:04:01 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:04:12 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5584 Precision:0.5854 Recall:0.4084 F1:0.4812 [0m
+2021-04-18 01:04:12 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.057049 [0m
+2021-04-18 01:04:12 [ver6.py:318 - INFO ] ======epoch:18 正在训练 ========================>
+2021-04-18 01:04:12 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:07:08 [ver6.py:372 - INFO ] 第 [1;34m 18 [0m 轮的训练集正确率为:[1;32m 0.6123 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:07:08 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6123 Precision:0.6105 Recall:0.5296 F1:0.5672 [0m
+2021-04-18 01:07:08 [ver6.py:376 - INFO ] [1;31m Random:0.5204	MaxAccDiff:0.091932 [0m
+2021-04-18 01:07:08 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:07:28 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6005 Precision:0.6183 Recall:0.4354 F1:0.5110 [0m
+2021-04-18 01:07:28 [ver6.py:405 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.079864 [0m
+2021-04-18 01:07:28 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:07:38 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5566 Precision:0.5859 Recall:0.3946 F1:0.4716 [0m
+2021-04-18 01:07:38 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.057049 [0m
+2021-04-18 01:07:38 [ver6.py:318 - INFO ] ======epoch:19 正在训练 ========================>
+2021-04-18 01:07:38 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:10:33 [ver6.py:372 - INFO ] 第 [1;34m 19 [0m 轮的训练集正确率为:[1;32m 0.6155 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:10:33 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6155 Precision:0.6135 Recall:0.5329 F1:0.5703 [0m
+2021-04-18 01:10:33 [ver6.py:376 - INFO ] [1;31m Random:0.5211	MaxAccDiff:0.094415 [0m
+2021-04-18 01:10:33 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:10:53 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6077 Precision:0.6288 Recall:0.4499 F1:0.5245 [0m
+2021-04-18 01:10:53 [ver6.py:405 - INFO ] [1;31m Random:0.5190	MaxAccDiff:0.088667 [0m
+2021-04-18 01:10:53 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:11:04 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5599 Precision:0.5907 Recall:0.3981 F1:0.4756 [0m
+2021-04-18 01:11:04 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.058590 [0m
+2021-04-18 01:11:04 [ver6.py:318 - INFO ] ======epoch:20 正在训练 ========================>
+2021-04-18 01:11:04 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:13:59 [ver6.py:372 - INFO ] 第 [1;34m 20 [0m 轮的训练集正确率为:[1;32m 0.6139 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:13:59 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6139 Precision:0.6117 Recall:0.5308 F1:0.5684 [0m
+2021-04-18 01:13:59 [ver6.py:376 - INFO ] [1;31m Random:0.5210	MaxAccDiff:0.094415 [0m
+2021-04-18 01:13:59 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:14:19 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6105 Precision:0.6278 Recall:0.4659 F1:0.5348 [0m
+2021-04-18 01:14:19 [ver6.py:405 - INFO ] [1;31m Random:0.5193	MaxAccDiff:0.091157 [0m
+2021-04-18 01:14:19 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:14:29 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5580 Precision:0.5853 Recall:0.4060 F1:0.4795 [0m
+2021-04-18 01:14:29 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.058590 [0m
+2021-04-18 01:14:29 [ver6.py:318 - INFO ] ======epoch:21 正在训练 ========================>
+2021-04-18 01:14:29 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:17:17 [ver6.py:372 - INFO ] 第 [1;34m 21 [0m 轮的训练集正确率为:[1;32m 0.6164 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:17:17 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6164 Precision:0.6138 Recall:0.5376 F1:0.5731 [0m
+2021-04-18 01:17:17 [ver6.py:376 - INFO ] [1;31m Random:0.5209	MaxAccDiff:0.095463 [0m
+2021-04-18 01:17:17 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:17:37 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6140 Precision:0.6279 Recall:0.4831 F1:0.5461 [0m
+2021-04-18 01:17:37 [ver6.py:405 - INFO ] [1;31m Random:0.5194	MaxAccDiff:0.094587 [0m
+2021-04-18 01:17:37 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:17:48 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5610 Precision:0.5881 Recall:0.4152 F1:0.4868 [0m
+2021-04-18 01:17:48 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.059662 [0m
+2021-04-18 01:17:48 [ver6.py:318 - INFO ] ======epoch:22 正在训练 ========================>
+2021-04-18 01:17:48 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:20:47 [ver6.py:372 - INFO ] 第 [1;34m 22 [0m 轮的训练集正确率为:[1;32m 0.6170 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:20:47 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6170 Precision:0.6154 Recall:0.5356 F1:0.5727 [0m
+2021-04-18 01:20:47 [ver6.py:376 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.096273 [0m
+2021-04-18 01:20:47 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:21:07 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6126 Precision:0.6168 Recall:0.5099 F1:0.5582 [0m
+2021-04-18 01:21:07 [ver6.py:405 - INFO ] [1;31m Random:0.5200	MaxAccDiff:0.094587 [0m
+2021-04-18 01:21:07 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:21:17 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5622 Precision:0.5833 Recall:0.4440 F1:0.5042 [0m
+2021-04-18 01:21:17 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.060835 [0m
+2021-04-18 01:21:17 [ver6.py:318 - INFO ] ======epoch:23 正在训练 ========================>
+2021-04-18 01:21:18 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:24:13 [ver6.py:372 - INFO ] 第 [1;34m 23 [0m 轮的训练集正确率为:[1;32m 0.6200 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:24:13 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6200 Precision:0.6186 Recall:0.5371 F1:0.5750 [0m
+2021-04-18 01:24:13 [ver6.py:376 - INFO ] [1;31m Random:0.5214	MaxAccDiff:0.098593 [0m
+2021-04-18 01:24:13 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:24:33 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6166 Precision:0.6331 Recall:0.4851 F1:0.5493 [0m
+2021-04-18 01:24:33 [ver6.py:405 - INFO ] [1;31m Random:0.5183	MaxAccDiff:0.098259 [0m
+2021-04-18 01:24:33 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:24:43 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5615 Precision:0.5878 Recall:0.4198 F1:0.4898 [0m
+2021-04-18 01:24:43 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.060835 [0m
+2021-04-18 01:24:43 [ver6.py:318 - INFO ] ======epoch:24 正在训练 ========================>
+2021-04-18 01:24:44 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:27:35 [ver6.py:372 - INFO ] 第 [1;34m 24 [0m 轮的训练集正确率为:[1;32m 0.6195 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:27:35 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6195 Precision:0.6189 Recall:0.5378 F1:0.5755 [0m
+2021-04-18 01:27:35 [ver6.py:376 - INFO ] [1;31m Random:0.5204	MaxAccDiff:0.099129 [0m
+2021-04-18 01:27:35 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:27:55 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6199 Precision:0.6328 Recall:0.4933 F1:0.5544 [0m
+2021-04-18 01:27:55 [ver6.py:405 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.099210 [0m
+2021-04-18 01:27:55 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:28:06 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5679 Precision:0.5923 Recall:0.4432 F1:0.5070 [0m
+2021-04-18 01:28:06 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.066542 [0m
+2021-04-18 01:28:06 [ver6.py:318 - INFO ] ======epoch:25 正在训练 ========================>
+2021-04-18 01:28:06 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:30:59 [ver6.py:372 - INFO ] 第 [1;34m 25 [0m 轮的训练集正确率为:[1;32m 0.6230 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:30:59 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6230 Precision:0.6228 Recall:0.5433 F1:0.5803 [0m
+2021-04-18 01:30:59 [ver6.py:376 - INFO ] [1;31m Random:0.5202	MaxAccDiff:0.102810 [0m
+2021-04-18 01:30:59 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:31:19 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6207 Precision:0.6231 Recall:0.5261 F1:0.5705 [0m
+2021-04-18 01:31:19 [ver6.py:405 - INFO ] [1;31m Random:0.5211	MaxAccDiff:0.099562 [0m
+2021-04-18 01:31:19 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:31:29 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5679 Precision:0.5883 Recall:0.4597 F1:0.5161 [0m
+2021-04-18 01:31:29 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.066542 [0m
+2021-04-18 01:31:29 [ver6.py:318 - INFO ] ======epoch:26 正在训练 ========================>
+2021-04-18 01:31:30 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:34:10 [ver6.py:372 - INFO ] 第 [1;34m 26 [0m 轮的训练集正确率为:[1;32m 0.6203 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:34:10 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6203 Precision:0.6177 Recall:0.5438 F1:0.5784 [0m
+2021-04-18 01:34:10 [ver6.py:376 - INFO ] [1;31m Random:0.5211	MaxAccDiff:0.102810 [0m
+2021-04-18 01:34:10 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:34:30 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6189 Precision:0.6274 Recall:0.5114 F1:0.5635 [0m
+2021-04-18 01:34:30 [ver6.py:405 - INFO ] [1;31m Random:0.5190	MaxAccDiff:0.099879 [0m
+2021-04-18 01:34:30 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:34:40 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5675 Precision:0.5901 Recall:0.4496 F1:0.5103 [0m
+2021-04-18 01:34:40 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.066542 [0m
+2021-04-18 01:34:40 [ver6.py:318 - INFO ] ======epoch:27 正在训练 ========================>
+2021-04-18 01:34:41 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:37:38 [ver6.py:372 - INFO ] 第 [1;34m 27 [0m 轮的训练集正确率为:[1;32m 0.6224 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:37:38 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6224 Precision:0.6208 Recall:0.5472 F1:0.5817 [0m
+2021-04-18 01:37:38 [ver6.py:376 - INFO ] [1;31m Random:0.5202	MaxAccDiff:0.102810 [0m
+2021-04-18 01:37:38 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:37:58 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6259 Precision:0.6393 Recall:0.5019 F1:0.5623 [0m
+2021-04-18 01:37:58 [ver6.py:405 - INFO ] [1;31m Random:0.5212	MaxAccDiff:0.104739 [0m
+2021-04-18 01:37:58 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:38:08 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5679 Precision:0.5946 Recall:0.4346 F1:0.5021 [0m
+2021-04-18 01:38:08 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.066587 [0m
+2021-04-18 01:38:08 [ver6.py:318 - INFO ] ======epoch:28 正在训练 ========================>
+2021-04-18 01:38:08 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:41:00 [ver6.py:372 - INFO ] 第 [1;34m 28 [0m 轮的训练集正确率为:[1;32m 0.6226 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:41:00 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6226 Precision:0.6221 Recall:0.5425 F1:0.5796 [0m
+2021-04-18 01:41:00 [ver6.py:376 - INFO ] [1;31m Random:0.5205	MaxAccDiff:0.102810 [0m
+2021-04-18 01:41:00 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:41:20 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6261 Precision:0.6380 Recall:0.5091 F1:0.5663 [0m
+2021-04-18 01:41:20 [ver6.py:405 - INFO ] [1;31m Random:0.5205	MaxAccDiff:0.105586 [0m
+2021-04-18 01:41:20 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:41:30 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5672 Precision:0.5905 Recall:0.4461 F1:0.5082 [0m
+2021-04-18 01:41:30 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.066587 [0m
+2021-04-18 01:41:30 [ver6.py:318 - INFO ] ======epoch:29 正在训练 ========================>
+2021-04-18 01:41:31 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:44:24 [ver6.py:372 - INFO ] 第 [1;34m 29 [0m 轮的训练集正确率为:[1;32m 0.6247 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:44:24 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6247 Precision:0.6231 Recall:0.5484 F1:0.5834 [0m
+2021-04-18 01:44:24 [ver6.py:376 - INFO ] [1;31m Random:0.5208	MaxAccDiff:0.103860 [0m
+2021-04-18 01:44:24 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:44:44 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6312 Precision:0.6391 Recall:0.5330 F1:0.5812 [0m
+2021-04-18 01:44:44 [ver6.py:405 - INFO ] [1;31m Random:0.5197	MaxAccDiff:0.111408 [0m
+2021-04-18 01:44:44 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:44:55 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5704 Precision:0.5907 Recall:0.4661 F1:0.5210 [0m
+2021-04-18 01:44:55 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069044 [0m
+2021-04-18 01:44:55 [ver6.py:318 - INFO ] ======epoch:30 正在训练 ========================>
+2021-04-18 01:44:55 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:47:53 [ver6.py:372 - INFO ] 第 [1;34m 30 [0m 轮的训练集正确率为:[1;32m 0.6256 [0m epoch_mean_Loss 为: [1;32m 0.0018 [0m
+2021-04-18 01:47:53 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6256 Precision:0.6237 Recall:0.5560 F1:0.5879 [0m
+2021-04-18 01:47:53 [ver6.py:376 - INFO ] [1;31m Random:0.5197	MaxAccDiff:0.105935 [0m
+2021-04-18 01:47:53 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:48:14 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6289 Precision:0.6234 Recall:0.5637 F1:0.5920 [0m
+2021-04-18 01:48:14 [ver6.py:405 - INFO ] [1;31m Random:0.5223	MaxAccDiff:0.111408 [0m
+2021-04-18 01:48:14 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:48:25 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5704 Precision:0.5882 Recall:0.4773 F1:0.5270 [0m
+2021-04-18 01:48:25 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 01:48:25 [ver6.py:318 - INFO ] ======epoch:31 正在训练 ========================>
+2021-04-18 01:48:25 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:51:18 [ver6.py:372 - INFO ] 第 [1;34m 31 [0m 轮的训练集正确率为:[1;32m 0.6291 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 01:51:18 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6291 Precision:0.6281 Recall:0.5544 F1:0.5889 [0m
+2021-04-18 01:51:18 [ver6.py:376 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.108361 [0m
+2021-04-18 01:51:18 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:51:39 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6284 Precision:0.6391 Recall:0.5189 F1:0.5728 [0m
+2021-04-18 01:51:39 [ver6.py:405 - INFO ] [1;31m Random:0.5199	MaxAccDiff:0.111408 [0m
+2021-04-18 01:51:39 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:51:49 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5685 Precision:0.5928 Recall:0.4452 F1:0.5085 [0m
+2021-04-18 01:51:49 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 01:51:49 [ver6.py:318 - INFO ] ======epoch:32 正在训练 ========================>
+2021-04-18 01:51:50 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:54:46 [ver6.py:372 - INFO ] 第 [1;34m 32 [0m 轮的训练集正确率为:[1;32m 0.6275 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 01:54:46 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6275 Precision:0.6264 Recall:0.5527 F1:0.5873 [0m
+2021-04-18 01:54:46 [ver6.py:376 - INFO ] [1;31m Random:0.5205	MaxAccDiff:0.108361 [0m
+2021-04-18 01:54:46 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:55:06 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6312 Precision:0.6405 Recall:0.5263 F1:0.5778 [0m
+2021-04-18 01:55:06 [ver6.py:405 - INFO ] [1;31m Random:0.5205	MaxAccDiff:0.111408 [0m
+2021-04-18 01:55:06 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:55:17 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5686 Precision:0.5922 Recall:0.4479 F1:0.5100 [0m
+2021-04-18 01:55:17 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 01:55:17 [ver6.py:318 - INFO ] ======epoch:33 正在训练 ========================>
+2021-04-18 01:55:17 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 01:58:15 [ver6.py:372 - INFO ] 第 [1;34m 33 [0m 轮的训练集正确率为:[1;32m 0.6298 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 01:58:15 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6298 Precision:0.6287 Recall:0.5557 F1:0.5899 [0m
+2021-04-18 01:58:15 [ver6.py:376 - INFO ] [1;31m Random:0.5208	MaxAccDiff:0.109038 [0m
+2021-04-18 01:58:15 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 01:58:36 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6327 Precision:0.6516 Recall:0.5047 F1:0.5689 [0m
+2021-04-18 01:58:36 [ver6.py:405 - INFO ] [1;31m Random:0.5199	MaxAccDiff:0.112786 [0m
+2021-04-18 01:58:36 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 01:58:46 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5679 Precision:0.5939 Recall:0.4369 F1:0.5035 [0m
+2021-04-18 01:58:46 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 01:58:46 [ver6.py:318 - INFO ] ======epoch:34 正在训练 ========================>
+2021-04-18 01:58:47 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 02:01:44 [ver6.py:372 - INFO ] 第 [1;34m 34 [0m 轮的训练集正确率为:[1;32m 0.6299 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 02:01:44 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6299 Precision:0.6292 Recall:0.5558 F1:0.5902 [0m
+2021-04-18 02:01:44 [ver6.py:376 - INFO ] [1;31m Random:0.5204	MaxAccDiff:0.109488 [0m
+2021-04-18 02:01:44 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 02:02:05 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6303 Precision:0.6378 Recall:0.5291 F1:0.5784 [0m
+2021-04-18 02:02:05 [ver6.py:405 - INFO ] [1;31m Random:0.5207	MaxAccDiff:0.112786 [0m
+2021-04-18 02:02:05 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 02:02:15 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5674 Precision:0.5889 Recall:0.4541 F1:0.5128 [0m
+2021-04-18 02:02:15 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 02:02:15 [ver6.py:318 - INFO ] ======epoch:35 正在训练 ========================>
+2021-04-18 02:02:16 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 02:05:08 [ver6.py:372 - INFO ] 第 [1;34m 35 [0m 轮的训练集正确率为:[1;32m 0.6314 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 02:05:08 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6314 Precision:0.6309 Recall:0.5569 F1:0.5916 [0m
+2021-04-18 02:05:08 [ver6.py:376 - INFO ] [1;31m Random:0.5206	MaxAccDiff:0.110760 [0m
+2021-04-18 02:05:08 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 02:05:29 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6349 Precision:0.6463 Recall:0.5280 F1:0.5812 [0m
+2021-04-18 02:05:29 [ver6.py:405 - INFO ] [1;31m Random:0.5201	MaxAccDiff:0.114717 [0m
+2021-04-18 02:05:29 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 02:05:40 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5677 Precision:0.5895 Recall:0.4534 F1:0.5126 [0m
+2021-04-18 02:05:40 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 02:05:40 [ver6.py:318 - INFO ] ======epoch:36 正在训练 ========================>
+2021-04-18 02:05:40 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 02:08:37 [ver6.py:372 - INFO ] 第 [1;34m 36 [0m 轮的训练集正确率为:[1;32m 0.6338 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 02:08:37 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6338 Precision:0.6341 Recall:0.5595 F1:0.5945 [0m
+2021-04-18 02:08:37 [ver6.py:376 - INFO ] [1;31m Random:0.5202	MaxAccDiff:0.113579 [0m
+2021-04-18 02:08:37 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 02:08:58 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6329 Precision:0.6472 Recall:0.5125 F1:0.5720 [0m
+2021-04-18 02:08:58 [ver6.py:405 - INFO ] [1;31m Random:0.5212	MaxAccDiff:0.114717 [0m
+2021-04-18 02:08:58 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 02:09:08 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5689 Precision:0.5948 Recall:0.4393 F1:0.5053 [0m
+2021-04-18 02:09:08 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 02:09:08 [ver6.py:318 - INFO ] ======epoch:37 正在训练 ========================>
+2021-04-18 02:09:09 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 02:12:05 [ver6.py:372 - INFO ] 第 [1;34m 37 [0m 轮的训练集正确率为:[1;32m 0.6353 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 02:12:05 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6353 Precision:0.6342 Recall:0.5640 F1:0.5971 [0m
+2021-04-18 02:12:05 [ver6.py:376 - INFO ] [1;31m Random:0.5209	MaxAccDiff:0.114387 [0m
+2021-04-18 02:12:05 [ver6.py:379 - INFO ] [1;34m Valid: [0m
+2021-04-18 02:12:25 [ver6.py:403 - INFO ] [1;31m Accuracy:0.6320 Precision:0.6431 Recall:0.5259 F1:0.5786 [0m
+2021-04-18 02:12:25 [ver6.py:405 - INFO ] [1;31m Random:0.5195	MaxAccDiff:0.114717 [0m
+2021-04-18 02:12:25 [ver6.py:408 - INFO ] [1;34m Test: [0m
+2021-04-18 02:12:36 [ver6.py:431 - INFO ] [1;31m Accuracy:0.5674 Precision:0.5876 Recall:0.4600 F1:0.5160 [0m
+2021-04-18 02:12:36 [ver6.py:433 - INFO ] [1;31m Random:0.5014	testMaxAccDiff:0.069078 [0m
+2021-04-18 02:12:36 [ver6.py:318 - INFO ] ======epoch:38 正在训练 ========================>
+2021-04-18 02:12:37 [ver6.py:342 - INFO ] [1;34m Train: [0m
+2021-04-18 02:15:35 [ver6.py:372 - INFO ] 第 [1;34m 38 [0m 轮的训练集正确率为:[1;32m 0.6370 [0m epoch_mean_Loss 为: [1;32m 0.0017 [0m
+2021-04-18 02:15:35 [ver6.py:374 - INFO ] [1;31m Accuracy:0.6370 Precision:0.6366 Recall:0.5650 F1:0.5986 [0m
+2021-04-18 02:15:35 [ver6.py:376 - INFO ] [1;31m Random:0.5208	MaxAccDiff:0.116149 [0m
+2021-04-18 02:15:35 [ver6.py:379 - INFO ] [1;34m Valid: [0m
