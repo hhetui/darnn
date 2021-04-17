@@ -1,4 +1,5 @@
 import yaml
+import logging
 
 def parse(opt_path, is_tain=True):
     '''
@@ -16,3 +17,16 @@ def parse(opt_path, is_tain=True):
     # is_train into option
     #opt['is_train'] = is_tain
     return opt
+
+def get_logger(name, format_str="%(asctime)s [%(pathname)s:%(lineno)s - %(levelname)s ] %(message)s",
+               date_format='%Y-%m-%d %H:%M:%S', file=False):
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
+    # file or console
+    handler = logging.StreamHandler() if not file else logging.FileHandler(
+        name)
+    handler.setLevel(logging.INFO)
+    formatter = logging.Formatter(fmt=format_str, datefmt=date_format)
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+    return logger

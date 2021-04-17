@@ -412,7 +412,7 @@ class Trainer:
 
             def save_checkpoint(best=True):
                 self.result['epoch'].append(self.cur_epoch)
-                self.result['loss'].append(epoch_Loss)
+                self.result['loss'].append(self.epoch_Loss)
                 self.result['train_accuracy'].append(train_accuracy)
                 self.result['acc_train_max_diff'].append(
                     self.acc_train_max_diff)
