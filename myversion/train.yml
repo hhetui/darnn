@@ -17,6 +17,6 @@ train_conf:
 #dataset settings
 data_conf:
   train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
-  tedt_list: [123,456,789,1012]
-  datapath: '/home/xinkun/darnn/v1'
+  test_list: [123,456,789,1012]
+  datapath: '../v1'
 
