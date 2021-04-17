@@ -410,7 +410,7 @@ class Trainer:
             print('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' %
                   (test_random, self.acc_test_max_diff))
 
-            def save_checkpoint(self, best=True):
+            def save_checkpoint(best=True):
                 self.result['epoch'].append(self.cur_epoch)
                 self.result['loss'].append(epoch_Loss)
                 self.result['train_accuracy'].append(train_accuracy)
@@ -438,7 +438,7 @@ class Trainer:
                     os.path.join(self.result_path,
                                  "{0}.pt".format("best" if best else "last")))
 
-            self.save_checkpoint(model_best)
+            save_checkpoint(model_best)
 
     def to_variable(self, x):
         return Variable(x.type(torch.FloatTensor)).to(self.device)
