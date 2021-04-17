@@ -245,28 +245,27 @@ class Trainer:
         self.model_conf = model_conf
         self.data_conf = data_conf
         self.train_conf = train_conf
-
+        
         self.result_path = os.path.join(
             self.train_conf['checkpoint_path'], __file__[:-3])
-        self.device = torch.device(
-            'cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.model = Darnn_selfattention(**self.model_conf)
-        self.load_checkpoint()
-
-        self.logger.info('导入数据集......')
-        self.Data = load_dataset(
-            self.data_conf['train_list'], self.data_conf['test_list'])
-        self.logger.info('数据集导入成功！')
-
-    def load_checkpoint(self):
         if not os.path.exists(self.result_path):
             os.mkdir(self.result_path)
         self.logger = get_logger(
             os.path.join(self.result_path, self.train_conf['log_file']))
+        self.device = torch.device(
+            'cuda:0' if torch.cuda.is_available() else 'cpu')
+        
+        self.model = Darnn_selfattention(**self.model_conf)
+        self.load_checkpoint()
+        
+        self.logger.info('导入数据集......')
+        self.Data = load_dataset(
+            self.data_conf['train_list'], self.data_conf['test_list'])
+        self.logger.info('数据集导入成功！')
+        
+    def load_checkpoint(self):
         self.logger.info('Load Checkpoint......')
         
-        self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
-                                    lr=self.train_conf['learning_rate'])
         self.csv_name = os.path.join(self.result_path, __file__[:-3]+'.csv')
         if self.train_conf['resume'] and os.path.exists(self.csv_name):
             self.logger.info('已有存档点，读取中......')
@@ -274,6 +273,9 @@ class Trainer:
                                                  "last.pt"), map_location='cpu')
             self.logger.info('正在导入模型、优化器参数......')
             self.model.load_state_dict(checkpoint['model_state_dict'])
+            self.model = self.model.to(self.device)
+            self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
+                                    lr=self.train_conf['learning_rate'])
             self.optimizer.load_state_dict(checkpoint['optim_state_dict'])
             self.logger.info('导入成功!')
             self.cur_epoch = checkpoint['epoch']
@@ -284,12 +286,15 @@ class Trainer:
             self.logger.info('存档点读取完毕，目前已训练{}轮。'.format(self.cur_epoch))
         else:
             self.logger.info('没有存档点，各种参数初始化')
+            self.model = self.model.to(self.device)
+            self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
+                                    lr=self.train_conf['learning_rate'])
             self.cur_epoch = 0
             self.acc_train_max_diff = 0
             self.acc_val_max_diff = 0
             self.acc_test_max_diff = 0
             self.result = defaultdict(list)
-        self.model = self.model.to(self.device)
+        
 
     def train(self):
         xs = self.Data['train']['x']
