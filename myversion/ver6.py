@@ -250,9 +250,11 @@ class Trainer:
             self.train_conf['checkpoint_path'], __file__[:-3])
         self.logger = get_logger(
             os.path.join(self.result_path, self.train_conf['log_file']))
+        self.logger.info('导入数据集......')
         self.Data = load_dataset(
             self.data_conf['train_list'], self.data_conf['test_list'])
-        self.csv_name = os.path.join(self.result_path, __file__[:-3]+'.csv')
+        self.logger.info('数据集导入成功！')
+        
         self.device = torch.device(
             'cuda:0' if torch.cuda.is_available() else 'cpu')
 
@@ -263,19 +265,21 @@ class Trainer:
         self.model = Darnn_selfattention(**self.model_conf)
         self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
                                     lr=self.train_conf['learning_rate'])
+        self.csv_name = os.path.join(self.result_path, __file__[:-3]+'.csv')
         if self.train_conf['resume'] and os.path.exists(self.result_path):
             self.logger.info('已有存档点，读取中......')
             checkpoint = torch.load(os.path.join(self.result_path,
-                                                 "last.pt"), map_location="cpu")
+                                                 "last.pt"), map_location=self.device)
+            self.logger.info('正在导入模型、优化器参数......')
             self.model.load_state_dict(checkpoint['model_state_dict'])
             self.optimizer.load_state_dict(checkpoint['optim_state_dict'])
-
+            self.logger.info('导入成功!')
             self.cur_epoch = checkpoint['epoch']
             self.acc_train_max_diff = checkpoint['acc_train_max_diff']
             self.acc_val_max_diff = checkpoint['acc_val_max_diff']
             self.acc_test_max_diff = checkpoint['acc_test_max_diff']
             self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
-            self.logger.info('存档点读取完毕!')
+            self.logger.info('存档点读取完毕，目前已训练',self.cur_epoch,'轮--->')
         else:
             self.logger.info('没有存档点，各种参数初始化')
             self.cur_epoch = 0
@@ -354,15 +358,15 @@ class Trainer:
             train_random = self.rand_acc(t_ori)
             self.acc_train_max_diff = max(
                 self.acc_train_max_diff, train_accuracy-train_random)
-            print('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.4f \033[0m' %
+            self.logger.info('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.4f \033[0m' %
                   (self.cur_epoch, train_accuracy, self.epoch_Loss))
-            print('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
+            self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
                 train_accuracy, precision, recall, f1))
-            print('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
+            self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
                   (train_random, self.acc_train_max_diff))
 
             # -------------------------------------------------------------------------------
-            print('\033[1;34m Valid: \033[0m')
+            self.logger.info('\033[1;34m Valid: \033[0m')
             with torch.no_grad():
                 t_pred = []
                 t_ori = []
@@ -385,13 +389,13 @@ class Trainer:
             model_best = validation_accuracy-validation_random > self.acc_val_max_diff
             self.acc_val_max_diff = max(
                 self.acc_val_max_diff, validation_accuracy-validation_random)
-            print('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
+            self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
                 validation_accuracy, precision, recall, f1))
-            print('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
+            self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
                   (validation_random, self.acc_val_max_diff))
 
             # -------------------------------------------------------------------------------
-            print('\033[1;34m Test: \033[0m')
+            self.logger.info('\033[1;34m Test: \033[0m')
             with torch.no_grad():
                 t_pred = []
                 t_ori = []
@@ -413,9 +417,9 @@ class Trainer:
             test_random = self.rand_acc(t_ori)
             self.acc_test_max_diff = max(
                 self.acc_test_max_diff, test_accuracy-test_random)
-            print('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
+            self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
                 test_accuracy, precision, recall, f1))
-            print('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' %
+            self.logger.info('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' %
                   (test_random, self.acc_test_max_diff))
 
             def save_checkpoint(best=True):
@@ -430,7 +434,7 @@ class Trainer:
                 self.result['test_accuarcy'].append(test_accuracy)
                 self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
                 if not os.path.exists(self.result_path):
-                    print('第一次保存，新建目录:', self.result_path)
+                    self.logger.info('第一次保存，新建目录:', self.result_path)
                     os.mkdir(self.result_path)
                 pd.DataFrame(self.result).to_csv(self.csv_name, index=False)
                 torch.save(
