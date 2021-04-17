@@ -246,15 +246,17 @@ class Trainer:
         self.data_conf = data_conf
         self.train_conf = train_conf
 
-        self.result_path = os.path.join('../result/', __file__[:-3])
+        self.result_path = os.path.join(
+            self.train_conf['checkpoint_path'], __file__[:-3])
+        self.logger = get_logger(
+            os.path.join(self.result_path, self.train_conf['log_file']))
         self.Data = load_dataset(
             self.data_conf['train_list'], self.data_conf['test_list'])
         self.csv_name = os.path.join(self.result_path, __file__[:-3]+'.csv')
         self.device = torch.device(
             'cuda:0' if torch.cuda.is_available() else 'cpu')
+
         self.load_checkpoint()
-        self.logger = get_logger(
-            os.path.join(self.result_path, "trainer.log"))
 
     def load_checkpoint(self):
         self.logger.info('Load Checkpoint......')
@@ -298,7 +300,8 @@ class Trainer:
         train_size = len(ts)
         while(self.cur_epoch < self.train_conf['epoch']):
             self.cur_epoch += 1
-            self.logger.info('======epoch:'+str(self.cur_epoch)+' 正在训练 ========================>')
+            self.logger.info('======epoch:'+str(self.cur_epoch) +
+                             ' 正在训练 ========================>')
 
             # 随机选n%做validation数据
             validation_index = random.sample(range(train_size), int(

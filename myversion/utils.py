@@ -2,7 +2,7 @@ import yaml
 import logging
 
 
-def parse(opt_path, is_tain=True):
+def parse(opt_path):
     '''
        opt_path: the path of yml file
        is_train: True
