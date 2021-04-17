@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-增加log功能，重构了部分代码
+将darnn中两个attention换成self-attention
 '''
 import os
 import math
@@ -254,10 +254,7 @@ class Trainer:
             os.path.join(self.result_path, self.train_conf['log_file']))
         self.device = torch.device(
             'cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.logger.info('实验参数如下:')
-        self.logger.info(self.model_conf)
-        self.logger.info(self.train_conf)
-        self.logger.info(self.data_conf)
+        
         self.model = Darnn_selfattention(**self.model_conf)
         self.load_checkpoint()
         
