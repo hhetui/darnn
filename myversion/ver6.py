@@ -420,7 +420,7 @@ class Trainer:
                 self.result['acc_val_max_diff'].append(self.acc_val_max_diff)
                 self.result['test_random'].append(test_random)
                 self.result['test_accuarcy'].append(test_accuracy)
-                self.result['acc_test_max_dif'].append(self.acc_test_max_dif)
+                self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
                 if not os.path.exists(self.result_path):
                     print('第一次保存，新建目录:', self.result_path)
                     os.mkdir(self.result_path)
