@@ -250,7 +250,6 @@ class Trainer:
             self.train_conf['checkpoint_path'], __file__[:-3])
         self.device = torch.device(
             'cuda:0' if torch.cuda.is_available() else 'cpu')
-
         self.model = Darnn_selfattention(**self.model_conf)
         self.load_checkpoint()
 
