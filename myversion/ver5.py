@@ -24,7 +24,7 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
 
-from utils import parse, get_logger
+from utils import get_opt, get_logger
 
 
 class Encoder(nn.Module):
@@ -254,6 +254,7 @@ class Trainer:
             os.path.join(self.result_path, self.train_conf['log_file']))
         self.device = torch.device(
             'cuda:0' if torch.cuda.is_available() else 'cpu')
+        self.logger.info('此次实验设备为:'+str(self.device))
         self.logger.info('实验参数如下:')
         self.logger.info(self.model_conf)
         self.logger.info(self.train_conf)
@@ -487,7 +488,7 @@ if __name__ == '__main__':
                         help='Path to option YAML file.')
     args = parser.parse_args()
 
-    opt = parse(args.opt)
+    opt = get_opt(args.opt)[__file__[:-3]]
     Datapath = opt['data_conf']['datapath']
     trainer = Trainer(opt['model_conf'], opt['data_conf'], opt['train_conf'])
     trainer.train()
