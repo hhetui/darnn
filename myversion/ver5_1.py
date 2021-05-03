@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-基础DARNN原始参数
+DARNN 改变hiddensize
 '''
 import sys
 import math
