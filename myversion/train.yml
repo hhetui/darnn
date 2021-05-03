@@ -79,6 +79,33 @@ ver3: #LSTM的EN-DN结构
     datapath: '../v2'
     T: 20
 
+ver4: #CNN 结合 self-attention
+  #model settings
+  model_conf:
+    input_size: 6
+    time_step: 20
+    hidden_size: 32
+    drop_ratio: 0
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.001
+    patience: 200
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v2'
+    T: 20
+
 ver5: #DARNN 基础版
   #model settings
   model_conf:
@@ -299,3 +326,4 @@ ver8: #darnn中替换成self-attention
     test_list: [123,456,789,1012]
     datapath: '../v2'
     T: 20
+
