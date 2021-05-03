@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-Darnn 改变lstm的隐变量长度
+DARNN+self-attention 改变lstm的隐变量长度
 '''
 import sys
 import math
