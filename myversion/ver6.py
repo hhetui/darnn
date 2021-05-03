@@ -93,9 +93,6 @@ class Decoder(nn.Module):
             hidden_size=self.decoder_num_hidden
         )
         self.fc = nn.Linear(self.encoder_num_hidden + 1, 1)
-        self.fc_final = nn.Linear(
-            self.decoder_num_hidden + self.encoder_num_hidden, 3)
-        self.softmax = nn.Softmax()
         self.fc.weight.data.normal_()
 
     def forward(self, X_encoded, y_prev):

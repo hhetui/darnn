@@ -94,8 +94,7 @@ class Decoder(nn.Module):
         )
         self.fc = nn.Linear(self.encoder_num_hidden + 1, 1)
         self.fc_final = nn.Linear(
-            self.decoder_num_hidden + self.encoder_num_hidden, 3)
-        self.softmax = nn.Softmax()
+            self.decoder_num_hidden + self.encoder_num_hidden, 1)
         self.fc.weight.data.normal_()
 
     def forward(self, X_encoded, y_prev):
@@ -118,56 +117,19 @@ class Decoder(nn.Module):
 
                 d_n = final_states[0]  # 1 * batch_size * decoder_num_hidden
                 c_n = final_states[1]  # 1 * batch_size * decoder_num_hidden
-        return d_n.squeeze(0)
+        Last_feature = torch.cat((d_n.squeeze(0),context), dim=1)
+        y_T = F.sigmoid(self.fc_final(Last_feature)).squeeze(1)
+        return y_T
 
     def _init_states(self, X):
         return Variable(X.data.new(1, X.size(0), self.decoder_num_hidden).zero_())
 
-
-class SelfAttention(nn.Module):
-    def __init__(self, last_hidden_size, hidden_size):
-        super(SelfAttention, self).__init__()
-        self.last_hidden_size = last_hidden_size
-        self.hidden_size = hidden_size
-
-        self.wq = nn.Linear(in_features=last_hidden_size,
-                            out_features=hidden_size, bias=False)
-        self.wk = nn.Linear(in_features=last_hidden_size,
-                            out_features=hidden_size, bias=False)
-        self.wv = nn.Linear(in_features=last_hidden_size,
-                            out_features=hidden_size, bias=False)
-
-        # 输出
-        self.ln = nn.Linear(in_features=hidden_size, out_features=1)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(self, h):
-        # h: batch_size * last_hidden_size
-        # q k v  batch_size * hidden_size
-        q = self.wq(h)
-        k = self.wk(h)
-        v = self.wv(h)
-
-        dk = q.size(-1)
-        # (b, hidden_size) * (hidden_size, b) ==> (b, b)
-        z = torch.mm(q, k.t()) / math.sqrt(dk)
-        beta = F.softmax(z, dim=1)
-        # (b, b) * (b, hidden_size) ==> (b, hidden_size)
-        st = torch.mm(beta, v)
-
-        # b * 1
-        y_res = self.ln(st)
-        # y_res: (batch_size, 1)
-        y_res = self.sigmoid(y_res.squeeze(1))
-        return y_res
-
-
-class Darnn_selfattention(nn.Module):
+class Darnn(nn.Module):
     def __init__(self, input_size, T,
                  encoder_num_hidden,
                  decoder_num_hidden,
                  drop_ratio):
-        super(Darnn_selfattention, self).__init__()
+        super(Darnn, self).__init__()
         self.input_size = input_size
         self.T = T
         self.encoder_num_hidden = encoder_num_hidden
@@ -178,16 +140,13 @@ class Darnn_selfattention(nn.Module):
         self.Decoder = Decoder(encoder_num_hidden=encoder_num_hidden,
                                hidden_size=decoder_num_hidden,
                                time_step=T)
-        self.attention = SelfAttention(
-            last_hidden_size=encoder_num_hidden, hidden_size=decoder_num_hidden)
 
         self.loss_func = nn.BCELoss()
 
     def forward(self, x, y):
         out1 = self.Encoder(x)
         out2 = self.Decoder(out1, y)
-        out3 = self.attention(out2)
-        return out3
+        return out2
 
 
 random.seed(0)
@@ -199,5 +158,5 @@ if __name__ == '__main__':
                         help='Path to option YAML file.')
     args = parser.parse_args()
     opt = get_opt(args.opt)[__file__[:-3]]
-    Train = Trainer(Darnn_selfattention,opt['model_conf'], opt['data_conf'], opt['train_conf'],__file__[:-3])
+    Train = Trainer(Darnn,opt['model_conf'], opt['data_conf'], opt['train_conf'],__file__[:-3])
     Train.run()

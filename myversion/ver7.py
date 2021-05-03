@@ -112,7 +112,6 @@ class Decoder(nn.Module):
         )
         self.fc = nn.Linear(self.encoder_num_hidden + 1, 1)
         
-        self.softmax = nn.Softmax()
         self.fc.weight.data.normal_()
         self.wq = nn.Linear(in_features= self.encoder_num_hidden,
                             out_features= self.decoder_num_hidden, bias=False)
