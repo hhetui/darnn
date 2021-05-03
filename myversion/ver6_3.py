@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-DARNN+self-attention 改变T
+DARNN+self-attention  改变T
 '''
 import sys
 import math
