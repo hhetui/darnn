@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-只使用LSTM
+只使用LSTM 
 '''
 import sys
 import math
