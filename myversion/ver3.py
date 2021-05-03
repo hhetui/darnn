@@ -87,7 +87,7 @@ class Decoder(nn.Module):
         )
         self.fc = nn.Linear(self.encoder_num_hidden + 1, 1)
         self.fc_final = nn.Linear(
-            self.decoder_num_hidden + self.encoder_num_hidden, 1)
+            self.decoder_num_hidden, 1)
         self.fc.weight.data.normal_()
 
     def forward(self, X_encoded, y_prev):
@@ -103,8 +103,7 @@ class Decoder(nn.Module):
 
                 d_n = final_states[0]  # 1 * batch_size * decoder_num_hidden
                 c_n = final_states[1]  # 1 * batch_size * decoder_num_hidden
-        Last_feature = torch.cat((d_n.squeeze(0),context), dim=1)
-        y_T = torch.sigmoid(self.fc_final(Last_feature)).squeeze(1)
+        y_T = torch.sigmoid(self.fc_final(d_n.squeeze(0))).squeeze(1)
         return y_T
 
     def _init_states(self, X):
