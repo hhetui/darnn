@@ -1,6 +1,9 @@
+import os
 import yaml
 import logging
-
+import pickle
+import numpy as np
+from torch.utils.data import Dataset
 
 def get_opt(opt_path):
     '''
@@ -37,3 +40,42 @@ def get_logger(logfile, format_str="%(asctime)s [%(pathname)s:%(lineno)s - %(lev
     logger.addHandler(handler)
     logger.addHandler(handler_str)
     return logger
+
+def load_dataset(data_conf):
+    train_years = data_conf['train_list']
+    test_years = data_conf['test_list']
+    def load_pickle(years):
+        data_dic = None
+        for y in years:
+            with open(os.path.join(data_conf['datapath'],
+                'v1_T'+str(data_conf['T'])+'_yb1_%s.pickle' % (y)), 'rb') as fp:
+                dataset = pickle.load(fp)
+
+            if data_dic is None:
+                data_dic = {}
+                data_dic['x'] = dataset['x']
+                data_dic['y'] = dataset['y']
+                data_dic['t'] = dataset['t']
+
+            data_dic['x'] = np.append(data_dic['x'], dataset['x'], axis=0)
+            data_dic['y'] = np.append(data_dic['y'], dataset['y'], axis=0)
+            data_dic['t'] = np.append(data_dic['t'], dataset['t'], axis=0)
+
+        return data_dic
+    dataset = {}
+    dataset['train'] = load_pickle(train_years)
+    dataset['test'] = load_pickle(test_years)
+
+    return dataset
+
+
+class dataset(Dataset):
+    def __init__(self, data):
+        self.data = data
+
+    def __getitem__(self, index):
+        # 返回的目标是0 ,1
+        return self.data['x'][index], self.data['y'][index], self.data['t'][index]
+
+    def __len__(self):
+        return len(self.data['t'])

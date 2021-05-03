@@ -1,30 +1,20 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-增加log功能，重构了部分代码
+基础DARNN 原始参数
 '''
-import os
+import sys
 import math
-import pickle
 import random
 import argparse
-import pandas as pd
-from collections import defaultdict
-import numpy as np
-from numpy.core.fromnumeric import trace
 
 import torch
 from torch import nn
-from torch import optim
 import torch.nn.functional as F
 from torch.autograd import Variable
-from torch.utils.data import Dataset, DataLoader
-from sklearn.metrics import f1_score
-from sklearn.metrics import recall_score
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import precision_score
 
-from utils import get_opt, get_logger
+from utils import get_opt
+from trainer import Trainer
 
 
 class Encoder(nn.Module):
@@ -202,293 +192,12 @@ class Darnn_selfattention(nn.Module):
 
 random.seed(0)
 
-
-def load_dataset(train_years, test_years):
-    def load_pickle(years):
-        data_dic = None
-        for y in years:
-            with open(os.path.join(Datapath, 'v1_T20_yb1_%s.pickle' % (y)), 'rb') as fp:
-                dataset = pickle.load(fp)
-
-            if data_dic is None:
-                data_dic = {}
-                data_dic['x'] = dataset['x']
-                data_dic['y'] = dataset['y']
-                data_dic['t'] = dataset['t']
-
-            data_dic['x'] = np.append(data_dic['x'], dataset['x'], axis=0)
-            data_dic['y'] = np.append(data_dic['y'], dataset['y'], axis=0)
-            data_dic['t'] = np.append(data_dic['t'], dataset['t'], axis=0)
-
-        return data_dic
-    dataset = {}
-    dataset['train'] = load_pickle(train_years)
-    dataset['test'] = load_pickle(test_years)
-
-    return dataset
-
-
-class dataset(Dataset):
-    def __init__(self, data):
-        self.data = data
-
-    def __getitem__(self, index):
-        # 返回的目标是0 ,1
-        return self.data['x'][index], self.data['y'][index], self.data['t'][index]
-
-    def __len__(self):
-        return len(self.data['t'])
-
-
-class Trainer:
-    def __init__(self, model_conf, data_conf, train_conf):
-        self.model_conf = model_conf
-        self.data_conf = data_conf
-        self.train_conf = train_conf
-        
-        self.result_path = os.path.join(
-            self.train_conf['checkpoint_path'], __file__[:-3])
-        if not os.path.exists(self.result_path):
-            os.mkdir(self.result_path)
-        self.logger = get_logger(
-            os.path.join(self.result_path, self.train_conf['log_file']))
-        self.device = torch.device(
-            'cuda:0' if torch.cuda.is_available() else 'cpu')
-        self.logger.info('此次实验设备为:'+str(self.device))
-        self.logger.info('实验参数如下:')
-        self.logger.info(self.model_conf)
-        self.logger.info(self.train_conf)
-        self.logger.info(self.data_conf)
-        self.model = Darnn_selfattention(**self.model_conf)
-        self.load_checkpoint()
-        
-        self.logger.info('导入数据集......')
-        self.Data = load_dataset(
-            self.data_conf['train_list'], self.data_conf['test_list'])
-        self.logger.info('数据集导入成功！')
-        
-    def load_checkpoint(self):
-        self.logger.info('Load Checkpoint......')
-        
-        self.csv_name = os.path.join(self.result_path, __file__[:-3]+'.csv')
-        if self.train_conf['resume'] and os.path.exists(self.csv_name):
-            self.logger.info('已有存档点，读取中......')
-            checkpoint = torch.load(os.path.join(self.result_path,
-                                                 "last.pt"), map_location='cpu')
-            self.logger.info('正在导入模型、优化器参数......')
-            self.model.load_state_dict(checkpoint['model_state_dict'])
-            self.model = self.model.to(self.device)
-            self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
-                                    lr=self.train_conf['learning_rate'])
-            self.optimizer.load_state_dict(checkpoint['optim_state_dict'])
-            self.logger.info('导入成功!')
-            self.cur_epoch = checkpoint['epoch']
-            self.acc_train_max_diff = checkpoint['acc_train_max_diff']
-            self.acc_val_max_diff = checkpoint['acc_val_max_diff']
-            self.acc_test_max_diff = checkpoint['acc_test_max_diff']
-            self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
-            self.logger.info('存档点读取完毕，目前已训练{}轮。'.format(self.cur_epoch))
-        else:
-            self.logger.info('没有存档点，各种参数初始化')
-            self.model = self.model.to(self.device)
-            self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
-                                    lr=self.train_conf['learning_rate'])
-            self.cur_epoch = 0
-            self.acc_train_max_diff = 0
-            self.acc_val_max_diff = 0
-            self.acc_test_max_diff = 0
-            self.result = defaultdict(list)
-        
-
-    def train(self):
-        xs = self.Data['train']['x']
-        ys = self.Data['train']['y']
-        ts = self.Data['train']['t']
-
-        test_data = {}
-        test_data['x'] = self.Data['test']['x']
-        test_data['y'] = self.Data['test']['y']
-        test_data['t'] = self.Data['test']['t']
-        TestDataloader = DataLoader(
-            dataset(test_data), batch_size=self.train_conf['batch'], shuffle=False)
-
-        train_size = len(ts)
-        while(self.cur_epoch < self.train_conf['epoch']):
-            self.cur_epoch += 1
-            self.logger.info('======epoch:'+str(self.cur_epoch) +
-                             ' 正在训练 ========================>')
-
-            # 随机选n%做validation数据
-            validation_index = random.sample(range(train_size), int(
-                train_size*self.train_conf['split']/100.))
-            validation_mask = np.array([False] * train_size)
-            validation_mask[validation_index] = True
-
-            # 验证集
-            val_data = {}
-            val_data['x'] = xs[validation_mask]
-            val_data['y'] = ys[validation_mask]
-            val_data['t'] = ts[validation_mask]
-            ValDataloader = DataLoader(
-                dataset(val_data), batch_size=self.train_conf['batch'], shuffle=False)
-            # 训练集
-            train_data = {}
-            train_data['x'] = xs[~validation_mask]
-            train_data['y'] = ys[~validation_mask]
-            train_data['t'] = ts[~validation_mask]
-            TrainDataloader = DataLoader(
-                dataset(train_data), batch_size=self.train_conf['batch'], shuffle=False)
-
-            # -------------------------------------------------------------------------------
-            self.logger.info('\033[1;34m Train: \033[0m')
-            loss_sum = 0
-            t_pred = []
-            t_ori = []
-            self.model.train()
-            for _, sample in enumerate(TrainDataloader):
-
-                self.optimizer.zero_grad()
-
-                var_x = self.to_variable(sample[0])
-                var_y = self.to_variable(sample[1])
-                var_t = self.to_variable(sample[2])
-
-                out = self.model(var_x, var_y)
-                pre_t = (out >= 0.5) + 0
-
-                t_pred.extend(pre_t.data.cpu().numpy())
-                t_ori.extend(sample[2].numpy())
-
-                loss = self.model.loss_func(out, var_t)
-                loss.backward()
-
-                self.optimizer.step()
-                loss_sum += loss.data.item()
-            self.epoch_Loss = loss_sum/train_size
-            train_accuracy, precision, recall, f1 = self.metrics(t_pred, t_ori)
-            train_random = self.rand_acc(t_ori)
-            self.acc_train_max_diff = max(
-                self.acc_train_max_diff, train_accuracy-train_random)
-            self.logger.info('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.4f \033[0m' %
-                             (self.cur_epoch, train_accuracy, self.epoch_Loss))
-            self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
-                train_accuracy, precision, recall, f1))
-            self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
-                             (train_random, self.acc_train_max_diff))
-
-            # -------------------------------------------------------------------------------
-            self.logger.info('\033[1;34m Valid: \033[0m')
-            with torch.no_grad():
-                t_pred = []
-                t_ori = []
-                self.model.eval()
-                for _, sample in enumerate(ValDataloader):
-                    var_x = self.to_variable(sample[0])
-                    var_y = self.to_variable(sample[1])
-                    var_t = self.to_variable(sample[2])
-
-                    out = self.model(var_x, var_y)
-                    pre_t = (out >= 0.5) + 0
-
-                    t_pred.extend(pre_t.data.cpu().numpy())
-                    t_ori.extend(sample[2].numpy())
-
-            validation_accuracy, precision, recall, f1 = self.metrics(
-                t_pred, t_ori)
-            validation_random = self.rand_acc(t_ori)
-
-            model_best = validation_accuracy-validation_random > self.acc_val_max_diff
-            self.acc_val_max_diff = max(
-                self.acc_val_max_diff, validation_accuracy-validation_random)
-            self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
-                validation_accuracy, precision, recall, f1))
-            self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
-                             (validation_random, self.acc_val_max_diff))
-
-            # -------------------------------------------------------------------------------
-            self.logger.info('\033[1;34m Test: \033[0m')
-            with torch.no_grad():
-                t_pred = []
-                t_ori = []
-                self.model.eval()
-
-                for _, sample in enumerate(TestDataloader):
-
-                    var_x = self.to_variable(sample[0])
-                    var_y = self.to_variable(sample[1])
-                    var_t = self.to_variable(sample[2])
-
-                    out = self.model(var_x, var_y)
-                    pre_t = (out >= 0.5) + 0
-
-                    t_pred.extend(pre_t.data.cpu().numpy())
-                    t_ori.extend(sample[2].numpy())
-
-            test_accuracy, precision, recall, f1 = self.metrics(t_pred, t_ori)
-            test_random = self.rand_acc(t_ori)
-            self.acc_test_max_diff = max(
-                self.acc_test_max_diff, test_accuracy-test_random)
-            self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
-                test_accuracy, precision, recall, f1))
-            self.logger.info('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' %
-                             (test_random, self.acc_test_max_diff))
-
-            def save_checkpoint(best=True):
-                self.result['epoch'].append(self.cur_epoch)
-                self.result['loss'].append(self.epoch_Loss)
-                self.result['train_accuracy'].append(train_accuracy)
-                self.result['acc_train_max_diff'].append(
-                    self.acc_train_max_diff)
-                self.result['validation_accuracy'].append(validation_accuracy)
-                self.result['acc_val_max_diff'].append(self.acc_val_max_diff)
-                self.result['test_random'].append(test_random)
-                self.result['test_accuarcy'].append(test_accuracy)
-                self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
-                if not os.path.exists(self.result_path):
-                    self.logger.info('第一次保存，新建目录:', self.result_path)
-                    os.mkdir(self.result_path)
-                pd.DataFrame(self.result).to_csv(self.csv_name, index=False)
-                torch.save(
-                    {
-                        "epoch": self.cur_epoch,
-                        "epoch_Loss:": self.epoch_Loss,
-                        "acc_train_max_diff": self.acc_train_max_diff,
-                        "acc_val_max_diff": self.acc_val_max_diff,
-                        "acc_test_max_diff": self.acc_test_max_diff,
-                        "model_state_dict": self.model.state_dict(),
-                        "optim_state_dict": self.optimizer.state_dict(),
-                    },
-                    os.path.join(self.result_path,
-                                 "{0}.pt".format("best" if best else "last")))
-
-            save_checkpoint(model_best)
-
-    def to_variable(self, x):
-        return Variable(x.type(torch.FloatTensor)).to(self.device)
-
-    def metrics(self, results, ori_y):
-        accuracy = accuracy_score(ori_y, results)
-        precision = precision_score(
-            ori_y, results, labels=[1], average=None)[0]
-        recall = recall_score(ori_y, results, labels=[1], average=None)[0]
-        f1 = f1_score(ori_y, results, labels=[1], average=None)[0]
-        return accuracy, precision, recall, f1
-
-    def rand_acc(self, t_ori):
-        return max([np.sum(np.array(t_ori) == r) for r in [0, 1]]) * 1. / len(t_ori)
-
-    def update_lr(self):
-        for param_group in self.optim.param_groups:
-            param_group['lr'] = param_group['lr'] * 0.9
-
-
 if __name__ == '__main__':
+    random.seed(0)
     parser = argparse.ArgumentParser(description='输入参数yml文件')
     parser.add_argument('-opt', type=str, default='./train.yml',
                         help='Path to option YAML file.')
     args = parser.parse_args()
-
     opt = get_opt(args.opt)[__file__[:-3]]
-    Datapath = opt['data_conf']['datapath']
-    trainer = Trainer(opt['model_conf'], opt['data_conf'], opt['train_conf'])
-    trainer.train()
+    Train = Trainer(Darnn_selfattention,opt['model_conf'], opt['data_conf'], opt['train_conf'],__file__[:-3])
+    Train.run()
