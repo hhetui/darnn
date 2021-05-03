@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-DARNN+self-attention 中attention中替换为selfattention
+DARNN+self-attention 中attention中替换为selfattention 
 (自己想的方式，只是额外加入selfattention后续还是用原来的加权方式做了一次加权)
 '''
 import sys
