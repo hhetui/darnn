@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 '''
-基础DARNN+self-attention 原始参数
+基础 DARNN+self-attention 原始参数
 '''
 import sys
 import math
