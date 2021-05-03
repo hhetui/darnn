@@ -118,7 +118,7 @@ class Decoder(nn.Module):
                 d_n = final_states[0]  # 1 * batch_size * decoder_num_hidden
                 c_n = final_states[1]  # 1 * batch_size * decoder_num_hidden
         Last_feature = torch.cat((d_n.squeeze(0),context), dim=1)
-        y_T = F.sigmoid(self.fc_final(Last_feature)).squeeze(1)
+        y_T = torch.sigmoid(self.fc_final(Last_feature)).squeeze(1)
         return y_T
 
     def _init_states(self, X):
