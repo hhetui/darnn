@@ -133,7 +133,7 @@ class Trainer:
                 dataset(train_data), batch_size=self.train_conf['batch'], shuffle=False)
             train_accuracy = self.train(TrainDataloader)
             validation_accuracy,val_loss = self.valid(ValDataloader)
-            test_accuracy,test_random= self.test(TestDataloader)
+            test_accuracy,test_random,test_loss= self.test(TestDataloader)
             
             def save_checkpoint(best=True):
                 self.result['epoch'].append(self.cur_epoch)
@@ -147,6 +147,7 @@ class Trainer:
                 self.result['acc_val_max_diff'].append(self.acc_val_max_diff)
                 self.result['test_random'].append(test_random)
                 self.result['test_accuarcy'].append(test_accuracy)
+                self.result['test_loss'].append(test_loss)
                 self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
                 if not os.path.exists(self.result_path):
                     self.logger.info('第一次保存，新建目录:', self.result_path)
@@ -216,7 +217,7 @@ class Trainer:
         train_random = self.rand_acc(t_ori)
         self.acc_train_max_diff = max(
             self.acc_train_max_diff, train_accuracy-train_random)
-        self.logger.info('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.8f \033[0m' %
+        self.logger.info('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.8f./ \033[0m' %
                         (self.cur_epoch, train_accuracy, self.epoch_Loss))
         self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
             train_accuracy, precision, recall, f1))
@@ -263,7 +264,7 @@ class Trainer:
             t_pred = []
             t_ori = []
             self.model.eval()
-
+            test_loss = 0
             for _, sample in enumerate(TestDataloader):
 
                 var_x = self.to_variable(sample[0])
@@ -272,24 +273,24 @@ class Trainer:
 
                 out = self.model(var_x, var_y)
                 pre_t = (out >= 0.5) + 0
-
+                test_loss += self.model.loss_func(out, var_t).data.item()
                 t_pred.extend(pre_t.data.cpu().numpy())
                 t_ori.extend(sample[2].numpy())
-                
+            test_loss = test_loss/len(t_ori)  
         test_accuracy, precision, recall, f1 = self.metrics(t_pred, t_ori)
         test_random = self.rand_acc(t_ori)
         self.acc_test_max_diff = max(
             self.acc_test_max_diff, test_accuracy-test_random)
-        self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
-            test_accuracy, precision, recall, f1))
+        self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f val_loss:%.8f \033[0m' % (
+            test_accuracy, precision, recall, f1, test_loss))
         self.logger.info('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' %
                         (test_random, self.acc_test_max_diff))
-        return test_accuracy,test_random
+        return test_accuracy,test_random,test_loss
 
     def show_result(self):
         self.logger.info('总共训练了{:d}轮~'.format(self.cur_epoch))
-        self.logger.info('best_model_test_acc_diff:{:.5f}'.format(self.best_model_test_acc_diff))
-        self.logger.info('acc_test_max_diff:{:.5f}'.format(self.acc_test_max_diff))
+        self.logger.info('best_model_test_acc_diff:{:.8f}'.format(self.best_model_test_acc_diff))
+        self.logger.info('acc_test_max_diff:{:.8f}'.format(self.acc_test_max_diff))
 
     def to_variable(self, x):
         return Variable(x.type(torch.FloatTensor)).to(self.device)
