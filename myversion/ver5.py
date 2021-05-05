@@ -149,8 +149,6 @@ class Darnn(nn.Module):
         return out2
 
 
-random.seed(0)
-
 if __name__ == '__main__':
     random.seed(0)
     parser = argparse.ArgumentParser(description='输入参数yml文件')

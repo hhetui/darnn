@@ -187,7 +187,7 @@ class Darnn_selfattention(nn.Module):
         return out3
 
 
-random.seed(0)
+
 
 if __name__ == '__main__':
     random.seed(0)

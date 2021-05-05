@@ -62,7 +62,7 @@ class myLSTM(nn.Module):
 
 
 
-random.seed(0)
+
 
 if __name__ == '__main__':
     random.seed(0)

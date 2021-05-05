@@ -134,7 +134,7 @@ class EN_DN(nn.Module):
         return out2
 
 
-random.seed(0)
+
 
 if __name__ == '__main__':
     random.seed(0)

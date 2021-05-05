@@ -17,7 +17,7 @@ from utils import get_opt
 from trainer import Trainer
 from ver5 import Darnn
 
-random.seed(0)
+
 
 if __name__ == '__main__':
     random.seed(0)
