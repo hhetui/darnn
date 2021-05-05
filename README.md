@@ -11,9 +11,10 @@
 - ver5_1      改变隐向量长度
 
 - ver6        DARNN+self-attention结构
-- ver6_1      改变隐向量长度
-- ver6_2      改变隐向量长度
-- ver6_3      改变time_step
+- ver6_1      改变隐向量长度 64
+- ver6_2      改变隐向量长度 128
+- ver6_3      改变time_step 30
+- ver6_4      改变time_step 10
 
 - ver7        在DARNN+selfattention的ENDN中先用self-attention处理数据
 - ver8        将DARNN+selfattention的attention部分直接替换为self-attention
