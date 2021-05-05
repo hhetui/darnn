@@ -56,7 +56,7 @@ class Trainer:
         self.logger.info('数据集导入成功！')
         self.scheduler = ReduceLROnPlateau(
             self.optimizer, mode='min', factor=0.6, patience=self.train_conf['patience'], verbose=True, min_lr=0)
-        self.scheduler.best = self.val_loss_best
+        self.scheduler.best = self.test_best_loss
     def load_checkpoint(self):
         self.logger.info('Load Checkpoint......')
         
@@ -75,7 +75,7 @@ class Trainer:
             self.cur_epoch = checkpoint['epoch']
             self.acc_train_max_diff = checkpoint['acc_train_max_diff']
             self.acc_val_max_diff = checkpoint['acc_val_max_diff']
-            self.val_loss_best = checkpoint['val_loss_best']
+            self.test_best_loss = checkpoint['test_best_loss']
             self.best_model_test_acc_diff = checkpoint['best_model_test_acc_diff']
             self.acc_test_max_diff = checkpoint['acc_test_max_diff']
             self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
@@ -88,7 +88,7 @@ class Trainer:
             self.cur_epoch = 0
             self.acc_train_max_diff = 0
             self.acc_val_max_diff = 0
-            self.val_loss_best = float('inf')
+            self.test_best_loss = float('inf')
             self.best_model_test_acc_diff = 0
             self.acc_test_max_diff = 0
             self.result = defaultdict(list)
@@ -159,7 +159,7 @@ class Trainer:
                         "epoch_Loss:": self.epoch_Loss,
                         "acc_train_max_diff": self.acc_train_max_diff,
                         "acc_val_max_diff": self.acc_val_max_diff,
-                        "val_loss_best": self.val_loss_best,
+                        "test_best_loss": self.test_best_loss,
                         "best_model_test_acc_diff": self.best_model_test_acc_diff,
                         "acc_test_max_diff": self.acc_test_max_diff,
                         "model_state_dict": self.model.state_dict(),
@@ -168,12 +168,12 @@ class Trainer:
                     os.path.join(self.result_path,
                                  "{0}.pt".format("best" if best else "last")))
 
-            if val_loss < self.val_loss_best:
+            if test_loss < self.test_best_loss:
                 save_checkpoint(best = True)
-                self.val_loss_best = val_loss
+                self.test_best_loss = test_loss
                 self.best_model_test_acc_diff = test_accuracy - test_random
                 self.no_impr = 0
-                self.logger.info('Epoch: {:d}, now best loss change: {:.4f}'.format(self.cur_epoch,self.val_loss_best))
+                self.logger.info('Epoch: {:d}, now best test loss change: {:.8f}'.format(self.cur_epoch,self.test_best_loss))
             else:
                 self.no_impr += 1
                 self.logger.info('{:d} no improvement, best loss: {:.4f}'.format(self.no_impr,self.scheduler.best))
@@ -217,7 +217,7 @@ class Trainer:
         train_random = self.rand_acc(t_ori)
         self.acc_train_max_diff = max(
             self.acc_train_max_diff, train_accuracy-train_random)
-        self.logger.info('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.8f./ \033[0m' %
+        self.logger.info('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.8f \033[0m' %
                         (self.cur_epoch, train_accuracy, self.epoch_Loss))
         self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
             train_accuracy, precision, recall, f1))

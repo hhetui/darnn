@@ -163,15 +163,7 @@ class Encoder(nn.Module):
         h_n = self._init_states(X)
         s_n = self._init_states(X)
         for t in range(self.T):
-            '''x = torch.cat((h_n.repeat(self.input_size, 1, 1).permute(1, 0, 2),
-                           s_n.repeat(self.input_size, 1, 1).permute(1, 0, 2),
-                           X.permute(0, 2, 1)), dim=2)
-            x = self.encoder_attn(
-                x.view(-1, self.encoder_num_hidden * 2 + self.T))
-            alpha = F.softmax(x.view(-1, self.input_size), 1)
-            x_tilde = torch.mul(alpha, X[:, t, :])'''
             self.encoder_lstm.flatten_parameters()
-
             _, final_state = self.encoder_lstm(
                 X[:, t, :].unsqueeze(0), (h_n, s_n))
             h_n = final_state[0]
@@ -211,7 +203,12 @@ class Decoder(nn.Module):
     def forward(self, X_encoded, y_prev):
         d_n = self._init_states(X_encoded)
         c_n = self._init_states(X_encoded)
+        
         X_encoded = self.CA(X_encoded)
+        params = list(self.CA.named_parameters())#get the index by debuging
+        #print(params[2][0])#name
+        #print(params[2][1].data)
+
         for t in range(self.T):
             
             y_tilde = self.fc(

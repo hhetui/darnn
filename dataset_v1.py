@@ -91,10 +91,10 @@ if __name__ == '__main__':
     global_df = {f: load_stock(f) for f in os.listdir('HScode')}
     x_column = ['open', 'high', 'low', 'amount', 'vol', 'close']
     y_column = 'close'
-    T =20
+    T =10
     target =1
     files = os.listdir('HScode')
-    DatasetPath = './v2'
+    DatasetPath = './v_10day'
     if not os.path.exists(DatasetPath):
         os.mkdir(DatasetPath)
     generate_data_season(T)

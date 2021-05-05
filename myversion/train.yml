@@ -23,7 +23,7 @@ ver2: #LSTM模型
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 ver2_1: #LSTM模型改变隐向量长度
   #model settings
@@ -49,7 +49,7 @@ ver2_1: #LSTM模型改变隐向量长度
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 
 ver3: #LSTM的EN-DN结构
@@ -76,7 +76,7 @@ ver3: #LSTM的EN-DN结构
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 
 ver4: #CNN 结合 self-attention
@@ -103,7 +103,7 @@ ver4: #CNN 结合 self-attention
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 
 ver5: #DARNN 基础版
@@ -131,7 +131,7 @@ ver5: #DARNN 基础版
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 ver5_1: #DARNN 基础版
   #model settings
@@ -158,7 +158,7 @@ ver5_1: #DARNN 基础版
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 
 ver6: #DARNN+self-attention 基础版
@@ -186,7 +186,7 @@ ver6: #DARNN+self-attention 基础版
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 ver6_1: #增加num_hidden
   #model settings
@@ -213,7 +213,7 @@ ver6_1: #增加num_hidden
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 ver6_2: #增加num_hidden
   #model settings
@@ -240,7 +240,7 @@ ver6_2: #增加num_hidden
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 ver6_3: #T改为30
   #model settings
@@ -269,6 +269,34 @@ ver6_3: #T改为30
     test_list: [123,456,789,1012]
     datapath: '../v_30day'
     T: 30
+ver6_4: #T改为10
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 10
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.001
+    patience: 200
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_10day'
+    T: 10
+
 
 ver7: #darnn中替换成self-attention
   #model settings
@@ -295,7 +323,7 @@ ver7: #darnn中替换成self-attention
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 
 ver8: #darnn中替换成self-attention
@@ -323,7 +351,7 @@ ver8: #darnn中替换成self-attention
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
 
 ver9: #DARNN内部使用CNNattention+self-attention 基础版
@@ -340,8 +368,8 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
     epoch: 1500
     batch: 256
     split: 30
-    learning_rate: 0.001
-    patience: 200
+    learning_rate: 0.01
+    patience: 50
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -351,5 +379,5 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
   data_conf:
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
-    datapath: '../v2'
+    datapath: '../v_20day'
     T: 20
