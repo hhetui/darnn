@@ -178,7 +178,7 @@ ver6: #DARNN+self-attention 基础版
     learning_rate: 0.001
     patience: 200
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -371,7 +371,7 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
     learning_rate: 0.01
     patience: 50
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 

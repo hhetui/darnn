@@ -93,6 +93,7 @@ class CNN_self_attention(nn.Module):
             nn.Conv2d(in_channels = 2*self.num_hidden,out_channels = self.num_hidden,kernel_size=(3,1),padding=(1,0))
             #B*128*F*T (B*C*V*L)
         )
+        
         self.TA = TA(v =self.input_size, L = self.T, C = self.num_hidden, C_alpha = self.num_hidden)
         self.VA = VA(L = self.T, C = self.num_hidden, C_alpha = self.num_hidden)
         
@@ -101,7 +102,7 @@ class CNN_self_attention(nn.Module):
             nn.AvgPool2d(3,stride=1,padding=1)
         )
         self.loss_func = nn.BCELoss()
-        self.test = nn.Linear(input_size*time_step,1)
+        
     def forward(self, X ,*args):
         
         #X:B*T*F --> B*F*T
@@ -112,10 +113,9 @@ class CNN_self_attention(nn.Module):
         #B*128*F*T (B*C*V*L)
         
         X = self.CNN_sequential(X)
-
         #X:B*V*L*C
         X = X.permute(0,2,3,1)
-        
+        X = (X - torch.mean(X,dim =1).unsqueeze(1))/torch.std(X,dim = 1).unsqueeze(1) 
         Y = self.TA(X)
         Y = self.VA(Y)
         #Y:B*C*L*V 
@@ -125,11 +125,7 @@ class CNN_self_attention(nn.Module):
         Y = self.global_pool(Y)
         #Y:B*L*V
         Y = Y.squeeze(1)
-        '''#-->B*(L*V)
-        Y = Y.view(Y.size(0),-1)
-        #B
-        out = self.test(Y).squeeze(1)
-        return torch.sigmoid(out)'''
+        
         return Y #B * T * F
 
 class Encoder(nn.Module):
