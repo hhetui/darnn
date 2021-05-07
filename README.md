@@ -19,3 +19,5 @@
 - ver7        在DARNN+selfattention的ENDN中先用self-attention处理数据
 - ver8        将DARNN+selfattention的attention部分直接替换为self-attention
 - ver9        将DARNN+selfattention的attention部分直接替换为师兄给的CNNself-attention
+
+-ver10        将DARNN+selfattention的attention部分直接替换为师兄给的第二篇CNN的down-sampling部分

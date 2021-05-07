@@ -13,7 +13,7 @@ ver2: #LSTM模型
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -39,7 +39,7 @@ ver2_1: #LSTM模型改变隐向量长度
     batch: 256
     split: 30
     learning_rate: 0.01
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -66,7 +66,7 @@ ver3: #LSTM的EN-DN结构
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -93,7 +93,7 @@ ver4: #CNN 结合 self-attention
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -121,7 +121,7 @@ ver5: #DARNN 基础版
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -148,7 +148,7 @@ ver5_1: #DARNN 基础版
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -176,7 +176,7 @@ ver6: #DARNN+self-attention 基础版
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: True
     checkpoint_path: '../result/'
@@ -203,7 +203,7 @@ ver6_1: #增加num_hidden
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -230,7 +230,7 @@ ver6_2: #增加num_hidden
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -257,7 +257,7 @@ ver6_3: #T改为30
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -284,7 +284,7 @@ ver6_4: #T改为10
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -313,7 +313,7 @@ ver7: #darnn中替换成self-attention
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -341,7 +341,7 @@ ver8: #darnn中替换成self-attention
     batch: 256
     split: 30
     learning_rate: 0.001
-    patience: 200
+    patience: 2000
     stop: 1000
     resume: False
     checkpoint_path: '../result/'
@@ -381,3 +381,31 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
     T: 20
+
+ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 30
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.001
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_30day'
+    T: 30
