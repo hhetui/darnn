@@ -17,6 +17,15 @@ from utils import get_opt
 from trainer import Trainer
 
 
+class CNN_downsampling(nn.Module):
+    def __init__(self,input_size,
+                    time_step):
+        
+        pass
+    def forward(self,X):
+        pass
+
+
 class Encoder(nn.Module):
     """encoder in DA_RNN."""
 
