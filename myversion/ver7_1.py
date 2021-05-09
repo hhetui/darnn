@@ -156,7 +156,7 @@ class Darnn_selfattention(nn.Module):
         # 输出
         self.last_fc = nn.Sequential(
             nn.Linear(in_features=decoder_num_hidden, out_features=decoder_num_hidden),
-            nn.Dropout(drop_ratio),
+            #nn.Dropout(drop_ratio),
             nn.Linear(in_features=decoder_num_hidden, out_features=1),
             nn.Sigmoid()
         )
