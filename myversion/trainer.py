@@ -50,7 +50,6 @@ class Trainer:
         self.logger.info(self.data_conf)
         self.model = myModel(**self.model_conf)
         self.load_checkpoint()
-        
         self.logger.info('导入数据集......')
         self.Data = load_dataset(self.data_conf)
         self.logger.info('数据集导入成功！')
@@ -69,7 +68,7 @@ class Trainer:
             self.model.load_state_dict(checkpoint['model_state_dict'])
             self.model = self.model.to(self.device)
             self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
-                                    lr=self.train_conf['learning_rate'])
+                                    lr=self.train_conf['learning_rate'],weight_decay=self.train_conf['weight_decay'])
             self.optimizer.load_state_dict(checkpoint['optim_state_dict'])
             self.logger.info('导入成功!')
             self.cur_epoch = checkpoint['epoch']
@@ -84,7 +83,7 @@ class Trainer:
             self.logger.info('没有存档点，各种参数初始化')
             self.model = self.model.to(self.device)
             self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
-                                    lr=self.train_conf['learning_rate'])
+                                    lr=self.train_conf['learning_rate'],weight_decay=self.train_conf['weight_decay'])
             self.cur_epoch = 0
             self.acc_train_max_diff = 0
             self.acc_val_max_diff = 0

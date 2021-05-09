@@ -107,14 +107,14 @@ class Decoder(nn.Module):
                 x.view(-1, 2 * self.decoder_num_hidden + self.encoder_num_hidden)).view(-1, self.T), 1)
 
             context = torch.bmm(beta.unsqueeze(1), X_encoded)[:, 0, :]
-            if t < self.T:
-                y_tilde = self.fc(
-                    torch.cat((context, y_prev[:, t].unsqueeze(1)), dim=1))
-                _, final_states = self.lstm_layer(
-                    y_tilde.unsqueeze(0), (d_n, c_n))
+            
+            y_tilde = self.fc(
+                torch.cat((context, y_prev[:, t].unsqueeze(1)), dim=1))
+            _, final_states = self.lstm_layer(
+                y_tilde.unsqueeze(0), (d_n, c_n))
 
-                d_n = final_states[0]  # 1 * batch_size * decoder_num_hidden
-                c_n = final_states[1]  # 1 * batch_size * decoder_num_hidden
+            d_n = final_states[0]  # 1 * batch_size * decoder_num_hidden
+            c_n = final_states[1]  # 1 * batch_size * decoder_num_hidden
         return d_n.squeeze(0)
 
     def _init_states(self, X):

@@ -13,6 +13,7 @@ ver2: #LSTM模型
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -66,6 +67,7 @@ ver3: #LSTM的EN-DN结构
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -93,6 +95,7 @@ ver4: #CNN 结合 self-attention
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -121,6 +124,7 @@ ver5: #DARNN 基础版
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -148,6 +152,7 @@ ver5_1: #DARNN 基础版
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -176,6 +181,7 @@ ver6: #DARNN+self-attention 基础版
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: True
@@ -203,6 +209,7 @@ ver6_1: #增加num_hidden
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -230,6 +237,7 @@ ver6_2: #增加num_hidden
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -257,6 +265,7 @@ ver6_3: #T改为30
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -284,6 +293,7 @@ ver6_4: #T改为10
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -313,6 +323,7 @@ ver7: #darnn中替换成self-attention
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -341,6 +352,7 @@ ver8: #darnn中替换成self-attention
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.0
     patience: 2000
     stop: 1000
     resume: False
@@ -382,7 +394,65 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
     datapath: '../v_20day'
     T: 20
 
-ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型
+ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟合 增加正则化项
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 30
+    encoder_num_hidden: 128
+    decoder_num_hidden: 128
+    drop_ratio: 0
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.001
+    weight_decay: 0.01
+    patience: 2000
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_30day'
+    T: 30
+  
+ver10_1: #增加dropout层
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 30
+    encoder_num_hidden: 128
+    decoder_num_hidden: 128
+    drop_ratio: 0.3
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.001
+    weight_decay: 0.01
+    patience: 2000
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_30day'
+    T: 30
+
+ver10_2: #减少hidden_size
   #model settings
   model_conf:
     input_size: 6
@@ -397,9 +467,10 @@ ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型
     batch: 256
     split: 30
     learning_rate: 0.001
+    weight_decay: 0.01
     patience: 2000
     stop: 1000
-    resume: True
+    resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 

@@ -205,11 +205,12 @@ class Darnn_selfattention(nn.Module):
                                time_step=T)
         self.attention = SelfAttention(
             last_hidden_size=encoder_num_hidden, hidden_size=decoder_num_hidden)
-
+        self.drop_out = nn.Dropout(drop_ratio)
         self.loss_func = nn.BCELoss()
 
     def forward(self, x, y):
         out1 = self.Encoder(x)
+        out1 = self.drop_out(out1)
         out2 = self.Decoder(out1, y)
         out3 = self.attention(out2)
         return out3
