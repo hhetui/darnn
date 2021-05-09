@@ -306,7 +306,34 @@ ver6_4: #T改为10
     test_list: [123,456,789,1012]
     datapath: '../v_10day'
     T: 10
+ver6_5: #DARNN+self-attention带dropout独立版
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
 
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
 
 ver7: #darnn中替换成self-attention
   #model settings
@@ -336,6 +363,35 @@ ver7: #darnn中替换成self-attention
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
     T: 20
+ver7_1: #self_attention写成模块，另外加入dropout测试
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+
 
 ver8: #darnn中替换成self-attention
   #model settings
@@ -409,7 +465,7 @@ ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟�
     batch: 256
     split: 30
     learning_rate: 0.001
-    weight_decay: 0.01
+    weight_decay: 0
     patience: 2000
     stop: 1000
     resume: False
@@ -438,7 +494,7 @@ ver10_1: #增加dropout层
     batch: 256
     split: 30
     learning_rate: 0.001
-    weight_decay: 0.01
+    weight_decay: 0
     patience: 2000
     stop: 1000
     resume: False
@@ -467,7 +523,7 @@ ver10_2: #减少hidden_size
     batch: 256
     split: 30
     learning_rate: 0.001
-    weight_decay: 0.01
+    weight_decay: 0
     patience: 2000
     stop: 1000
     resume: False
