@@ -20,4 +20,7 @@
 - ver8        将DARNN+selfattention的attention部分直接替换为self-attention
 - ver9        将DARNN+selfattention的attention部分直接替换为师兄给的CNNself-attention
 
--ver10        将DARNN+selfattention的attention部分直接替换为师兄给的第二篇CNN的down-sampling部分
+-ver10        将DARNN+selfattention的attention部分直接替换为师兄给的第二篇CNN的down-sampling部分过拟合增加正则化项
+-ver10_1      增加dropout 0.3
+-ver10_2      将隐藏层128减少到32
+
