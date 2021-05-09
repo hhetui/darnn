@@ -2,6 +2,7 @@
 # encoding: utf-8
 '''
 DARNN+self-attention 中attention中替换为selfattention  并且使用独立selfattention 带dropout
+最后out3 使用resdual结构
 '''
 import sys
 import math
@@ -170,6 +171,7 @@ class Darnn_selfattention(nn.Module):
         out2 = self.Decoder(out1, y)#out2:B*DE
         
         out3 = self.attention(out2.unsqueeze(0)).squeeze(0)#out3:B*DEhidden
+        out3 = out3 + out2
         out4 = self.last_fc(out3)
         return out4.squeeze(1)
 
