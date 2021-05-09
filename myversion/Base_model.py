@@ -7,7 +7,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from torch.autograd import Variable
-
+import copy
 from utils import get_opt
 from trainer import Trainer
 
@@ -44,3 +44,7 @@ class SelfAttention(nn.Module):
 
         res = torch.bmm(beta, v)
         return res
+
+def clones(module, N):
+    "Produce N identical layers."
+    return nn.ModuleList([copy.deepcopy(module) for _ in range(N)])
