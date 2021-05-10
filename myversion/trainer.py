@@ -280,7 +280,7 @@ class Trainer:
         test_random = self.rand_acc(t_ori)
         self.acc_test_max_diff = max(
             self.acc_test_max_diff, test_accuracy-test_random)
-        self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f val_loss:%.8f \033[0m' % (
+        self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f test_loss:%.8f \033[0m' % (
             test_accuracy, precision, recall, f1, test_loss))
         self.logger.info('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' %
                         (test_random, self.acc_test_max_diff))
