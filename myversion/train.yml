@@ -468,7 +468,7 @@ ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟�
     weight_decay: 0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
