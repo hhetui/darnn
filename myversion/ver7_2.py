@@ -11,6 +11,7 @@ import argparse
 
 import torch
 from torch import nn
+from torch.nn import Parameter
 import torch.nn.functional as F
 from torch.autograd import Variable
 
@@ -161,7 +162,7 @@ class Darnn_selfattention(nn.Module):
             nn.Linear(in_features=decoder_num_hidden, out_features=1),
             nn.Sigmoid()
         )
-
+        self.scale = Parameter(torch.randn(1), requires_grad=True)
         self.loss_func = nn.BCELoss()
 
     def forward(self, x, y):
@@ -171,7 +172,7 @@ class Darnn_selfattention(nn.Module):
         out2 = self.Decoder(out1, y)#out2:B*DE
         
         out3 = self.attention(out2.unsqueeze(0)).squeeze(0)#out3:B*DEhidden
-        out3 = out3 + out2
+        out3 = self.scale*out3 + out2
         out4 = self.last_fc(out3)
         return out4.squeeze(1)
 
