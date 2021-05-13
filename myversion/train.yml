@@ -1,4 +1,5 @@
-# 所有模型参数
+# 所有模型参数按照文件名添加在下面
+
 ver2: #LSTM模型
   #model settings
   model_conf:
@@ -464,9 +465,10 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
     batch: 256
     split: 30
     learning_rate: 0.01
+    weight_decay: 0.0
     patience: 50
     stop: 1000
-    resume: True
+    resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -476,6 +478,35 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
     T: 20
+ver9_1: #DARNN内部使用CNNattention+self-attention （师兄理解）参数共享
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 30
+    learning_rate: 0.01
+    weight_decay: 0.0
+    patience: 50
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+    
 
 ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟合 增加正则化项
   #model settings
@@ -504,8 +535,7 @@ ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟�
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_30day'
-    T: 30
-  
+    T: 30  
 ver10_1: #增加dropout层
   #model settings
   model_conf:
@@ -534,7 +564,6 @@ ver10_1: #增加dropout层
     test_list: [123,456,789,1012]
     datapath: '../v_30day'
     T: 30
-
 ver10_2: #减少hidden_size
   #model settings
   model_conf:

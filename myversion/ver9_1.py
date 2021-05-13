@@ -21,12 +21,12 @@ class TA(nn.Module):
     def __init__(self,v,L,C,C_alpha):
         
         super(TA,self).__init__()
-        self.Q_weights = Parameter(torch.randn(v,C,C_alpha), requires_grad=True)
-        self.K_weights = Parameter(torch.randn(v,C,C_alpha), requires_grad=True)
-        self.V_weights = Parameter(torch.randn(v,C,C_alpha), requires_grad=True)
-        self.Q_bais = Parameter(torch.randn(v,1,C_alpha), requires_grad=True)
-        self.K_bais = Parameter(torch.randn(v,1,C_alpha), requires_grad=True)
-        self.V_bais = Parameter(torch.randn(v,1,C_alpha), requires_grad=True)
+        self.Q_weights = Parameter(torch.randn(C,C_alpha), requires_grad=True)
+        self.K_weights = Parameter(torch.randn(C,C_alpha), requires_grad=True)
+        self.V_weights = Parameter(torch.randn(C,C_alpha), requires_grad=True)
+        self.Q_bais = Parameter(torch.randn(C_alpha), requires_grad=True)
+        self.K_bais = Parameter(torch.randn(C_alpha), requires_grad=True)
+        self.V_bais = Parameter(torch.randn(C_alpha), requires_grad=True)
         self.gama = Parameter(torch.randn(1), requires_grad=True)
         self.fc = nn.Linear(C_alpha,C)
         self.mask = torch.triu(torch.ones((L, L)),diagonal=1)*10**10
@@ -49,12 +49,12 @@ class VA(nn.Module):
     def __init__(self,L,C,C_alpha):
         #论文中 L:T  C:input_size C_alpha:hidden_size
         super(VA,self).__init__()
-        self.Q_weights = Parameter(torch.randn(L,C,C_alpha), requires_grad=True)
-        self.K_weights = Parameter(torch.randn(L,C,C_alpha), requires_grad=True)
-        self.V_weights = Parameter(torch.randn(L,C,C_alpha), requires_grad=True)
-        self.Q_bais = Parameter(torch.randn(L,1,C_alpha), requires_grad=True)
-        self.K_bais = Parameter(torch.randn(L,1,C_alpha), requires_grad=True)
-        self.V_bais = Parameter(torch.randn(L,1,C_alpha), requires_grad=True)
+        self.Q_weights = Parameter(torch.randn(C,C_alpha), requires_grad=True)
+        self.K_weights = Parameter(torch.randn(C,C_alpha), requires_grad=True)
+        self.V_weights = Parameter(torch.randn(C,C_alpha), requires_grad=True)
+        self.Q_bais = Parameter(torch.randn(C_alpha), requires_grad=True)
+        self.K_bais = Parameter(torch.randn(C_alpha), requires_grad=True)
+        self.V_bais = Parameter(torch.randn(C_alpha), requires_grad=True)
         self.gama = Parameter(torch.randn(1), requires_grad=True)
         self.fc = nn.Linear(C_alpha,C)
     def forward(self,Y):
