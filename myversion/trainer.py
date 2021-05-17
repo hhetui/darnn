@@ -98,7 +98,7 @@ class Trainer:
     def run(self):
         Train_Val_data = pd.DataFrame(self.Data['train'])
         Test_data = pd.DataFrame(self.Data['test'])
-
+        
         TestDataloader = DataLoader(
             Dataset_generate(self.data_conf['dataset_type'], Test_data), batch_size=self.train_conf['batch'], shuffle=False)
 
@@ -111,9 +111,9 @@ class Trainer:
                 Train_data.index)]
             Val_data.sort_index(inplace=True)
 
-            ValDataloader = DataLoader(
-                Dataset_generate(self.data_conf['dataset_type'], Train_data), batch_size=self.train_conf['batch'], shuffle=False)
             TrainDataloader = DataLoader(
+                Dataset_generate(self.data_conf['dataset_type'], Train_data), batch_size=self.train_conf['batch'], shuffle=False)
+            ValDataloader = DataLoader(
                 Dataset_generate(self.data_conf['dataset_type'], Val_data), batch_size=self.train_conf['batch'], shuffle=False)
 
             self.cur_epoch += 1
@@ -188,7 +188,7 @@ class Trainer:
             self.optimizer.zero_grad()
 
             var_x, var_y, var_t = self.get_xy_from_sample(sample)
-
+            
             out = self.model(var_x, var_y)
             pre_t = (out >= 0.5) + 0
 
@@ -200,7 +200,7 @@ class Trainer:
 
             self.optimizer.step()
             train_loss += loss.data.item()
-
+        
         self.epoch_Loss = train_loss/len(t_ori)
         train_accuracy, precision, recall, f1 = self.metrics(t_pred, t_ori)
         train_random = self.rand_acc(t_ori)
@@ -300,7 +300,3 @@ class Trainer:
 
     def rand_acc(self, t_ori):
         return max([np.sum(np.array(t_ori) == r) for r in [0, 1]]) * 1. / len(t_ori)
-
-    def update_lr(self):
-        for param_group in self.optim.param_groups:
-            param_group['lr'] = param_group['lr'] * 0.9

@@ -59,15 +59,11 @@ def load_dataset(data_conf):
                 data_dic['y'] = list(dataset['y'])
                 data_dic['t'] = list(dataset['t'])
                 data_dic['day'] = list(dataset['day'])
-
-            '''data_dic['x'] = np.append(data_dic['x'], dataset['x'], axis=0)
-            data_dic['y'] = np.append(data_dic['y'], dataset['y'], axis=0)
-            data_dic['t'] = np.append(data_dic['t'], dataset['t'], axis=0)
-            data_dic['day'] = np.append(data_dic['day'], dataset['day'], axis=0)'''
-            data_dic['x'] = data_dic['x'] + list(dataset['x'])
-            data_dic['y'] = data_dic['y'] + list(dataset['y'])
-            data_dic['t'] = data_dic['t'] + list(dataset['t'])
-            data_dic['day'] = data_dic['day'] + list(dataset['day'])
+            else:
+                data_dic['x'] = data_dic['x'] + list(dataset['x'])
+                data_dic['y'] = data_dic['y'] + list(dataset['y'])
+                data_dic['t'] = data_dic['t'] + list(dataset['t'])
+                data_dic['day'] = data_dic['day'] + list(dataset['day'])
         return data_dic
     dataset = {}
     dataset['train'] = load_pickle(train_years)

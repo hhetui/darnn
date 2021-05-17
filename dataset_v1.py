@@ -98,6 +98,5 @@ if __name__ == '__main__':
     if not os.path.exists(DatasetPath):
         os.mkdir(DatasetPath)
     #generate_data_season(T)
-    '''for y in range(2018, 2009, -1):
-        generate_data_year(y)'''
-    generate_data_year(2010)
+    for y in range(2018, 2009, -1):
+        generate_data_year(y)
