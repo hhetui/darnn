@@ -9717,3 +9717,7 @@
 2021-05-17 16:04:03 [/home/wxk/darnn/myversion/trainer.py:178 - INFO ] 451 no improvement, best loss: 0.0021
 2021-05-17 16:04:03 [/home/wxk/darnn/myversion/trainer.py:113 - INFO ] ======epoch:810 正在训练 ========================>
 2021-05-17 16:04:03 [/home/wxk/darnn/myversion/trainer.py:189 - INFO ] [1;34m Train: [0m
+2021-05-17 16:06:22 [/home/wxk/darnn/myversion/trainer.py:220 - INFO ] 第 [1;34m 810 [0m 轮的训练集正确率为:[1;32m 0.7066 [0m epoch_mean_Loss 为: [1;32m 0.00208106 [0m
+2021-05-17 16:06:22 [/home/wxk/darnn/myversion/trainer.py:222 - INFO ] [1;31m Accuracy:0.7066 Precision:0.7161 Recall:0.6649 F1:0.6896 [0m
+2021-05-17 16:06:22 [/home/wxk/darnn/myversion/trainer.py:224 - INFO ] [1;31m Random:0.5100	MaxAccDiff:0.204921 [0m
+2021-05-17 16:06:22 [/home/wxk/darnn/myversion/trainer.py:228 - INFO ] [1;34m Valid: [0m

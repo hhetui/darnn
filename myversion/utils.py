@@ -76,6 +76,9 @@ def load_dataset(data_conf):
     return dataset
 
 def Dataset_generate(dataset_type,*arg):
+    '''
+    在里面定义好自己所需要的dataset类
+    '''
     if not isinstance(dataset_type,int):
         raise Exception('请输入int型dataset_type!')
     if dataset_type == 1:
