@@ -297,6 +297,7 @@ class Trainer:
     def save_figure(self):
         sns.set()
         plt.rcParams['lines.linewidth']=0.3
+        plt.switch_backend('agg')
         train_loss = plt.plot(self.result['epoch'],self.result['loss'],'lightcoral',label='loss')
         test_loss = plt.plot(self.result['epoch'],self.result['test_loss'],'lightseagreen',label='test_loss')
         plt.title('Loss_figure')
