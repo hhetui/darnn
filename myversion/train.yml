@@ -12,7 +12,7 @@ ver2: #LSTM模型
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -23,6 +23,7 @@ ver2: #LSTM模型
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -39,7 +40,7 @@ ver2_1: #LSTM模型改变隐向量长度
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.01
     patience: 2000
     stop: 1000
@@ -49,6 +50,7 @@ ver2_1: #LSTM模型改变隐向量长度
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -66,7 +68,7 @@ ver3: #LSTM的EN-DN结构
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -77,6 +79,7 @@ ver3: #LSTM的EN-DN结构
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -94,7 +97,7 @@ ver4: #CNN 结合 self-attention
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -105,6 +108,7 @@ ver4: #CNN 结合 self-attention
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -123,7 +127,7 @@ ver5: #DARNN 基础版
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -134,6 +138,7 @@ ver5: #DARNN 基础版
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -151,7 +156,7 @@ ver5_1: #DARNN 基础版
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -162,6 +167,7 @@ ver5_1: #DARNN 基础版
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -180,7 +186,7 @@ ver6: #DARNN+self-attention 基础版
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -191,6 +197,7 @@ ver6: #DARNN+self-attention 基础版
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -208,7 +215,7 @@ ver6_1: #增加num_hidden
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -219,6 +226,7 @@ ver6_1: #增加num_hidden
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -236,7 +244,7 @@ ver6_2: #增加num_hidden
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -247,6 +255,7 @@ ver6_2: #增加num_hidden
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -264,7 +273,7 @@ ver6_3: #T改为30
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -275,6 +284,7 @@ ver6_3: #T改为30
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_30day'
@@ -292,7 +302,7 @@ ver6_4: #T改为10
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -303,6 +313,7 @@ ver6_4: #T改为10
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_10day'
@@ -320,7 +331,7 @@ ver6_5: #DARNN+self-attention带dropout独立版
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -331,6 +342,7 @@ ver6_5: #DARNN+self-attention带dropout独立版
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -349,7 +361,7 @@ ver7: #darnn中提前额外加入self-attention
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -360,6 +372,36 @@ ver7: #darnn中提前额外加入self-attention
 
   #dataset settings
   data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_test: #darnn中提前额外加入self-attention
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 1
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    dataset_type: 2
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -377,7 +419,7 @@ ver7_1: #最后的selfattention加入dropout
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -388,6 +430,7 @@ ver7_1: #最后的selfattention加入dropout
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -405,7 +448,7 @@ ver7_2: #最后的selfattention 使用dropout和resdual
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -416,6 +459,7 @@ ver7_2: #最后的selfattention 使用dropout和resdual
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -433,7 +477,7 @@ ver7_2_1: #最后的selfattention 使用dropout和resdual，最后使用resdual 
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -444,6 +488,7 @@ ver7_2_1: #最后的selfattention 使用dropout和resdual，最后使用resdual 
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -461,7 +506,7 @@ ver7_3: # 中间EN DN中的slefattention也使用dropout；最后的selfattenti
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -472,6 +517,7 @@ ver7_3: # 中间EN DN中的slefattention也使用dropout；最后的selfattenti
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -489,7 +535,7 @@ ver7_4: # 中间EN DN中的slefattention也使用resdual；最后的selfattenti
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -500,6 +546,7 @@ ver7_4: # 中间EN DN中的slefattention也使用resdual；最后的selfattenti
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -517,7 +564,7 @@ ver7_5: # 中间EN DN中的slefattention也使用dropout和resdual；最后的s
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -528,6 +575,7 @@ ver7_5: # 中间EN DN中的slefattention也使用dropout和resdual；最后的s
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -548,7 +596,7 @@ ver8: #darnn中替换成self-attention
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0.0
     patience: 2000
@@ -559,6 +607,7 @@ ver8: #darnn中替换成self-attention
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -577,7 +626,7 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.01
     weight_decay: 0.0
     patience: 50
@@ -588,6 +637,7 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -605,7 +655,7 @@ ver9_1: #DARNN内部使用CNNattention+self-attention （师兄理解）参数�
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.01
     weight_decay: 0.0
     patience: 50
@@ -616,6 +666,7 @@ ver9_1: #DARNN内部使用CNNattention+self-attention （师兄理解）参数�
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -635,7 +686,7 @@ ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟�
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0
     patience: 2000
@@ -646,6 +697,7 @@ ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟�
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_30day'
@@ -663,7 +715,7 @@ ver10_1: #增加dropout层
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0
     patience: 2000
@@ -674,6 +726,7 @@ ver10_1: #增加dropout层
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_30day'
@@ -691,7 +744,7 @@ ver10_2: #减少hidden_size
   train_conf:
     epoch: 1500
     batch: 256
-    split: 30
+    split: 0.3
     learning_rate: 0.001
     weight_decay: 0
     patience: 2000
@@ -702,6 +755,7 @@ ver10_2: #减少hidden_size
 
   #dataset settings
   data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_30day'

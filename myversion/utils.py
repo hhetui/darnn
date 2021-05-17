@@ -4,6 +4,7 @@ import yaml
 import logging
 import pickle
 import numpy as np
+import pandas as pd
 from torch.utils.data import Dataset
 
 def get_opt(opt_path):
@@ -54,14 +55,19 @@ def load_dataset(data_conf):
 
             if data_dic is None:
                 data_dic = {}
-                data_dic['x'] = dataset['x']
-                data_dic['y'] = dataset['y']
-                data_dic['t'] = dataset['t']
+                data_dic['x'] = list(dataset['x'])
+                data_dic['y'] = list(dataset['y'])
+                data_dic['t'] = list(dataset['t'])
+                data_dic['day'] = list(dataset['day'])
 
-            data_dic['x'] = np.append(data_dic['x'], dataset['x'], axis=0)
+            '''data_dic['x'] = np.append(data_dic['x'], dataset['x'], axis=0)
             data_dic['y'] = np.append(data_dic['y'], dataset['y'], axis=0)
             data_dic['t'] = np.append(data_dic['t'], dataset['t'], axis=0)
-
+            data_dic['day'] = np.append(data_dic['day'], dataset['day'], axis=0)'''
+            data_dic['x'] = data_dic['x'] + list(dataset['x'])
+            data_dic['y'] = data_dic['y'] + list(dataset['y'])
+            data_dic['t'] = data_dic['t'] + list(dataset['t'])
+            data_dic['day'] = data_dic['day'] + list(dataset['day'])
         return data_dic
     dataset = {}
     dataset['train'] = load_pickle(train_years)
@@ -69,14 +75,36 @@ def load_dataset(data_conf):
 
     return dataset
 
+def Dataset_generate(dataset_type,*arg):
+    if not isinstance(dataset_type,int):
+        raise Exception('请输入int型dataset_type!')
+    if dataset_type == 1:
+        class dataset(Dataset):
+            def __init__(self, data):
+                self.data = data[['x','y','t']]
 
-class dataset(Dataset):
-    def __init__(self, data):
-        self.data = data
+            def __getitem__(self, index):
+                # 返回的目标是0 ,1
+                return self.data.iloc[index]['x'], self.data.iloc[index]['y'], self.data.iloc[index]['t']
 
-    def __getitem__(self, index):
-        # 返回的目标是0 ,1
-        return self.data['x'][index], self.data['y'][index], self.data['t'][index]
+            def __len__(self):
+                return len(self.data['t'])
+        
+    elif dataset_type == 2:
+        class dataset(Dataset):
+            def __init__(self, data):
+                self.data = data
+                self.time_list = sorted(set(self.data['day']),key=list(self.data['day']).index)
 
-    def __len__(self):
-        return len(self.data['t'])
+            def __getitem__(self, index):
+                res = self.data[self.data['day']==self.time_list[index]]
+                
+                return np.array(list(res['x'])), np.array(list(res['y'])),np.array(list(res['t']))
+
+            def __len__(self):
+                return len(self.time_list)
+
+    else:
+        raise ValueError('没有该类型的dataset，请去utils.py中Dataset_generate函数内定义!')
+    
+    return dataset(*arg)

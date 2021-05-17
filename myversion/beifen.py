@@ -536,3 +536,97 @@ if __name__ == '__main__':
     print(time_step, hidden_size, lr, train_zscore, batch_size, drop_ratio, split)
     trainer = Trainer(time_step, hidden_size, lr, train_zscore, batch_size, drop_ratio, split)
     trainer.train_minibatch(num_epochs)
+
+
+
+def run_beifen(self):
+        xs = self.Data['train']['x']
+        ys = self.Data['train']['y']
+        ts = self.Data['train']['t']
+
+        test_data = {}
+        test_data['x'] = self.Data['test']['x']
+        test_data['y'] = self.Data['test']['y']
+        test_data['t'] = self.Data['test']['t']
+        TestDataloader = DataLoader(
+            dataset(test_data), batch_size=self.train_conf['batch'], shuffle=False)
+
+        train_size = len(ts)
+        self.no_impr = 0
+        while(self.cur_epoch < self.train_conf['epoch']):
+            self.cur_epoch += 1
+            self.logger.info('======epoch:'+str(self.cur_epoch) +
+                             ' 正在训练 ========================>')
+            # 随机选n%做validation数据
+            validation_index = random.sample(range(train_size), int(
+                train_size*self.train_conf['split']/100.))
+            validation_mask = np.array([False] * train_size)
+            validation_mask[validation_index] = True
+            # 验证集
+            val_data = {}
+            val_data['x'] = xs[validation_mask]
+            val_data['y'] = ys[validation_mask]
+            val_data['t'] = ts[validation_mask]
+            ValDataloader = DataLoader(
+                dataset(val_data), batch_size=self.train_conf['batch'], shuffle=False)
+            # 训练集
+            train_data = {}
+            train_data['x'] = xs[~validation_mask]
+            train_data['y'] = ys[~validation_mask]
+            train_data['t'] = ts[~validation_mask]
+            TrainDataloader = DataLoader(
+                dataset(train_data), batch_size=self.train_conf['batch'], shuffle=False)
+            train_accuracy = self.train(TrainDataloader)
+            validation_accuracy,val_loss = self.valid(ValDataloader)
+            test_accuracy,test_random,test_loss= self.test(TestDataloader)
+            
+            def save_checkpoint(best=True):
+                self.result['epoch'].append(self.cur_epoch)
+                self.result['loss'].append(self.epoch_Loss)
+                self.result['lr'].append(self.optimizer.state_dict()['param_groups'][0]['lr'])
+                self.result['train_accuracy'].append(train_accuracy)
+                self.result['acc_train_max_diff'].append(
+                    self.acc_train_max_diff)
+                self.result['validation_accuracy'].append(validation_accuracy)
+                self.result['validation_loss'].append(val_loss)
+                self.result['acc_val_max_diff'].append(self.acc_val_max_diff)
+                self.result['test_random'].append(test_random)
+                self.result['test_accuarcy'].append(test_accuracy)
+                self.result['test_loss'].append(test_loss)
+                self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
+                if not os.path.exists(self.result_path):
+                    self.logger.info('第一次保存，新建目录:', self.result_path)
+                    os.mkdir(self.result_path)
+                pd.DataFrame(self.result).to_csv(self.csv_name, index=False)
+                torch.save(
+                    {
+                        "epoch": self.cur_epoch,
+                        "epoch_Loss:": self.epoch_Loss,
+                        "acc_train_max_diff": self.acc_train_max_diff,
+                        "acc_val_max_diff": self.acc_val_max_diff,
+                        "test_best_loss": self.test_best_loss,
+                        "best_model_test_acc_diff": self.best_model_test_acc_diff,
+                        "acc_test_max_diff": self.acc_test_max_diff,
+                        "model_state_dict": self.model.state_dict(),
+                        "optim_state_dict": self.optimizer.state_dict(),
+                    },
+                    os.path.join(self.result_path,
+                                 "{0}.pt".format("best" if best else "last")))
+
+            if test_loss < self.test_best_loss:
+                save_checkpoint(best = True)
+                self.test_best_loss = test_loss
+                self.best_model_test_acc_diff = test_accuracy - test_random
+                self.no_impr = 0
+                self.logger.info('Epoch: {:d}, now best test loss change: {:.8f}'.format(self.cur_epoch,self.test_best_loss))
+            else:
+                self.no_impr += 1
+                self.logger.info('{:d} no improvement, best loss: {:.4f}'.format(self.no_impr,self.scheduler.best))
+            save_checkpoint(best = False)
+
+            if self.no_impr == self.train_conf['stop']:
+                self.show_result()
+                self.logger.info(
+                    "Stop training cause no impr for {:d} epochs".format(self.no_impr))
+                break
+        self.show_result()
