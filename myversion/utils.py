@@ -1,4 +1,4 @@
-#公用模型工具函数
+# 公用模型工具函数
 import os
 import yaml
 import logging
@@ -6,6 +6,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset
+
 
 def get_opt(opt_path):
     '''
@@ -43,14 +44,16 @@ def get_logger(logfile, format_str="%(asctime)s [%(pathname)s:%(lineno)s - %(lev
     logger.addHandler(handler_str)
     return logger
 
+
 def load_dataset(data_conf):
     train_years = data_conf['train_list']
     test_years = data_conf['test_list']
+
     def load_pickle(years):
         data_dic = None
         for y in years:
             with open(os.path.join(data_conf['datapath'],
-                'v1_T'+str(data_conf['T'])+'_yb1_%s.pickle' % (y)), 'rb') as fp:
+                                   'v1_T'+str(data_conf['T'])+'_yb1_%s.pickle' % (y)), 'rb') as fp:
                 dataset = pickle.load(fp)
 
             if data_dic is None:
@@ -71,16 +74,17 @@ def load_dataset(data_conf):
 
     return dataset
 
-def Dataset_generate(dataset_type,*arg):
+
+def Dataset_generate(dataset_type, *arg):
     '''
     在里面定义好自己所需要的dataset类
     '''
-    if not isinstance(dataset_type,int):
+    if not isinstance(dataset_type, int):
         raise Exception('请输入int型dataset_type!')
     if dataset_type == 1:
         class dataset(Dataset):
             def __init__(self, data):
-                self.data = data[['x','y','t']]
+                self.data = data[['x', 'y', 't']]
 
             def __getitem__(self, index):
                 # 返回的目标是0 ,1
@@ -88,22 +92,23 @@ def Dataset_generate(dataset_type,*arg):
 
             def __len__(self):
                 return len(self.data['t'])
-        
+
     elif dataset_type == 2:
         class dataset(Dataset):
             def __init__(self, data):
                 self.data = data
-                self.time_list = sorted(set(self.data['day']),key=list(self.data['day']).index)
+                self.time_list = sorted(
+                    set(self.data['day']), key=list(self.data['day']).index)
 
             def __getitem__(self, index):
-                res = self.data[self.data['day']==self.time_list[index]]
-                
-                return np.array(list(res['x'])), np.array(list(res['y'])),np.array(list(res['t']))
+                res = self.data[self.data['day'] == self.time_list[index]]
+
+                return np.array(list(res['x'])), np.array(list(res['y'])), np.array(list(res['t']))
 
             def __len__(self):
                 return len(self.time_list)
 
     else:
         raise ValueError('没有该类型的dataset，请去utils.py中Dataset_generate函数内定义!')
-    
+
     return dataset(*arg)

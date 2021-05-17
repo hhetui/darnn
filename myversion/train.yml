@@ -366,7 +366,7 @@ ver7: #darnn中提前额外加入self-attention
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -395,7 +395,7 @@ ver7_1: #最后的selfattention加入dropout
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -424,7 +424,7 @@ ver7_2: #最后的selfattention 使用dropout和resdual
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -453,7 +453,7 @@ ver7_2_1: #最后的selfattention 使用dropout和resdual，最后使用resdual 
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -482,7 +482,7 @@ ver7_2_2: #7_2版本模型+按照日期填入数据测试效果
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -511,7 +511,7 @@ ver7_3: # 中间EN DN中的slefattention也使用dropout；最后的selfattenti
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -540,7 +540,7 @@ ver7_4: # 中间EN DN中的slefattention也使用resdual；最后的selfattenti
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 
@@ -569,7 +569,7 @@ ver7_5: # 中间EN DN中的slefattention也使用dropout和resdual；最后的s
     weight_decay: 0.0
     patience: 2000
     stop: 1000
-    resume: False
+    resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
 

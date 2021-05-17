@@ -6,6 +6,8 @@ import random
 import pandas as pd
 from collections import defaultdict
 import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 import torch
 from torch import optim
@@ -123,25 +125,28 @@ class Trainer:
             validation_accuracy, val_loss = self.valid(ValDataloader)
             test_accuracy, test_random, test_loss = self.test(TestDataloader)
 
-            def save_checkpoint(best=True):
-                self.result['epoch'].append(self.cur_epoch)
-                self.result['loss'].append(self.epoch_Loss)
-                self.result['lr'].append(self.optimizer.state_dict()[
-                                         'param_groups'][0]['lr'])
-                self.result['train_accuracy'].append(train_accuracy)
-                self.result['acc_train_max_diff'].append(
-                    self.acc_train_max_diff)
-                self.result['validation_accuracy'].append(validation_accuracy)
-                self.result['validation_loss'].append(val_loss)
-                self.result['acc_val_max_diff'].append(self.acc_val_max_diff)
-                self.result['test_random'].append(test_random)
-                self.result['test_accuarcy'].append(test_accuracy)
-                self.result['test_loss'].append(test_loss)
-                self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
+            def save_checkpoint(best):
+                if not best:
+                    self.result['epoch'].append(self.cur_epoch)
+                    self.result['loss'].append(self.epoch_Loss)
+                    self.result['lr'].append(self.optimizer.state_dict()[
+                                            'param_groups'][0]['lr'])
+                    self.result['train_accuracy'].append(train_accuracy)
+                    self.result['acc_train_max_diff'].append(
+                        self.acc_train_max_diff)
+                    self.result['validation_accuracy'].append(validation_accuracy)
+                    self.result['validation_loss'].append(val_loss)
+                    self.result['acc_val_max_diff'].append(self.acc_val_max_diff)
+                    self.result['test_random'].append(test_random)
+                    self.result['test_accuarcy'].append(test_accuracy)
+                    self.result['test_loss'].append(test_loss)
+                    self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
                 if not os.path.exists(self.result_path):
                     self.logger.info('第一次保存，新建目录:', self.result_path)
                     os.mkdir(self.result_path)
+                #保存csv结果
                 pd.DataFrame(self.result).to_csv(self.csv_name, index=False)
+                #保存模型参数以及一些max数据
                 torch.save(
                     {
                         "epoch": self.cur_epoch,
@@ -156,6 +161,8 @@ class Trainer:
                     },
                     os.path.join(self.result_path,
                                  "{0}.pt".format("best" if best else "last")))
+                #绘制折线图
+                self.save_figure()
 
             if test_loss < self.test_best_loss:
                 save_checkpoint(best=True)
@@ -286,6 +293,25 @@ class Trainer:
             self.best_model_test_acc_diff))
         self.logger.info('acc_test_max_diff:{:.8f}'.format(
             self.acc_test_max_diff))
+
+    def save_figure(self):
+        sns.set()
+        plt.rcParams['lines.linewidth']=0.3
+        train_loss = plt.plot(self.result['epoch'],self.result['loss'],'lightcoral',label='loss')
+        test_loss = plt.plot(self.result['epoch'],self.result['test_loss'],'lightseagreen',label='test_loss')
+        plt.title('Loss_figure')
+        plt.xlabel('Epoch')
+        plt.ylabel('Loss')
+        plt.legend()
+        plt.savefig(os.path.join(self.result_path,self.model_file_name+'_Loss_figure.jpg'),dpi = 2000)
+        plt.clf()
+        train_loss = plt.plot(self.result['epoch'],self.result['train_accuracy'],'lightcoral',label='train_acc')
+        test_loss = plt.plot(self.result['epoch'],self.result['test_accuarcy'],'lightseagreen',label='test_acc')
+        plt.title('Acc_figure')
+        plt.xlabel('Epoch')
+        plt.ylabel('Acc')
+        plt.legend()
+        plt.savefig(os.path.join(self.result_path,self.model_file_name+'_Acc_figure.jpg'),dpi = 2000)
 
     def to_Tensor(self, x):
         return x.type(torch.FloatTensor).to(self.device)
