@@ -95,15 +95,15 @@ def Dataset_generate(dataset_type, *arg):
 
     elif dataset_type == 2:
         class dataset(Dataset):
-            def __init__(self, data):
-                self.data = data
+            def __init__(self, ori_data):
+                self.data = []
                 self.time_list = sorted(
-                    set(self.data['day']), key=list(self.data['day']).index)
-
+                    set(ori_data['day']), key=list(ori_data['day']).index)
+                for day in self.time_list:
+                    res = ori_data[ori_data['day'] == day]
+                    self.data.append((np.array(list(res['x'])), np.array(list(res['y'])), np.array(list(res['t']))))
             def __getitem__(self, index):
-                res = self.data[self.data['day'] == self.time_list[index]]
-
-                return np.array(list(res['x'])), np.array(list(res['y'])), np.array(list(res['t']))
+                return self.data[index][0],self.data[index][1],self.data[index][2]
 
             def __len__(self):
                 return len(self.time_list)

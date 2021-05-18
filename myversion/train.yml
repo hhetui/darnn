@@ -417,7 +417,7 @@ ver7_2: #最后的selfattention 使用dropout和resdual
   
   #train settings
   train_conf:
-    epoch: 1500
+    epoch: 1501
     batch: 256
     split: 0.3
     learning_rate: 0.001
