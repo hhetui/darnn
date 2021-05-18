@@ -12721,3 +12721,47 @@
 2021-05-18 19:59:18 [/home/wxk/darnn/myversion/trainer.py:219 - INFO ] [1;31m Accuracy:0.6877 Precision:0.7015 Recall:0.6283 F1:0.6629 [0m
 2021-05-18 19:59:18 [/home/wxk/darnn/myversion/trainer.py:221 - INFO ] [1;31m Random:0.5114	MaxAccDiff:0.188534 [0m
 2021-05-18 19:59:18 [/home/wxk/darnn/myversion/trainer.py:225 - INFO ] [1;34m Valid: [0m
+2021-05-18 20:00:21 [/home/wxk/darnn/myversion/trainer.py:249 - INFO ] [1;31m Accuracy:0.7000 Precision:0.7473 Recall:0.5819 F1:0.6543 val_loss:0.00210164 [0m
+2021-05-18 20:00:21 [/home/wxk/darnn/myversion/trainer.py:251 - INFO ] [1;31m Random:0.5121	MaxAccDiff:0.207526 	best_model_test_acc_diff:0.085267 [0m
+2021-05-18 20:00:21 [/home/wxk/darnn/myversion/trainer.py:255 - INFO ] [1;34m Test: [0m
+2021-05-18 20:00:53 [/home/wxk/darnn/myversion/trainer.py:275 - INFO ] [1;31m Accuracy:0.5745 Precision:0.6168 Recall:0.3748 F1:0.4663 test_loss:0.00263364 [0m
+2021-05-18 20:00:53 [/home/wxk/darnn/myversion/trainer.py:277 - INFO ] [1;31m Random:0.5041	testMaxAccDiff:0.086793 [0m
+2021-05-18 20:00:53 [/home/wxk/darnn/myversion/trainer.py:177 - INFO ] 57 no improvement, best loss: 0.0020
+2021-05-18 20:01:00 [/home/wxk/darnn/myversion/trainer.py:123 - INFO ] ======epoch:1055 正在训练 ========================>
+2021-05-18 20:01:00 [/home/wxk/darnn/myversion/trainer.py:188 - INFO ] [1;34m Train: [0m
+2021-05-18 20:05:05 [/home/wxk/darnn/myversion/trainer.py:217 - INFO ] 第 [1;34m 1055 [0m 轮的训练集正确率为:[1;32m 0.6850 [0m epoch_mean_Loss 为: [1;32m 0.00210955 [0m
+2021-05-18 20:05:05 [/home/wxk/darnn/myversion/trainer.py:219 - INFO ] [1;31m Accuracy:0.6850 Precision:0.6938 Recall:0.6369 F1:0.6641 [0m
+2021-05-18 20:05:05 [/home/wxk/darnn/myversion/trainer.py:221 - INFO ] [1;31m Random:0.5110	MaxAccDiff:0.188534 [0m
+2021-05-18 20:05:05 [/home/wxk/darnn/myversion/trainer.py:225 - INFO ] [1;34m Valid: [0m
+2021-05-18 20:06:07 [/home/wxk/darnn/myversion/trainer.py:249 - INFO ] [1;31m Accuracy:0.6959 Precision:0.7131 Recall:0.6288 F1:0.6683 val_loss:0.00211574 [0m
+2021-05-18 20:06:07 [/home/wxk/darnn/myversion/trainer.py:251 - INFO ] [1;31m Random:0.5128	MaxAccDiff:0.207526 	best_model_test_acc_diff:0.085267 [0m
+2021-05-18 20:06:07 [/home/wxk/darnn/myversion/trainer.py:255 - INFO ] [1;34m Test: [0m
+2021-05-18 20:06:38 [/home/wxk/darnn/myversion/trainer.py:275 - INFO ] [1;31m Accuracy:0.5820 Precision:0.6038 Recall:0.4564 F1:0.5199 test_loss:0.00263108 [0m
+2021-05-18 20:06:38 [/home/wxk/darnn/myversion/trainer.py:277 - INFO ] [1;31m Random:0.5041	testMaxAccDiff:0.086793 [0m
+2021-05-18 20:06:38 [/home/wxk/darnn/myversion/trainer.py:177 - INFO ] 58 no improvement, best loss: 0.0020
+2021-05-18 20:06:45 [/home/wxk/darnn/myversion/trainer.py:123 - INFO ] ======epoch:1056 正在训练 ========================>
+2021-05-18 20:06:45 [/home/wxk/darnn/myversion/trainer.py:188 - INFO ] [1;34m Train: [0m
+2021-05-18 20:10:49 [/home/wxk/darnn/myversion/trainer.py:217 - INFO ] 第 [1;34m 1056 [0m 轮的训练集正确率为:[1;32m 0.6873 [0m epoch_mean_Loss 为: [1;32m 0.00210545 [0m
+2021-05-18 20:10:49 [/home/wxk/darnn/myversion/trainer.py:219 - INFO ] [1;31m Accuracy:0.6873 Precision:0.6983 Recall:0.6335 F1:0.6643 [0m
+2021-05-18 20:10:49 [/home/wxk/darnn/myversion/trainer.py:221 - INFO ] [1;31m Random:0.5116	MaxAccDiff:0.188534 [0m
+2021-05-18 20:10:49 [/home/wxk/darnn/myversion/trainer.py:225 - INFO ] [1;34m Valid: [0m
+2021-05-18 20:11:52 [/home/wxk/darnn/myversion/trainer.py:249 - INFO ] [1;31m Accuracy:0.7036 Precision:0.7451 Recall:0.5977 F1:0.6633 val_loss:0.00206900 [0m
+2021-05-18 20:11:52 [/home/wxk/darnn/myversion/trainer.py:251 - INFO ] [1;31m Random:0.5116	MaxAccDiff:0.207526 	best_model_test_acc_diff:0.085267 [0m
+2021-05-18 20:11:52 [/home/wxk/darnn/myversion/trainer.py:255 - INFO ] [1;34m Test: [0m
+2021-05-18 20:12:23 [/home/wxk/darnn/myversion/trainer.py:275 - INFO ] [1;31m Accuracy:0.5769 Precision:0.6105 Recall:0.4053 F1:0.4871 test_loss:0.00259843 [0m
+2021-05-18 20:12:23 [/home/wxk/darnn/myversion/trainer.py:277 - INFO ] [1;31m Random:0.5041	testMaxAccDiff:0.086793 [0m
+2021-05-18 20:12:23 [/home/wxk/darnn/myversion/trainer.py:177 - INFO ] 59 no improvement, best loss: 0.0020
+2021-05-18 20:12:31 [/home/wxk/darnn/myversion/trainer.py:123 - INFO ] ======epoch:1057 正在训练 ========================>
+2021-05-18 20:12:31 [/home/wxk/darnn/myversion/trainer.py:188 - INFO ] [1;34m Train: [0m
+2021-05-18 20:16:35 [/home/wxk/darnn/myversion/trainer.py:217 - INFO ] 第 [1;34m 1057 [0m 轮的训练集正确率为:[1;32m 0.6875 [0m epoch_mean_Loss 为: [1;32m 0.00209605 [0m
+2021-05-18 20:16:35 [/home/wxk/darnn/myversion/trainer.py:219 - INFO ] [1;31m Accuracy:0.6875 Precision:0.6996 Recall:0.6305 F1:0.6633 [0m
+2021-05-18 20:16:35 [/home/wxk/darnn/myversion/trainer.py:221 - INFO ] [1;31m Random:0.5119	MaxAccDiff:0.188534 [0m
+2021-05-18 20:16:35 [/home/wxk/darnn/myversion/trainer.py:225 - INFO ] [1;34m Valid: [0m
+2021-05-18 20:17:38 [/home/wxk/darnn/myversion/trainer.py:249 - INFO ] [1;31m Accuracy:0.7058 Precision:0.7528 Recall:0.5934 F1:0.6637 val_loss:0.00205654 [0m
+2021-05-18 20:17:38 [/home/wxk/darnn/myversion/trainer.py:251 - INFO ] [1;31m Random:0.5109	MaxAccDiff:0.207526 	best_model_test_acc_diff:0.085267 [0m
+2021-05-18 20:17:38 [/home/wxk/darnn/myversion/trainer.py:255 - INFO ] [1;34m Test: [0m
+2021-05-18 20:18:09 [/home/wxk/darnn/myversion/trainer.py:275 - INFO ] [1;31m Accuracy:0.5766 Precision:0.6189 Recall:0.3803 F1:0.4711 test_loss:0.00259981 [0m
+2021-05-18 20:18:09 [/home/wxk/darnn/myversion/trainer.py:277 - INFO ] [1;31m Random:0.5041	testMaxAccDiff:0.086793 [0m
+2021-05-18 20:18:09 [/home/wxk/darnn/myversion/trainer.py:177 - INFO ] 60 no improvement, best loss: 0.0020
+2021-05-18 20:18:16 [/home/wxk/darnn/myversion/trainer.py:123 - INFO ] ======epoch:1058 正在训练 ========================>
+2021-05-18 20:18:16 [/home/wxk/darnn/myversion/trainer.py:188 - INFO ] [1;34m Train: [0m

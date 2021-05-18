@@ -53,7 +53,8 @@ class Trainer:
         self.model = myModel(**self.model_conf)
         self.load_checkpoint()
         self.logger.info('导入数据集......')
-        self.DataLoader_Generate = DataLoader_Generate(self.train_conf,self.data_conf)
+        self.DataLoader_Generate = DataLoader_Generate(
+            self.train_conf, self.data_conf)
         self.logger.info('数据集导入成功！')
         self.scheduler = ReduceLROnPlateau(
             self.optimizer, mode='min', factor=0.6, patience=self.train_conf['patience'], verbose=True, min_lr=0)
@@ -74,7 +75,6 @@ class Trainer:
             self.optimizer = optim.Adam(params=filter(lambda p: p.requires_grad, self.model.parameters()),
                                         lr=self.train_conf['learning_rate'], weight_decay=self.train_conf['weight_decay'])
             self.optimizer.load_state_dict(checkpoint['optim_state_dict'])
-            self.logger.info('导入成功!')
             self.cur_epoch = checkpoint['epoch']
             self.acc_train_max_diff = checkpoint['acc_train_max_diff']
             self.acc_val_max_diff = checkpoint['acc_val_max_diff']
@@ -82,6 +82,7 @@ class Trainer:
             self.best_model_test_acc_diff = checkpoint['best_model_test_acc_diff']
             self.acc_test_max_diff = checkpoint['acc_test_max_diff']
             self.result = pd.read_csv(self.csv_name).to_dict(orient='list')
+            self.logger.info('导入成功!')
             self.logger.info('存档点读取完毕，目前已训练{}轮。'.format(self.cur_epoch))
         else:
             self.logger.info('没有存档点，各种参数初始化')
@@ -96,12 +97,12 @@ class Trainer:
             self.acc_test_max_diff = 0
             self.result = defaultdict(list)
 
-    def save_checkpoint(self,best):
-        
+    def save_checkpoint(self, best):
+
         self.result['epoch'].append(self.cur_epoch)
         self.result['loss'].append(self.epoch_Loss)
         self.result['lr'].append(self.optimizer.state_dict()[
-                                'param_groups'][0]['lr'])
+            'param_groups'][0]['lr'])
         self.result['train_accuracy'].append(self.train_accuracy)
         self.result['acc_train_max_diff'].append(
             self.acc_train_max_diff)
@@ -112,38 +113,14 @@ class Trainer:
         self.result['test_accuarcy'].append(self.test_accuracy)
         self.result['test_loss'].append(self.test_loss)
         self.result['acc_test_max_dif'].append(self.acc_test_max_diff)
-        
-        #保存csv结果
+
+        # 保存csv结果
         pd.DataFrame(self.result).to_csv(self.csv_name, index=False)
-        #保存模型参数以及一些max数据
-        torch.save(
-            {
-                "epoch": self.cur_epoch,
-                "epoch_Loss:": self.epoch_Loss,
-                "acc_train_max_diff": self.acc_train_max_diff,
-                "acc_val_max_diff": self.acc_val_max_diff,
-                "test_best_loss": self.test_best_loss,
-                "best_model_test_acc_diff": self.best_model_test_acc_diff,
-                "acc_test_max_diff": self.acc_test_max_diff,
-                "model_state_dict": self.model.state_dict(),
-                "optim_state_dict": self.optimizer.state_dict(),
-            },
-            os.path.join(self.result_path,"last.pt"))
+        # 保存模型参数以及一些max数据
+        self.save_pt('last')
         if best:
-            torch.save(
-            {
-                "epoch": self.cur_epoch,
-                "epoch_Loss:": self.epoch_Loss,
-                "acc_train_max_diff": self.acc_train_max_diff,
-                "acc_val_max_diff": self.acc_val_max_diff,
-                "test_best_loss": self.test_best_loss,
-                "best_model_test_acc_diff": self.best_model_test_acc_diff,
-                "acc_test_max_diff": self.acc_test_max_diff,
-                "model_state_dict": self.model.state_dict(),
-                "optim_state_dict": self.optimizer.state_dict(),
-            },
-            os.path.join(self.result_path,"best.pt"))
-        #绘制折线图
+            self.save_pt('best')
+        # 绘制折线图
         self.save_figure()
 
     def run(self):
@@ -152,7 +129,7 @@ class Trainer:
         self.no_impr = 0
         while(self.cur_epoch < self.train_conf['epoch']):
 
-            self.TrainDataloader,self.ValDataloader = self.DataLoader_Generate.Get_Train_ValLoader()
+            self.TrainDataloader, self.ValDataloader = self.DataLoader_Generate.Get_Train_ValLoader()
 
             self.cur_epoch += 1
             self.logger.info('======epoch:'+str(self.cur_epoch) +
@@ -161,7 +138,7 @@ class Trainer:
             self.valid()
             self.test()
 
-            if test_loss < self.test_best_loss:
+            if self.test_loss < self.test_best_loss:
                 self.test_best_loss = self.test_loss
                 self.best_model_test_acc_diff = self.test_accuracy - self.test_random
                 self.no_impr = 0
@@ -169,7 +146,6 @@ class Trainer:
                     self.cur_epoch, self.test_best_loss))
                 self.save_checkpoint(best=True)
             else:
-                best = False
                 self.no_impr += 1
                 self.logger.info('{:d} no improvement, best loss: {:.4f}'.format(
                     self.no_impr, self.scheduler.best))
@@ -193,7 +169,7 @@ class Trainer:
             self.optimizer.zero_grad()
 
             var_x, var_y, var_t = self.get_xy_from_sample(sample)
-            
+
             out = self.model(var_x, var_y)
             pre_t = (out >= 0.5) + 0
 
@@ -205,9 +181,10 @@ class Trainer:
 
             self.optimizer.step()
             train_loss += loss.data.item()
-        
+
         self.epoch_Loss = train_loss/len(t_ori)
-        self.train_accuracy, precision, recall, f1 = self.metrics(t_pred, t_ori)
+        self.train_accuracy, precision, recall, f1 = self.metrics(
+            t_pred, t_ori)
         train_random = self.rand_acc(t_ori)
         self.acc_train_max_diff = max(
             self.acc_train_max_diff, self.train_accuracy-train_random)
@@ -217,7 +194,7 @@ class Trainer:
             self.train_accuracy, precision, recall, f1))
         self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
                          (train_random, self.acc_train_max_diff))
-        
+
     def valid(self):
         self.logger.info('\033[1;34m Valid: \033[0m')
         with torch.no_grad():
@@ -246,7 +223,7 @@ class Trainer:
             self.validation_accuracy, precision, recall, f1, self.val_loss))
         self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \tbest_model_test_acc_diff:%.6f \033[0m' %
                          (validation_random, self.acc_val_max_diff, self.best_model_test_acc_diff))
-        
+
     def test(self):
         self.logger.info('\033[1;34m Test: \033[0m')
         with torch.no_grad():
@@ -271,7 +248,7 @@ class Trainer:
             self.test_accuracy, precision, recall, f1, self.test_loss))
         self.logger.info('\033[1;31m Random:%.4f\ttestMaxAccDiff:%.6f \033[0m' %
                          (self.test_random, self.acc_test_max_diff))
-        
+
     def get_xy_from_sample(self, sample):
         var_x = self.to_Tensor(sample[0])
         var_y = self.to_Tensor(sample[1])
@@ -289,25 +266,46 @@ class Trainer:
         self.logger.info('acc_test_max_diff:{:.8f}'.format(
             self.acc_test_max_diff))
 
+    def save_pt(self, pt_name):
+        torch.save(
+            {
+                "epoch": self.cur_epoch,
+                "epoch_Loss:": self.epoch_Loss,
+                "acc_train_max_diff": self.acc_train_max_diff,
+                "acc_val_max_diff": self.acc_val_max_diff,
+                "test_best_loss": self.test_best_loss,
+                "best_model_test_acc_diff": self.best_model_test_acc_diff,
+                "acc_test_max_diff": self.acc_test_max_diff,
+                "model_state_dict": self.model.state_dict(),
+                "optim_state_dict": self.optimizer.state_dict(),
+            },
+            os.path.join(self.result_path, str(pt_name)+".pt"))
+
     def save_figure(self):
         sns.set()
-        plt.rcParams['lines.linewidth']=0.3
+        plt.rcParams['lines.linewidth'] = 0.3
         plt.switch_backend('agg')
-        train_Loss = plt.plot(self.result['epoch'],self.result['loss'],'lightcoral',label='loss')
-        test_Loss = plt.plot(self.result['epoch'],self.result['test_loss'],'lightseagreen',label='test_loss')
+        train_Loss = plt.plot(
+            self.result['epoch'], self.result['loss'], 'lightcoral', label='loss')
+        test_Loss = plt.plot(
+            self.result['epoch'], self.result['test_loss'], 'lightseagreen', label='test_loss')
         plt.title('Loss_figure')
         plt.xlabel('Epoch')
         plt.ylabel('Loss')
         plt.legend()
-        plt.savefig(os.path.join(self.result_path,self.model_file_name+'_Loss_figure.jpg'),dpi = 1500)
+        plt.savefig(os.path.join(self.result_path,
+                                 self.model_file_name+'_Loss_figure.jpg'), dpi=1500)
         plt.clf()
-        train_Acc = plt.plot(self.result['epoch'],self.result['train_accuracy'],'lightcoral',label='train_acc')
-        test_Acc = plt.plot(self.result['epoch'],self.result['test_accuarcy'],'lightseagreen',label='test_acc')
+        train_Acc = plt.plot(
+            self.result['epoch'], self.result['train_accuracy'], 'lightcoral', label='train_acc')
+        test_Acc = plt.plot(
+            self.result['epoch'], self.result['test_accuarcy'], 'lightseagreen', label='test_acc')
         plt.title('Acc_figure')
         plt.xlabel('Epoch')
         plt.ylabel('Acc')
         plt.legend()
-        plt.savefig(os.path.join(self.result_path,self.model_file_name+'_Acc_figure.jpg'),dpi = 1500)
+        plt.savefig(os.path.join(self.result_path,
+                                 self.model_file_name+'_Acc_figure.jpg'), dpi=1500)
 
     def to_Tensor(self, x):
         return x.type(torch.FloatTensor).to(self.device)
