@@ -1,0 +1,11 @@
+2021-05-19 13:43:23 [/home/wxk/darnn/myversion/trainer.py:48 - INFO ] 此次实验设备为:cuda:0
+2021-05-19 13:43:23 [/home/wxk/darnn/myversion/trainer.py:49 - INFO ] 实验参数如下:
+2021-05-19 13:43:23 [/home/wxk/darnn/myversion/trainer.py:50 - INFO ] {'input_size': 6, 'T': 20, 'encoder_num_hidden': 32, 'decoder_num_hidden': 32, 'drop_ratio': 0.1}
+2021-05-19 13:43:23 [/home/wxk/darnn/myversion/trainer.py:51 - INFO ] {'epoch': 1500, 'batch': 256, 'split': 0.3, 'learning_rate': 0.001, 'weight_decay': 0.0, 'patience': 2000, 'stop': 1000, 'resume': False, 'checkpoint_path': '../result/', 'log_file': 'trainer.log'}
+2021-05-19 13:43:23 [/home/wxk/darnn/myversion/trainer.py:52 - INFO ] {'dataset_type': 1, 'train_list': [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018], 'test_list': [123, 456, 789, 1012], 'datapath': '../v_20dayv2', 'T': 20}
+2021-05-19 13:43:23 [/home/wxk/darnn/myversion/trainer.py:64 - INFO ] Load Checkpoint......
+2021-05-19 13:43:23 [/home/wxk/darnn/myversion/trainer.py:88 - INFO ] 没有存档点，各种参数初始化
+2021-05-19 13:43:25 [/home/wxk/darnn/myversion/trainer.py:55 - INFO ] 导入数据集......
+2021-05-19 13:43:28 [/home/wxk/darnn/myversion/trainer.py:58 - INFO ] 数据集导入成功！
+2021-05-19 13:43:28 [/home/wxk/darnn/myversion/trainer.py:136 - INFO ] ======epoch:1 正在训练 ========================>
+2021-05-19 13:43:28 [/home/wxk/darnn/myversion/trainer.py:162 - INFO ] [1;34m Train: [0m

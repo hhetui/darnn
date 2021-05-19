@@ -33,7 +33,7 @@ class Trainer:
         if os.path.exists(self.result_path) and not self.train_conf['resume']:
             print('检测到有checkpoint,确定要删除并重新训练吗？y/n')
             ans = input()
-            if ans == 'y' or '\n':
+            if ans == 'y' or ans == '':
                 shutil.rmtree(self.result_path)
             elif ans == 'n':
                 raise ValueError("如果想读取checkpoint继续训练，请修改yml文件中的resume值为True!")
@@ -171,8 +171,11 @@ class Trainer:
             var_x, var_y, var_t = self.get_xy_from_sample(sample)
 
             out = self.model(var_x, var_y)
-            pre_t = (out >= 0.5) + 0
 
+            if isinstance(self.model.loss_func, torch.nn.BCELoss): 
+                pre_t = (out >= 0.5) + 0
+            else:
+                pre_t = out
             t_pred.extend(pre_t.data.cpu().numpy())
             t_ori.extend(var_t.cpu().numpy())
 
@@ -185,15 +188,16 @@ class Trainer:
         self.epoch_Loss = train_loss/len(t_ori)
         self.train_accuracy, precision, recall, f1 = self.metrics(
             t_pred, t_ori)
-        train_random = self.rand_acc(t_ori)
+        if not hasattr(self,'train_random'):
+            self.train_random = self.rand_acc(t_ori)
         self.acc_train_max_diff = max(
-            self.acc_train_max_diff, self.train_accuracy-train_random)
+            self.acc_train_max_diff, self.train_accuracy-self.train_random)
         self.logger.info('第 \033[1;34m %d \033[0m 轮的训练集正确率为:\033[1;32m %.4f \033[0m epoch_mean_Loss 为: \033[1;32m %.8f \033[0m' %
                          (self.cur_epoch, self.train_accuracy, self.epoch_Loss))
         self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f \033[0m' % (
             self.train_accuracy, precision, recall, f1))
         self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \033[0m' %
-                         (train_random, self.acc_train_max_diff))
+                         (self.train_random, self.acc_train_max_diff))
 
     def valid(self):
         self.logger.info('\033[1;34m Valid: \033[0m')
@@ -213,16 +217,17 @@ class Trainer:
             self.val_loss = self.val_loss/len(t_ori)
         self.validation_accuracy, precision, recall, f1 = self.metrics(
             t_pred, t_ori)
-        validation_random = self.rand_acc(t_ori)
+        if not hasattr(self,'validation_random'):
+            self.validation_random = self.rand_acc(t_ori)
 
         self.scheduler.step(self.val_loss)
         sys.stdout.flush()
         self.acc_val_max_diff = max(
-            self.acc_val_max_diff, self.validation_accuracy-validation_random)
+            self.acc_val_max_diff, self.validation_accuracy-self.validation_random)
         self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f val_loss:%.8f \033[0m' % (
             self.validation_accuracy, precision, recall, f1, self.val_loss))
         self.logger.info('\033[1;31m Random:%.4f\tMaxAccDiff:%.6f \tbest_model_test_acc_diff:%.6f \033[0m' %
-                         (validation_random, self.acc_val_max_diff, self.best_model_test_acc_diff))
+                         (self.validation_random, self.acc_val_max_diff, self.best_model_test_acc_diff))
 
     def test(self):
         self.logger.info('\033[1;34m Test: \033[0m')
@@ -241,7 +246,8 @@ class Trainer:
                 t_ori.extend(var_t.cpu().numpy())
             self.test_loss = self.test_loss/len(t_ori)
         self.test_accuracy, precision, recall, f1 = self.metrics(t_pred, t_ori)
-        self.test_random = self.rand_acc(t_ori)
+        if not hasattr(self,'test_random'):
+            self.test_random = self.rand_acc(t_ori)
         self.acc_test_max_diff = max(
             self.acc_test_max_diff, self.test_accuracy-self.test_random)
         self.logger.info('\033[1;31m Accuracy:%.4f Precision:%.4f Recall:%.4f F1:%.4f test_loss:%.8f \033[0m' % (
@@ -250,9 +256,7 @@ class Trainer:
                          (self.test_random, self.acc_test_max_diff))
 
     def get_xy_from_sample(self, sample):
-        var_x = self.to_Tensor(sample[0])
-        var_y = self.to_Tensor(sample[1])
-        var_t = self.to_Tensor(sample[2])
+        var_x, var_y, var_t = self.to_Tensor(sample)
         if self.data_conf['dataset_type'] == 2:
             var_x = var_x.squeeze(0)
             var_y = var_y.squeeze(0)
@@ -307,10 +311,20 @@ class Trainer:
         plt.savefig(os.path.join(self.result_path,
                                  self.model_file_name+'_Acc_figure.jpg'), dpi=1500)
 
-    def to_Tensor(self, x):
-        return x.type(torch.FloatTensor).to(self.device)
+    def to_Tensor(self, sample):
+        x = sample[0].type(torch.FloatTensor).to(self.device)
+        y = sample[1].type(torch.FloatTensor).to(self.device)
+        if isinstance(self.model.loss_func, torch.nn.BCELoss):
+            t = sample[2].type(torch.FloatTensor).to(self.device)
+        elif isinstance(self.model.loss_func, torch.nn.CrossEntropyLoss):
+            t = sample[2].type(torch.LongTensor).to(self.device)
+        return x, y, t
 
     def metrics(self, results, ori_y):
+        if isinstance(self.model.loss_func, torch.nn.CrossEntropyLoss):
+            prediction = torch.argmax(torch.Tensor(results), 1)
+            correct = torch.sum(prediction == torch.Tensor(ori_y))
+            return correct/len(ori_y),0,0,0
         accuracy = accuracy_score(ori_y, results)
         precision = precision_score(
             ori_y, results, labels=[1], average=None)[0]
@@ -319,4 +333,4 @@ class Trainer:
         return accuracy, precision, recall, f1
 
     def rand_acc(self, t_ori):
-        return max([np.sum(np.array(t_ori) == r) for r in [0, 1]]) * 1. / len(t_ori)
+        return max([np.sum(np.array(t_ori) == r) for r in set(t_ori)]) * 1. / len(t_ori)
