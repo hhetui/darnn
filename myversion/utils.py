@@ -3,6 +3,7 @@ import os
 import yaml
 import logging
 import pickle
+import random
 import numpy as np
 import pandas as pd
 from torch.utils.data import Dataset,DataLoader
@@ -54,11 +55,11 @@ class DataLoader_Generate:
 
     def Load_dataset(self):
         '''
-        返回字典dataset 键值:train和test 各存储 一个Dataframe  
+        返回字典dataset 键值:train和test 各存储 一个Dic
         '''
         Data = {}
-        Data['train'] = self.pickle2DF(self.data_conf['train_list'])
-        Data['test'] = self.pickle2DF(self.data_conf['test_list'])
+        Data['train'] = self.pickle2dic(self.data_conf['train_list'])
+        Data['test'] = self.pickle2dic(self.data_conf['test_list'])
         #可能的进一步处理
         if self.data_conf['dataset_type'] == 1:
             #原始数据处理方式
@@ -80,57 +81,62 @@ class DataLoader_Generate:
                 dic['x']=data_x
                 dic['y']=data_y
                 dic['t']=data_t
-                return pd.DataFrame(dic)
+                return dic
             Data['train'] = day_data(Data['train'])
             Data['test'] = day_data(Data['test'])
         return Data
 
-    def pickle2DF(self,year_list):
+    def pickle2dic(self,year_list):
         '''
-        将year_list内所有pickle字典数据拼接后，封装成Dataframe类型返回
+        将year_list内所有pickle字典数据拼接后，返回字典类型
         '''
         data_dic = None
         for y in year_list:
             with open(os.path.join(self.data_conf['datapath'],
                                 'v1_T'+str(self.data_conf['T'])+'_yb1_%s.pickle' % (y)), 'rb') as fp:
                 dataset = pickle.load(fp)
-
                 if data_dic is None:
-                    data_dic = {}
-                    data_dic['x'] = list(dataset['x'])
-                    data_dic['y'] = list(dataset['y'])
-                    data_dic['t'] = list(dataset['t'])
-                    data_dic['day'] = list(dataset['day'])
+                    data_dic = dataset
                 else:
-                    data_dic['x'] = data_dic['x'] + list(dataset['x'])
-                    data_dic['y'] = data_dic['y'] + list(dataset['y'])
-                    data_dic['t'] = data_dic['t'] + list(dataset['t'])
-                    data_dic['day'] = data_dic['day'] + list(dataset['day'])
-        return pd.DataFrame(data_dic)
-    
-    def DF2DataLoader(self,DF):
-        class dataset(Dataset):
-            def __init__(self, df):
-                self.df = df[['x', 'y', 't']]
+                    for key in list(data_dic.keys()):
+                        data_dic[key] = np.concatenate((data_dic[key],dataset[key]),0)
 
+        return data_dic
+    
+    def Dic2DataLoader(self,Dic):
+        class dataset(Dataset):
+            def __init__(self, dic):
+                self.dic = dic
+                self.L = len(self.dic[list(self.dic.keys())[0]])
             def __getitem__(self, index):
                 # 返回的目标是0 ,1
-                return self.df.iloc[index]['x'], self.df.iloc[index]['y'], self.df.iloc[index]['t']
+                
+                return self.dic['x'][index],self.dic['y'][index],self.dic['t'][index],
 
             def __len__(self):
-                return len(self.df['t'])
-        return DataLoader(dataset(DF),batch_size=self.train_conf['batch'], shuffle=False)
+                return self.L
+        return DataLoader(dataset(Dic),batch_size=self.train_conf['batch'], shuffle=False)
 
     def Get_TestDataLoader(self):
-        return self.DF2DataLoader(self.Data['test'])
+        return self.Dic2DataLoader(self.Data['test'])
 
     def Get_Train_ValLoader(self):
-        Train_data = self.Data['train'].sample(frac=1-self.train_conf['split'])
-        Train_data.sort_index(inplace=True)
-        Val_data = self.Data['train'][~self.Data['train'].index.isin(
-            Train_data.index)]
-        Val_data.sort_index(inplace=True)
+        Size = len(self.Data['train'][list(self.Data['train'].keys())[0]])
+        validation_index = random.sample(range(Size), int(
+                Size*self.train_conf['split']))
+        validation_mask = np.array([False] * Size)
+        validation_mask[validation_index] = True
+        
+        Train_data = self.getsubdata(self.Data['train'],~validation_mask)
+        Val_data = self.getsubdata(self.Data['train'],validation_mask)
 
-        TrainDataloader = self.DF2DataLoader(Train_data)
-        ValDataloader = self.DF2DataLoader(Val_data)
+
+
+        TrainDataloader = self.Dic2DataLoader(Train_data)
+        ValDataloader = self.Dic2DataLoader(Val_data)
         return TrainDataloader, ValDataloader
+    def getsubdata(self,dic,mask):
+        res = {}
+        for key in list(dic.keys()):
+            res[key] = dic[key][mask]
+        return res

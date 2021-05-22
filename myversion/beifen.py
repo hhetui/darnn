@@ -630,3 +630,12 @@ def run_beifen(self):
                     "Stop training cause no impr for {:d} epochs".format(self.no_impr))
                 break
         self.show_result()
+    
+
+
+        '''太慢了！！！！！！垃圾pandas
+        Train_data = self.Data['train'].sample(frac=1-self.train_conf['split'])
+        Train_data.sort_index(inplace=True)
+        Val_data = self.Data['train'][~self.Data['train'].index.isin(
+            Train_data.index)]
+        Val_data.sort_index(inplace=True)'''

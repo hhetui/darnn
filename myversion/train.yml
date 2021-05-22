@@ -580,7 +580,7 @@ ver7_5: # 中间EN DN中的slefattention也使用dropout和resdual；最后的s
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
     T: 20
-ver7_6: #中间EN DN中的slefattention也使用resdual；最后的selfattention 使用resdual
+ver7_6: #中间EN DN中的selfattention也使用resdual；最后的selfattention 使用resdual
   #model settings
   model_conf:
     input_size: 6
@@ -609,6 +609,37 @@ ver7_6: #中间EN DN中的slefattention也使用resdual；最后的selfattention
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
     T: 20
+
+ver7_6_1: #中间EN DN中的selfattention也使用resdual；最后的selfattention 使用resdual;dropout=0
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+    
 ver7_7: #尝试3分类
   #model settings
   model_conf:
@@ -639,6 +670,7 @@ ver7_7: #尝试3分类
     datapath: '../v_20dayv2'
     T: 20
 
+    
 ver8: #darnn中替换成self-attention
   #model settings
   model_conf:
