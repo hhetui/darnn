@@ -20,6 +20,7 @@ ver2: #LSTM模型
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -47,6 +48,7 @@ ver2_1: #LSTM模型改变隐向量长度
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -76,6 +78,7 @@ ver3: #LSTM的EN-DN结构
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -105,6 +108,7 @@ ver4: #CNN 结合 self-attention
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -135,6 +139,7 @@ ver5: #DARNN 基础版
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -164,6 +169,7 @@ ver5_1: #DARNN 基础版
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -194,6 +200,7 @@ ver6: #DARNN+self-attention 基础版
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -223,6 +230,7 @@ ver6_1: #增加num_hidden
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -252,6 +260,7 @@ ver6_2: #增加num_hidden
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -281,6 +290,7 @@ ver6_3: #T改为30
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -310,6 +320,7 @@ ver6_4: #T改为10
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -339,6 +350,7 @@ ver6_5: #DARNN+self-attention带dropout独立版
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -369,6 +381,7 @@ ver7: #darnn中提前额外加入self-attention
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -398,6 +411,37 @@ ver7_1: #最后的selfattention加入dropout
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_1_1: #最后的selfattention加入dropout sequtional使用relu
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -427,6 +471,7 @@ ver7_2: #最后的selfattention 使用dropout和resdual
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -456,6 +501,7 @@ ver7_2_1: #最后的selfattention 使用dropout和resdual，最后使用resdual 
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -485,10 +531,160 @@ ver7_2_2: #7_2版本模型+按照日期填入数据测试效果
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
-
+    cudaid: 0
   #dataset settings
   data_conf:
     dataset_type: 2
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_2_3: #7_2版本后面sequentional加入relu层
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_2_4: #最后的selfattention 使用dropout和resdual 去掉sequential
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1501
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_2_5: #最后的selfattention 使用dropout和resdual 不使用scale
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: False
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_2_6: #最后的selfattention 使用dropout和resdual 不使用scale 使用relu
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1501
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_2_7: #最后的selfattention 使用dropout和resdual 不使用scale 去掉sequential
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1501
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
     train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
@@ -514,6 +710,7 @@ ver7_3: # 中间EN DN中的slefattention也使用dropout；最后的selfattenti
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -543,6 +740,7 @@ ver7_4: # 中间EN DN中的slefattention也使用resdual；最后的selfattenti
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -572,6 +770,97 @@ ver7_5: # 中间EN DN中的slefattention也使用dropout和resdual；最后的s
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_5_1: # 中间EN DN中的slefattention也使用dropout和resdual；最后的selfattention 使用dropout和resdual 不使用scale
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 1
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_5_2: # 中间EN DN中的slefattention也使用dropout和resdual；最后的selfattention 使用dropout和resdual 加relu
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 1
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_20day'
+    T: 20
+ver7_5_3: # 中间EN DN中的slefattention也使用dropout和resdual；最后的selfattention 使用dropout和resdual 去掉sequential
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 20
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 1
 
   #dataset settings
   data_conf:
@@ -601,6 +890,7 @@ ver7_6: #最后的selfattention 使用resdual
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -630,6 +920,7 @@ ver7_6_1: #中间EN DN中的selfattention也使用resdual；最后的selfattenti
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -659,6 +950,7 @@ ver7_6_2: #最后的selfattention 使用resdual;dropout=0
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -667,6 +959,9 @@ ver7_6_2: #最后的selfattention 使用resdual;dropout=0
     test_list: [123,456,789,1012]
     datapath: '../v_20day'
     T: 20
+
+
+
 
 ver7_7: #尝试3分类
   #model settings
@@ -689,6 +984,7 @@ ver7_7: #尝试3分类
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -720,6 +1016,7 @@ ver8: #darnn中替换成self-attention
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -750,6 +1047,7 @@ ver9: #DARNN内部使用CNNattention+self-attention 基础版
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -779,6 +1077,7 @@ ver9_1: #DARNN内部使用CNNattention+self-attention （师兄理解）参数�
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -810,6 +1109,7 @@ ver10: #DARNN+self-attention使用师兄第二篇CNN down-sampling模型过拟�
     resume: True
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -839,6 +1139,7 @@ ver10_1: #增加dropout层
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:
@@ -868,6 +1169,7 @@ ver10_2: #减少hidden_size
     resume: False
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
+    cudaid: 0
 
   #dataset settings
   data_conf:

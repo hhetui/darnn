@@ -44,7 +44,7 @@ class Trainer:
         self.logger = get_logger(
             os.path.join(self.result_path, self.train_conf['log_file']))
         self.device = torch.device(
-            'cuda:0' if torch.cuda.is_available() else 'cpu')
+            'cuda:'+str(self.train_conf['cudaid']) if torch.cuda.is_available() else 'cpu')
         self.logger.info('此次实验设备为:'+str(self.device))
         self.logger.info('实验参数如下:')
         self.logger.info(self.model_conf)
