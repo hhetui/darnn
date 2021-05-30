@@ -18036,3 +18036,44 @@
 2021-05-28 23:32:36 [/home/ysong/wxk/darnn/myversion/trainer.py:267 - INFO ] 总共训练了1501轮~
 2021-05-28 23:32:36 [/home/ysong/wxk/darnn/myversion/trainer.py:268 - INFO ] best_model_test_acc_diff:0.07209734
 2021-05-28 23:32:36 [/home/ysong/wxk/darnn/myversion/trainer.py:270 - INFO ] acc_test_max_diff:0.07874186
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:48 - INFO ] 此次实验设备为:cuda:0
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:49 - INFO ] 实验参数如下:
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:50 - INFO ] {'input_size': 6, 'T': 20, 'encoder_num_hidden': 32, 'decoder_num_hidden': 32, 'drop_ratio': 0.1}
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:51 - INFO ] {'epoch': 1501, 'batch': 256, 'split': 0.3, 'learning_rate': 0.001, 'weight_decay': 0.0, 'patience': 2000, 'stop': 1000, 'resume': True, 'checkpoint_path': '../result/', 'log_file': 'trainer.log', 'cudaid': 0}
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:52 - INFO ] {'dataset_type': 1, 'train_list': [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018], 'test_list': [123, 456, 789, 1012], 'datapath': '../v_20day', 'T': 20}
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:64 - INFO ] Load Checkpoint......
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:69 - INFO ] 已有存档点，读取中......
+2021-05-30 14:10:55 [/home/wxk/darnn/myversion/trainer.py:72 - INFO ] 正在导入模型、优化器参数......
+2021-05-30 14:10:57 [/home/wxk/darnn/myversion/trainer.py:85 - INFO ] 导入成功!
+2021-05-30 14:10:57 [/home/wxk/darnn/myversion/trainer.py:86 - INFO ] 存档点读取完毕，目前已训练1501轮。
+2021-05-30 14:10:57 [/home/wxk/darnn/myversion/trainer.py:55 - INFO ] 导入数据集......
+2021-05-30 14:10:58 [/home/wxk/darnn/myversion/trainer.py:58 - INFO ] 数据集导入成功！
+2021-05-30 14:10:58 [/home/wxk/darnn/myversion/trainer.py:267 - INFO ] 总共训练了1501轮~
+2021-05-30 14:10:58 [/home/wxk/darnn/myversion/trainer.py:269 - INFO ] best_model_test_acc_diff:0.07209734
+2021-05-30 14:10:58 [/home/wxk/darnn/myversion/trainer.py:271 - INFO ] acc_test_max_diff:0.07874186
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:48 - INFO ] 此次实验设备为:cuda:0
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:49 - INFO ] 实验参数如下:
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:50 - INFO ] {'input_size': 6, 'T': 20, 'encoder_num_hidden': 32, 'decoder_num_hidden': 32, 'drop_ratio': 0.1}
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:51 - INFO ] {'epoch': 2000, 'batch': 256, 'split': 0.3, 'learning_rate': 0.001, 'weight_decay': 0.0, 'patience': 2000, 'stop': 1000, 'resume': True, 'checkpoint_path': '../result/', 'log_file': 'trainer.log', 'cudaid': 0}
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:52 - INFO ] {'dataset_type': 1, 'train_list': [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018], 'test_list': [123, 456, 789, 1012], 'datapath': '../v_20day', 'T': 20}
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:64 - INFO ] Load Checkpoint......
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:69 - INFO ] 已有存档点，读取中......
+2021-05-30 14:11:15 [/home/wxk/darnn/myversion/trainer.py:72 - INFO ] 正在导入模型、优化器参数......
+2021-05-30 14:11:18 [/home/wxk/darnn/myversion/trainer.py:85 - INFO ] 导入成功!
+2021-05-30 14:11:18 [/home/wxk/darnn/myversion/trainer.py:86 - INFO ] 存档点读取完毕，目前已训练1501轮。
+2021-05-30 14:11:18 [/home/wxk/darnn/myversion/trainer.py:55 - INFO ] 导入数据集......
+2021-05-30 14:11:19 [/home/wxk/darnn/myversion/trainer.py:58 - INFO ] 数据集导入成功！
+2021-05-30 14:11:19 [/home/wxk/darnn/myversion/trainer.py:136 - INFO ] ======epoch:1502 正在训练 ========================>
+2021-05-30 14:11:19 [/home/wxk/darnn/myversion/trainer.py:162 - INFO ] [1;34m Train: [0m
+2021-05-30 14:13:57 [/home/wxk/darnn/myversion/trainer.py:196 - INFO ] 第 [1;34m 1502 [0m 轮的训练集正确率为:[1;32m 0.7170 [0m epoch_mean_Loss 为: [1;32m 0.00196527 [0m
+2021-05-30 14:13:57 [/home/wxk/darnn/myversion/trainer.py:198 - INFO ] [1;31m Accuracy:0.7170 Precision:0.7233 Recall:0.6802 F1:0.7011 [0m
+2021-05-30 14:13:57 [/home/wxk/darnn/myversion/trainer.py:200 - INFO ] [1;31m Random:0.5121	MaxAccDiff:0.206838 [0m
+2021-05-30 14:13:57 [/home/wxk/darnn/myversion/trainer.py:203 - INFO ] [1;34m Valid: [0m
+2021-05-30 14:14:15 [/home/wxk/darnn/myversion/trainer.py:228 - INFO ] [1;31m Accuracy:0.7291 Precision:0.7430 Recall:0.6829 F1:0.7117 val_loss:0.00193634 [0m
+2021-05-30 14:14:15 [/home/wxk/darnn/myversion/trainer.py:230 - INFO ] [1;31m Random:0.5103	MaxAccDiff:0.221897 	best_model_test_acc_diff:0.072097 [0m
+2021-05-30 14:14:15 [/home/wxk/darnn/myversion/trainer.py:233 - INFO ] [1;34m Test: [0m
+2021-05-30 14:14:23 [/home/wxk/darnn/myversion/trainer.py:254 - INFO ] [1;31m Accuracy:0.5797 Precision:0.5863 Recall:0.5171 F1:0.5496 test_loss:0.00269120 [0m
+2021-05-30 14:14:23 [/home/wxk/darnn/myversion/trainer.py:256 - INFO ] [1;31m Random:0.5041	testMaxAccDiff:0.078742 [0m
+2021-05-30 14:14:23 [/home/wxk/darnn/myversion/trainer.py:151 - INFO ] 1 no improvement, best loss: 0.0019
+2021-05-30 14:14:28 [/home/wxk/darnn/myversion/trainer.py:136 - INFO ] ======epoch:1503 正在训练 ========================>
+2021-05-30 14:14:28 [/home/wxk/darnn/myversion/trainer.py:162 - INFO ] [1;34m Train: [0m
