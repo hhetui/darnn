@@ -640,7 +640,7 @@ ver7_2_6: #最后的selfattention 使用dropout和resdual 不使用scale 使用r
   
   #train settings
   train_conf:
-    epoch: 2000
+    epoch: 3000
     batch: 256
     split: 0.3
     learning_rate: 0.001
@@ -820,7 +820,7 @@ ver7_5_2: # 中间EN DN中的slefattention也使用dropout和resdual；最后�
   
   #train settings
   train_conf:
-    epoch: 2000
+    epoch: 3000
     batch: 256
     split: 0.3
     learning_rate: 0.001
@@ -1170,6 +1170,96 @@ ver10_2: #减少hidden_size
     checkpoint_path: '../result/'
     log_file: 'trainer.log'
     cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_30day'
+    T: 30
+ver10_3: #
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 30
+    encoder_num_hidden: 32
+    decoder_num_hidden: 32
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_30day'
+    T: 30
+ver10_4: #
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 30
+    encoder_num_hidden: 64
+    decoder_num_hidden: 64
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 0
+
+  #dataset settings
+  data_conf:
+    dataset_type: 1
+    train_list: [2010,2011,2012,2013,2014,2015,2016,2017,2018]
+    test_list: [123,456,789,1012]
+    datapath: '../v_30day'
+    T: 30
+ver10_5: #
+  #model settings
+  model_conf:
+    input_size: 6
+    T: 30
+    encoder_num_hidden: 128
+    decoder_num_hidden: 128
+    drop_ratio: 0.1
+  
+  #train settings
+  train_conf:
+    epoch: 1500
+    batch: 256
+    split: 0.3
+    learning_rate: 0.001
+    weight_decay: 0.0
+    patience: 2000
+    stop: 1000
+    resume: True
+    checkpoint_path: '../result/'
+    log_file: 'trainer.log'
+    cudaid: 1
 
   #dataset settings
   data_conf:
