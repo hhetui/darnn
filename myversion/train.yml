@@ -640,7 +640,7 @@ ver7_2_6: #最后的selfattention 使用dropout和resdual 不使用scale 使用r
   
   #train settings
   train_conf:
-    epoch: 3000
+    epoch: 4000
     batch: 256
     split: 0.3
     learning_rate: 0.001
@@ -820,7 +820,7 @@ ver7_5_2: # 中间EN DN中的slefattention也使用dropout和resdual；最后�
   
   #train settings
   train_conf:
-    epoch: 3000
+    epoch: 4000
     batch: 256
     split: 0.3
     learning_rate: 0.001
